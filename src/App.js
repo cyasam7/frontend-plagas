@@ -1,26 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Switch, BrowserRouter, Route } from "react-router-dom";
+import Login from "./pages/Login";
+import Layout from "./components/Layout";
+
+import Trabajadores from "./pages/Trabajadores";
+import Clientes from "./pages/Clientes";
+import { useUser } from "./Context/user-context";
+
 
 function App() {
+  const { auth } = useUser();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      {auth ? (
+        <Switch>
+          <Layout>
+            <Route exact path="/usuarios" component={Trabajadores} />
+            <Route exact path="/clientes" component={Clientes} />
+            <Route exact path="/station" component={Clientes} />
+          </Layout>
+        </Switch>
+      ) : (
+        <Switch>
+          <Route exact path="/" component={Login} />
+        </Switch>
+      )}
+    </BrowserRouter>
   );
 }
 
-export default App;
+export default App
