@@ -1,11 +1,10 @@
 import React from 'react'
 
-function FormUsuario() {
+function Historial() {
     return (
         <div>
-            
         </div>
     )
 }
 
-export default FormUsuario
+export default Historial

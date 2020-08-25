@@ -1,32 +1,37 @@
 import React from "react";
 import { Switch, BrowserRouter, Route } from "react-router-dom";
-import Login from "./pages/Login";
-import Layout from "./components/Layout";
+import Login from './pages/Login'
+import Layout from './components/Layout'
 
-import Trabajadores from "./pages/Trabajadores";
-import Clientes from "./pages/Clientes";
-import { useUser } from "./Context/user-context";
+import Usuarios from './pages/Usuarios'
+import AgregarUsuarios from './pages/AgregarUsuarios'
+import EditarUsuarios from './pages/EditarUsuarios'
 
+
+import Empresas from './pages/Empresas'
+import AgregarEmpresas from './pages/AgregarEmpresa'
+import EditarEmpresas from './pages/EditarEmpresa'
+
+import Areas from './pages/Areas'
 
 function App() {
-  const { auth } = useUser();
   return (
     <BrowserRouter>
-      {auth ? (
-        <Switch>
-          <Layout>
-            <Route exact path="/usuarios" component={Trabajadores} />
-            <Route exact path="/clientes" component={Clientes} />
-            <Route exact path="/station" component={Clientes} />
-          </Layout>
-        </Switch>
-      ) : (
-        <Switch>
-          <Route exact path="/" component={Login} />
-        </Switch>
-      )}
+      <Switch>
+        <Route exact path="/" component={Login}/>
+        <Layout>
+        <Route exact path="/usuarios" component={Usuarios}/>
+        <Route exact path="/usuarios/agregar" component={AgregarUsuarios}/>
+        <Route exact path="/usuarios/editar/:idUsuario" component={EditarUsuarios}/>
+        <Route exact path="/empresas" component={Empresas}/>
+        <Route exact path="/empresas/agregar" component={AgregarEmpresas}/>
+        <Route exact path="/empresas/editar/:idEmpresa" component={EditarEmpresas}/>
+        <Route exact path="/empresas/area/:idEmpresa" component={Areas}/>
+        <Route exact path="/historial" component={Login}/>
+        </Layout>
+      </Switch>
     </BrowserRouter>
   );
 }
 
-export default App
+export default App;

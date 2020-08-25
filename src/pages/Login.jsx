@@ -1,57 +1,109 @@
 import React from "react";
-import { useUser } from "../Context/user-context";
-function Login() {
-  const [email, setEmail] = React.useState("");
-  const [pass, setPass] = React.useState("");
-  const { login } = useUser();
-
-  const handleOnChangeEmail = (e) =>{
-    setEmail(e.target.value)
-    console.log(email);
-  }
-  const handleOnChangePass = (e) =>{
-    setPass(e.target.value);
-    console.log(pass);
-  }
-
-  const handleLogin = (e) => {
-    e.preventDefault(); 
-    if (email === "" || pass === "") {
-      alert("Colocar bien los datos");
-      return;
-    }
-    login(email, pass);
-  };
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import Link from "@material-ui/core/Link";
+import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import {useHistory} from "react-router-dom"
+function Copyright() {
   return (
-    <div className="page-login bg-primary">
-      <form onSubmit={handleLogin} className="card">
-        <div className="card-body">
-          <h1 className="card-title">Iniciar Sesion</h1>
-          <div className="form-group">
-            <input
-              name="email"
-              placeholder="Email"
-              type="text"
-              className="form-control"
-              onChange={handleOnChangeEmail}
-            />
-          </div>
-          <div className="form-group">
-            <input
-              name="password"
-              placeholder="Password"
-              type="password"
-              className="form-control"
-              onChange={handleOnChangePass}
-            />
-          </div>
-          <button className="btn btn-block btn-primary">
-            Iniciar
-          </button>
-        </div>
-      </form>
-    </div>
+    <Typography variant="body2" color="textSecondary" align="center">
+      {"Copyright © "}
+      <Link color="inherit" href="www.cyasam7.me">
+        cyasam7.me{" "}
+      </Link>{" "}
+      {new Date().getFullYear()}
+      {"."}
+    </Typography>
   );
 }
 
-export default Login;
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: "100%", // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
+
+export default function SignIn() {
+  const classes = useStyles();
+  const history = useHistory();
+
+  return (
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <div className={classes.paper}>
+        <Avatar className={classes.avatar}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Inicia sesion
+        </Typography>
+        <form className={classes.form} noValidate>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            label="Correo electronico"
+            autoComplete="email"
+            autoFocus
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            label="Contraseña"
+            type="password"
+            autoComplete="current-password"
+          />
+          <FormControlLabel
+            control={<Checkbox value="remember" color="primary" />}
+            label="Remember me"
+          />
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            onClick={() => {history.push("/usuarios")}}
+          >
+            Iniciar
+          </Button>
+          <Grid container>
+            <Grid item>
+              <Typography component="p" variant="overline">
+                Si no tienes una cuenta comunicate
+              </Typography>
+            </Grid>
+          </Grid>
+        </form>
+      </div>
+      <Box mt={8}>
+        <Copyright />
+      </Box>
+    </Container>
+  );
+}

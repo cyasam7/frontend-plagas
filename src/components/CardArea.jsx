@@ -1,17 +1,40 @@
 import React from "react";
-
+import {
+  Card,
+  CardContent,
+  Box,
+  makeStyles,
+  Typography,
+  Button,
+} from "@material-ui/core";
+import {
+  SuccessButton,
+  WarningButton,
+  ErrorButton,
+} from "../components/Buttons";
+const useStyles = makeStyles({
+  card: {
+    display: "flex",
+    justifyContent: "Space",
+  },
+});
 function CardArea() {
   return (
-    <div className="card mt-1">
-      <div className="card-header">Nombre</div>
-      <div className="card-body">
-        <div className="d-flex justify-content-around mb-1">
-          <button className="btn btn-danger w-100 mr-2">Eliminar</button>
-          <button className="btn btn-warning w-100 ml-2">Editar</button>
-        </div>
-        <button className="btn btn-block btn-primary">Ver</button>
-      </div>
-    </div>
+    <Box m={1}>
+      <Card>
+        <CardContent>
+          <Box display="flex">
+            <Box alignContent="center" flexGrow={1}>
+              <Typography>Nombre: Sucursal Numero 1</Typography>
+            </Box>
+            <Box>
+              <WarningButton>Editar</WarningButton>
+              <ErrorButton>Eliminar</ErrorButton>
+            </Box>
+          </Box>
+        </CardContent>
+      </Card>
+    </Box>
   );
 }
 
