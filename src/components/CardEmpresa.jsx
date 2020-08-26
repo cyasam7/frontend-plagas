@@ -7,7 +7,6 @@ import {
   Typography,
   makeStyles,
 } from "@material-ui/core";
-import { red, yellow } from "@material-ui/core/colors";
 import {ErrorButton,WarningButton} from '../components/Buttons'
 import { Link } from "react-router-dom";
 
@@ -23,7 +22,7 @@ function CardEmpresa() {
     <Card className={styles.subtitle}>
       <CardContent>
         <Typography variant="h4" component="h2">
-          Nombre de La empresa
+          Cocacola 
         </Typography>
         <Typography className={styles.subtitle} color="textSecondary">
           Codigo: 17041611
@@ -37,11 +36,11 @@ function CardEmpresa() {
         <Button variant="contained">Seleccionar</Button>
         </Link>
         <Link to={`/empresas/editar/1`}>
-        <WarningButton variant="contained" color={yellow[400]}>
+        <WarningButton>
           Editar
         </WarningButton>
         </Link>
-        <ErrorButton variant="contained" color={red[400]}>
+        <ErrorButton>
           Eliminar
         </ErrorButton>
       </CardActions>

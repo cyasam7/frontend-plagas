@@ -13,6 +13,14 @@ import AgregarEmpresas from './pages/AgregarEmpresa'
 import EditarEmpresas from './pages/EditarEmpresa'
 
 import Areas from './pages/Areas'
+import AgregarAreas from './pages/AgregarAreas'
+import EditarAreas from './pages/EditarAreas'
+
+import Estaciones from './pages/Estaciones'
+import AgregarEstaciones from './pages/AgregarEstacion'
+
+
+import Graficas from './pages/Graficas';
 
 function App() {
   return (
@@ -26,8 +34,14 @@ function App() {
         <Route exact path="/empresas" component={Empresas}/>
         <Route exact path="/empresas/agregar" component={AgregarEmpresas}/>
         <Route exact path="/empresas/editar/:idEmpresa" component={EditarEmpresas}/>
-        <Route exact path="/empresas/area/:idEmpresa" component={Areas}/>
+        <Route exact path="/areas/" component={Areas}/>
+        <Route exact path="/areas/agregar" component={AgregarAreas}/>
+        <Route exact path="/areas/editar/:idArea" component={EditarAreas}/>
+        <Route exact path="/estaciones/" component={Estaciones}/>
+        <Route exact path="/estaciones/agregar" component={AgregarEstaciones}/>
+        <Route exact path="/estaciones/editar/:idEstacion" component={EditarAreas}/>
         <Route exact path="/historial" component={Login}/>
+        <Route exact path="/Graficas" component={Graficas}/>
         </Layout>
       </Switch>
     </BrowserRouter>

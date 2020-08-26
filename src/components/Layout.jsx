@@ -10,7 +10,7 @@ import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import { ExitToApp, People, Business, History } from "@material-ui/icons";
+import { ExitToApp, People, Business, History,CropDin,AllInbox,Equalizer } from "@material-ui/icons";
 import {useHistory} from 'react-router-dom';
 const drawerWidth = 240;
 
@@ -24,6 +24,21 @@ const items = [
     text: "Empresas",
     icon: <Business />,
     ruta: "/empresas"
+  },
+  {
+    text: "Areas",
+    icon: <CropDin />,
+    ruta: "/areas"
+  },
+  {
+    text: "Estaciones",
+    icon: <AllInbox />,
+    ruta: "/estaciones"
+  },
+  {
+    text: "Graficas",
+    icon: <Equalizer />,
+    ruta: "/graficas"
   },
   {
     text: "Historial",

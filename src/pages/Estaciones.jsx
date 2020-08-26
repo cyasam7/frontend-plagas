@@ -1,21 +1,17 @@
 import React, { useState } from "react";
-import { Typography, Container, TextField, Grid } from "@material-ui/core";
-import CardArea from "../components/CardArea";
-import { SuccessButton } from "../components/Buttons";
 import { Autocomplete } from "@material-ui/lab";
-import { Link } from "react-router-dom";
+import { TextField, Grid } from "@material-ui/core";
+import { SuccessButton } from "../components/Buttons";
 
-function Areas() {
-  const [buscado, setbuscado] = useState(false);
+function Estaciones() {
+  const [Cliente, setCliente] = useState(false);
+  const [Area, setArea] = useState(false);
   const defaultProps = {
     options: top100Films,
     getOptionLabel: (option) => option.title,
   };
   return (
-    <Container>
-      <Typography align="center" variant="h4" component="h1" gutterBottom>
-        Areas
-      </Typography>
+    <>
       <Grid alignItems="center" container>
         <Grid xs={12} item md={10}>
           <Autocomplete
@@ -31,25 +27,31 @@ function Areas() {
           />
         </Grid>
         <Grid xs={12} item md={2}>
-          <SuccessButton fullWidth>Buscar</SuccessButton>
+          <SuccessButton onClick={() => setCliente(true)} fullWidth>
+            Buscar
+          </SuccessButton>
         </Grid>
       </Grid>
-      {buscado ? (
-        <>
-          <Grid container alignItems="center" justify="flex-end">
-            <Grid item xs={12} md={2}>
-              <Link to="/areas/agregar">
-                <SuccessButton fullWidth>Agregar</SuccessButton>
-              </Link>
-            </Grid>
+      {Cliente ? (
+        <Grid alignItems="center" container>
+          <Grid xs={12} item md={10}>
+            <Autocomplete
+              {...defaultProps}
+              debug
+              renderInput={(params) => (
+                <TextField {...params} label="Area" margin="normal" />
+              )}
+            />
           </Grid>
-          <CardArea />
-          <CardArea />
-        </>
-      ) : (
-        <Typography>Seleccione algun cliente</Typography>
-      )}
-    </Container>
+          <Grid xs={12} item md={2}>
+            <SuccessButton onClick={() => setArea(true)} fullWidth>
+              Buscar
+            </SuccessButton>
+          </Grid>
+        </Grid>
+      ) : null}
+      {Area ? <h1>Hola</h1> : <h1>Termina la busqueda</h1>}
+    </>
   );
 }
 const top100Films = [
@@ -158,4 +160,4 @@ const top100Films = [
   { title: "3 Idiots", year: 2009 },
   { title: "Monty Python and the Holy Grail", year: 1975 },
 ];
-export default Areas;
+export default Estaciones;

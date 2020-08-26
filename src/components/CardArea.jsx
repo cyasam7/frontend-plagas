@@ -1,23 +1,7 @@
 import React from "react";
-import {
-  Card,
-  CardContent,
-  Box,
-  makeStyles,
-  Typography,
-  Button,
-} from "@material-ui/core";
-import {
-  SuccessButton,
-  WarningButton,
-  ErrorButton,
-} from "../components/Buttons";
-const useStyles = makeStyles({
-  card: {
-    display: "flex",
-    justifyContent: "Space",
-  },
-});
+import { Card, CardContent, Box, Typography, Button } from "@material-ui/core";
+import { WarningButton, ErrorButton } from "../components/Buttons";
+import { Link } from "react-router-dom";
 function CardArea() {
   return (
     <Box m={1}>
@@ -28,7 +12,9 @@ function CardArea() {
               <Typography>Nombre: Sucursal Numero 1</Typography>
             </Box>
             <Box>
-              <WarningButton>Editar</WarningButton>
+              <Link to={`/areas/editar/2`}>
+                <WarningButton>Editar</WarningButton>
+              </Link>
               <ErrorButton>Eliminar</ErrorButton>
             </Box>
           </Box>

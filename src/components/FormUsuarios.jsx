@@ -5,9 +5,9 @@ import {
   MenuItem,
   FormControlLabel,
   Checkbox,
-  Button,
   Box,
 } from "@material-ui/core";
+import { WarningButton, SuccessButton } from "../components/Buttons";
 const usuarios = [
   {
     value: "Gerente",
@@ -97,9 +97,9 @@ function FormUsuarios() {
         }
         label="¿Trabaja actualmente?"
       />
-      <Box align="center" marginTop={2}>
-        <Button >Agregar</Button>
-        <Button >Volver</Button>
+      <Box align="end" marginTop={2}>
+        <WarningButton >Volver</WarningButton>
+        <SuccessButton >Agregar</SuccessButton>
       </Box>
     </Paper>
   );

@@ -3,6 +3,7 @@ import {
   Container,
   Typography,
   Box,
+  Grid,
   TextField,
 } from "@material-ui/core";
 import CardEmpresa from "../components/CardEmpresa";
@@ -32,12 +33,11 @@ function Empresas() {
           fullWidth
         />
       </Box>
-      <Box>
-        <CardEmpresa />
-        <CardEmpresa />
-        <CardEmpresa />
-        <CardEmpresa />
-      </Box>
+      <Grid container spacing={2} > 
+        <Grid item xd={12} md={6}>
+          <CardEmpresa/>
+        </Grid>
+      </Grid>
     </Container>
   );
 }
