@@ -3,10 +3,41 @@ import { Paper, TextField, Grid, Box, Typography } from "@material-ui/core";
 import { ErrorButton, SuccessButton } from "../components/Buttons";
 import FormTrabajador from "./FormTrabajador";
 import CardTrabajadores from "./CardTrabajadores";
-import {useHistory} from 'react-router-dom'
+import { useHistory } from "react-router-dom";
+import Axios from "axios";
 function FormEmpresas() {
   const history = useHistory();
   const [trabajadores, setTrabajadores] = useState([]);
+
+  const [nombre, setNombre] = useState("");
+  const [codigo, setCodigo] = useState("");
+
+  const [Loading, setLoading] = useState(false);
+  const [Error, setError] = useState(false);
+  const [Complete, setComplete] = useState(false);
+
+  const handleAgregarEmpresa = () => {
+    setLoading(true);
+    if (nombre === "" || codigo === "") {
+      setError(true);
+      return;
+    }
+    const empresa = {
+      nombre,
+      noCliente: codigo,
+      trabajadores,
+    };
+    Axios.post("/empresa", empresa)
+    .then(({data})=>{
+      setLoading(false);
+      setTimeout(()=>{
+        history.push("/empresas");
+      }, 500)
+    })
+    .catch((err)=>{
+        setError(true);
+    })
+  };
 
   const handleAddTrabajador = (trabajador) => {
     const newTrabajadores = [...trabajadores, trabajador];
@@ -27,6 +58,9 @@ function FormEmpresas() {
           InputLabelProps={{
             shrink: true,
           }}
+          error={Error}
+          value={nombre}
+          onChange={(e)=> setNombre(e.target.value)}
           placeholder="Nombre"
           margin="normal"
           fullWidth
@@ -37,6 +71,9 @@ function FormEmpresas() {
           InputLabelProps={{
             shrink: true,
           }}
+          error={Error}
+          value={codigo}
+          onChange={(e)=> setCodigo(e.target.value)}
           placeholder="Codigo"
           margin="normal"
           fullWidth
@@ -72,8 +109,8 @@ function FormEmpresas() {
         ))}
       </Grid>
       <Box textAlign="end" marginTop={2}>
-        <ErrorButton onClick={()=> history.goBack()}>Volver</ErrorButton>
-        <SuccessButton>Aceptar</SuccessButton>
+        <ErrorButton onClick={() => history.goBack()}>Volver</ErrorButton>
+        <SuccessButton onClick={handleAgregarEmpresa}>Aceptar</SuccessButton>
       </Box>
     </>
   );

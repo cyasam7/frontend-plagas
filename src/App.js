@@ -18,9 +18,12 @@ import EditarAreas from './pages/EditarAreas'
 
 import Estaciones from './pages/Estaciones'
 import AgregarEstaciones from './pages/AgregarEstacion'
+import EditarEstaciones from './pages/EditarEstacion'
 
 
 import Graficas from './pages/Graficas';
+
+import Historial from './pages/Historial';
 
 function App() {
   return (
@@ -39,8 +42,8 @@ function App() {
         <Route exact path="/areas/editar/:idArea" component={EditarAreas}/>
         <Route exact path="/estaciones/" component={Estaciones}/>
         <Route exact path="/estaciones/agregar" component={AgregarEstaciones}/>
-        <Route exact path="/estaciones/editar/:idEstacion" component={EditarAreas}/>
-        <Route exact path="/historial" component={Login}/>
+        <Route exact path="/estaciones/editar/:idEstacion" component={EditarEstaciones}/>
+        <Route exact path="/historial" component={Historial}/>
         <Route exact path="/Graficas" component={Graficas}/>
         </Layout>
       </Switch>

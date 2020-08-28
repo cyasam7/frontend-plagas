@@ -1,21 +1,58 @@
-import React,{useState} from 'react'
-import {TextField} from '@material-ui/core'
-
+import React, { useState, useEffect } from "react";
+import { TextField, Grid, Typography } from "@material-ui/core";
+import { SuccessButton } from "../components/Buttons";
+import { useParams, useHistory } from "react-router-dom";
+import Axios from "axios";
 function EditarAreas() {
-    const [nombreArea, setNombreArea] = useState("");
+  const { idArea } = useParams();
+  const history = useHistory();
+  const [nombreArea, setNombreArea] = useState("");
+  const [error, seterror] = useState(false);
 
-    return (
-        <div>
-            <TextField
+  useEffect(() => {
+    async function initial() {
+      const { data } = await Axios.get(`/area/${idArea}`);
+      return data;
+    }
+    initial().then((area) => {
+      setNombreArea(area.nombre);
+    });
+  }, []);
+
+  const handleActualizar = () => {
+      const newArea = {
+          nombre: nombreArea
+      }
+      Axios.patch(`/area/${idArea}`,newArea)
+      .then(()=>{
+        history.push("/areas");
+      })
+  };
+  return (
+    <>
+      <Typography align="center" variant="h4" gutterBottom>
+        Selecciona el nombre del Area
+      </Typography>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <TextField
             value={nombreArea}
+            error={error}
             onChange={(e) => setNombreArea(e.target.value)}
             variant="outlined"
             fullWidth
             helperText="Nombre del area que estan las trampas del cliente"
             placeholder="Nombre"
           />
-        </div>
-    )
+        </Grid>
+        <Grid item xs={12}>
+          <SuccessButton onClick={handleActualizar} fullWidth>
+            Guardar
+          </SuccessButton>
+        </Grid>
+      </Grid>
+    </>
+  );
 }
 
-export default EditarAreas
+export default EditarAreas;

@@ -10,6 +10,7 @@ export function deleteToken(){
     localStorage.removeItem(TOKEN_URI);
 }
 export function initAxios(){
+    Axios.defaults.baseURL = "http://localhost:4000/";
     Axios.interceptors.request.use((config)=>{
         if(getToken()){
             config.headers.Authorization = `Bearer ${getToken()}`;

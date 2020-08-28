@@ -37,7 +37,7 @@ function CardTrabajadores({ trabajador, eliminar }) {
       </CardContent>
       <CardActions>
         <Button>Crear Cuenta</Button>
-        <WarningButton>Editar</WarningButton>
+        <WarningButton >Editar</WarningButton>
         <ErrorButton onClick={handleEliminar}>Eliminar</ErrorButton>
       </CardActions>
     </Card>

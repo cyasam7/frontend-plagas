@@ -10,46 +10,53 @@ import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import { ExitToApp, People, Business, History,CropDin,AllInbox,Equalizer } from "@material-ui/icons";
-import {useHistory} from 'react-router-dom';
+import {
+  ExitToApp,
+  People,
+  Business,
+  History,
+  CropDin,
+  AllInbox,
+  Equalizer,
+} from "@material-ui/icons";
+import { Link } from "react-router-dom";
 const drawerWidth = 240;
 
 const items = [
   {
     text: "Usuarios",
     icon: <People />,
-    ruta: "/usuarios"
+    ruta: "/usuarios",
   },
   {
     text: "Empresas",
     icon: <Business />,
-    ruta: "/empresas"
+    ruta: "/empresas",
   },
   {
     text: "Areas",
     icon: <CropDin />,
-    ruta: "/areas"
+    ruta: "/areas",
   },
   {
     text: "Estaciones",
     icon: <AllInbox />,
-    ruta: "/estaciones"
+    ruta: "/estaciones",
   },
   {
     text: "Graficas",
     icon: <Equalizer />,
-    ruta: "/graficas"
+    ruta: "/graficas",
   },
   {
     text: "Historial",
     icon: <History />,
-    ruta: "/historial"
+    ruta: "/historial",
   },
 ];
 
-export default function Layout({children}) {
+export default function Layout({ children }) {
   const classes = useStyles();
-  const history = useHistory();
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -71,14 +78,14 @@ export default function Layout({children}) {
         <div className={classes.toolbar} />
         <Divider />
         <List>
-          {items.map((item,index) => 
-            <ListItem button key={index} >
-              <ListItemIcon>
-                {item.icon}
-              </ListItemIcon>
-              <ListItemText primary={item.text} onClick={()=>{history.push(item.ruta)}} />
+          {items.map((item, index) => (
+            <ListItem button key={index}>
+              <ListItemIcon>{item.icon}</ListItemIcon>
+              <Link to={item.ruta}>
+                <ListItemText primary={item.text} />
+              </Link>
             </ListItem>
-          )}
+          ))}
         </List>
         <Divider />
         <List>

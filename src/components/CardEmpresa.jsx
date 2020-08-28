@@ -16,31 +16,32 @@ const useStyles = makeStyles({
   },
 });
 
-function CardEmpresa() {
+function CardEmpresa({empresa, eliminar}) {
   const styles = useStyles();
+
+  const handleEliminar = () =>{
+    eliminar(empresa._id)
+  }
   return (
     <Card className={styles.subtitle}>
       <CardContent>
-        <Typography variant="h4" component="h2">
-          Cocacola 
+        <Typography variant="h6">
+          Nombre: {" "}{empresa.nombre} 
         </Typography>
         <Typography className={styles.subtitle} color="textSecondary">
-          Codigo: 17041611
+          Codigo: {" "}{empresa.noCliente} 
         </Typography>
         <Typography variant="body2" component="p">
-          Trabajadores: 2
+          Trabajadores: {" "}{empresa.trabajadores.length}
         </Typography>
       </CardContent>
       <CardActions>
-        <Link to="/empresas/area/1">
-        <Button variant="contained">Seleccionar</Button>
-        </Link>
-        <Link to={`/empresas/editar/1`}>
+        <Link to={`/empresas/editar/${empresa._id}`}>
         <WarningButton>
           Editar
         </WarningButton>
         </Link>
-        <ErrorButton>
+        <ErrorButton onClick={handleEliminar}>
           Eliminar
         </ErrorButton>
       </CardActions>

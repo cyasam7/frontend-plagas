@@ -46,6 +46,7 @@ function FormTrabajador({agregar}) {
         InputLabelProps={{
           shrink: true,
         }}
+        error={error}
         value={nombre}
         onChange={(e)=> setnombre(e.target.value)}
         placeholder="Nombre"
@@ -58,6 +59,7 @@ function FormTrabajador({agregar}) {
         InputLabelProps={{
           shrink: true,
         }}
+        error={error}
         value={apellido}
         onChange={(e)=> setapellido(e.target.value)}
         placeholder="Apellido"
@@ -70,6 +72,7 @@ function FormTrabajador({agregar}) {
         InputLabelProps={{
           shrink: true,
         }}
+        error={error}
         value={email}
         onChange={(e)=> setemail(e.target.value)}
         placeholder="Email"
@@ -82,6 +85,7 @@ function FormTrabajador({agregar}) {
         InputLabelProps={{
           shrink: true,
         }}
+        error={error}
         onChange={(e)=> settelefono(e.target.value)}
         value={telefono}
         margin="normal"
@@ -94,7 +98,9 @@ function FormTrabajador({agregar}) {
         InputLabelProps={{
           shrink: true,
         }}
+        error={error}
         value={puesto}
+        error={error}
         onChange={(e)=> setpuesto(e.target.value)}
         margin="normal"
         label="Puesto de trabajo"
@@ -104,7 +110,7 @@ function FormTrabajador({agregar}) {
       />
       <Grid container justify="space-between">
         <Grid>
-          {error ? <Typography>Error llenar los datos correctamente</Typography> : null}
+          {error ? <Typography  color="error">Error llenar los datos correctamente</Typography> : null}
         </Grid>
         <Grid>
         <SuccessButton onClick={handleAgregar}>Agregar</SuccessButton>

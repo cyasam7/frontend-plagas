@@ -7,8 +7,10 @@ import {
   MenuItem,
   FormControlLabel,
   Checkbox,
+  Box
 } from "@material-ui/core";
-import { SuccessButton } from "../components/Buttons";
+import { SuccessButton,ErrorButton } from "../components/Buttons";
+import {useHistory} from 'react-router-dom'
 const estations = [
   {
     value: "Cebado",
@@ -24,24 +26,20 @@ const estations = [
   },
 ];
 function FormEstacion() {
+  const history = useHistory();
   const [error, seterror] = useState(false);
-
+  const [isActiva, setisActiva] = useState(false);
+  const [codigo, setcodigo] = useState("");
+  const [tipo, settipo] = useState("");
   return (
     <Paper style={{ padding: 15 }} variant="outlined">
-      <TextField
-        InputLabelProps={{
-          shrink: true,
-        }}
-        placeholder="Tipo"
-        margin="normal"
-        fullWidth
-        label="Tipo de estacion"
-        variant="outlined"
-      />
+      
       <TextField
         fullWidth
         select
         label="Selecciona"
+        value={tipo}
+        onChange={(e)=> settipo(e.target.value)}
         helperText="Seleccione tipo de estacion"
       >
         {estations.map((option, index) => (
@@ -50,16 +48,30 @@ function FormEstacion() {
           </MenuItem>
         ))}
       </TextField>
-
+      <TextField
+        InputLabelProps={{
+          shrink: true,
+        }}
+        placeholder="Codigo"
+        margin="normal"
+        fullWidth
+        label="Codigo"
+        variant="outlined"
+      />
+      <FormControlLabel 
+        control={<Checkbox checked={isActiva} onChange={()=>setisActiva(!isActiva)}  />}
+        label="Se encuentra activa la estacion"
+      />
       <Grid container justify="space-between">
         <Grid>
           {error ? (
             <Typography>Error llenar los datos correctamente</Typography>
           ) : null}
         </Grid>
-        <Grid>
-          <SuccessButton>Agregar</SuccessButton>
-        </Grid>
+        <Box textAlign="end" marginTop={2}>
+        <ErrorButton onClick={()=> history.goBack()}>Cancelar</ErrorButton>
+        <SuccessButton>Aceptar</SuccessButton>
+      </Box>
       </Grid>
     </Paper>
   );
