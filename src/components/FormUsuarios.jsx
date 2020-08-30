@@ -32,7 +32,6 @@ function FormUsuarios({ handle,error, setError, goBack, usuario, editar }) {
   const [telefono, settelefono] = useState("");
   const [tipo_usuario, setTipo] = useState("");
   const [isTrabajando, setisTrabajando] = useState(false);
-  const [bandera, setBandera] = useState(false);
   
   useEffect(()=>{
     if(usuario){

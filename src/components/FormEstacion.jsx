@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Paper,
   TextField,
@@ -7,10 +7,10 @@ import {
   MenuItem,
   FormControlLabel,
   Checkbox,
-  Box
+  Box,
 } from "@material-ui/core";
-import { SuccessButton,ErrorButton } from "../components/Buttons";
-import {useHistory} from 'react-router-dom'
+import { SuccessButton, ErrorButton } from "../components/Buttons";
+import { useHistory, useLocation } from "react-router-dom";
 const estations = [
   {
     value: "Cebado",
@@ -25,21 +25,53 @@ const estations = [
     label: "Insectos",
   },
 ];
-function FormEstacion() {
+function FormEstacion({ handle, estacion }) {
   const history = useHistory();
+  const location = useLocation();
+
   const [error, seterror] = useState(false);
   const [isActiva, setisActiva] = useState(false);
   const [codigo, setcodigo] = useState("");
   const [tipo, settipo] = useState("");
+  const [empresa, setEmpresa] = useState("");
+  const [area, setArea] = useState("");
+  useEffect(() => {
+    if (estacion) {
+      setisActiva(estacion.isActiva);
+      setcodigo(estacion.codigo);
+      settipo(estacion.tipo);
+      setArea(estacion.area);
+      setEmpresa(estacion.empresa);
+    } else {
+      setEmpresa(location.state.Empresa);
+      setArea(location.state.Area);
+    }
+  }, [estacion]);
+  const handleAgregar = () => {
+    if (codigo === "" || tipo === "") {
+      seterror(true);
+      return;
+    }
+
+    const estacion = {
+      empresa,
+      area,
+      tipo,
+      codigo,
+      isActiva,
+    };
+    console.log(estacion);
+    handle(estacion);
+  };
+
   return (
     <Paper style={{ padding: 15 }} variant="outlined">
-      
       <TextField
         fullWidth
         select
         label="Selecciona"
         value={tipo}
-        onChange={(e)=> settipo(e.target.value)}
+        onChange={(e) => settipo(e.target.value)}
         helperText="Seleccione tipo de estacion"
       >
         {estations.map((option, index) => (
@@ -55,11 +87,18 @@ function FormEstacion() {
         placeholder="Codigo"
         margin="normal"
         fullWidth
+        value={codigo}
+        onChange={(e) => setcodigo(e.target.value)}
         label="Codigo"
         variant="outlined"
       />
-      <FormControlLabel 
-        control={<Checkbox checked={isActiva} onChange={()=>setisActiva(!isActiva)}  />}
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={isActiva}
+            onChange={() => setisActiva(!isActiva)}
+          />
+        }
         label="Se encuentra activa la estacion"
       />
       <Grid container justify="space-between">
@@ -69,9 +108,9 @@ function FormEstacion() {
           ) : null}
         </Grid>
         <Box textAlign="end" marginTop={2}>
-        <ErrorButton onClick={()=> history.goBack()}>Cancelar</ErrorButton>
-        <SuccessButton>Aceptar</SuccessButton>
-      </Box>
+          <ErrorButton onClick={() => history.goBack()}>Cancelar</ErrorButton>
+          <SuccessButton onClick={handleAgregar}>Aceptar</SuccessButton>
+        </Box>
       </Grid>
     </Paper>
   );

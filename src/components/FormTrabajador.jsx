@@ -100,7 +100,6 @@ function FormTrabajador({agregar}) {
         }}
         error={error}
         value={puesto}
-        error={error}
         onChange={(e)=> setpuesto(e.target.value)}
         margin="normal"
         label="Puesto de trabajo"

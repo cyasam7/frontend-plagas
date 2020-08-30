@@ -14,7 +14,6 @@ function FormEmpresas() {
 
   const [Loading, setLoading] = useState(false);
   const [Error, setError] = useState(false);
-  const [Complete, setComplete] = useState(false);
 
   const handleAgregarEmpresa = () => {
     setLoading(true);

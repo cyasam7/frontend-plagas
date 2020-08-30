@@ -19,7 +19,6 @@ function Empresas() {
   const [openModal, setOpenModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [empresa, setEmpresa] = useState("");
-  const [buscar, setbuscar] = useState("");
   useEffect(() => {
     async function initialEmpresas() {
       const { data } = await Axios.get("/empresa");
