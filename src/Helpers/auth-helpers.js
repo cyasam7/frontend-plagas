@@ -8,6 +8,7 @@ export function getToken(){
 }
 export function deleteToken(){
     localStorage.removeItem(TOKEN_URI);
+    localStorage.clear();
 }
 export function initAxios(){
     Axios.defaults.baseURL = "http://localhost:4000/";

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -12,7 +12,8 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import {useHistory} from "react-router-dom"
+import { useHistory } from "react-router-dom";
+import { useUser } from "../Context/user-context";
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -49,7 +50,23 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn() {
   const classes = useStyles();
   const history = useHistory();
+  const { login } = useUser();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [Error, setError] = useState(false);
 
+  const handleLogin = () => {
+    if(email === "" || password === ""){
+      setError(true);
+      return;
+    }
+    login(email, password)
+    .then(()=>{
+      history.push("/usuarios")
+    }).catch((err)=>{
+      setError(true)
+    })
+  };
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -66,6 +83,9 @@ export default function SignIn() {
             margin="normal"
             required
             fullWidth
+            error={Error}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             label="Correo electronico"
             autoComplete="email"
             autoFocus
@@ -75,6 +95,9 @@ export default function SignIn() {
             margin="normal"
             required
             fullWidth
+            error={Error}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             label="Contraseña"
             type="password"
             autoComplete="current-password"
@@ -88,7 +111,7 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={() => {history.push("/usuarios")}}
+            onClick={handleLogin}
           >
             Iniciar
           </Button>

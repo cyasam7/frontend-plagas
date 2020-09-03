@@ -6,7 +6,8 @@ import Axios from "axios";
 import { useParams, useHistory } from "react-router-dom";
 function EditarUsuario() {
   const history = useHistory();
-  const params = useParams();
+  const {idUsuario} = useParams();
+
   const [user, setUser] = React.useState({
     nombre:"",
     appellido: "",
@@ -21,7 +22,6 @@ function EditarUsuario() {
 
   useEffect(() => {
     const buscarUsuario = async () => {
-      const {idUsuario} = params
       const { data } = await Axios.get(`/usuarios/${idUsuario}`);
       return data;
     };
@@ -29,10 +29,10 @@ function EditarUsuario() {
     .then((usuario) => {
       setUser(usuario);
     });
-  }, []);
+  }, [idUsuario]);
   const handleEditar = async (data) => {
     setloading(true);
-    const resp = await Axios.patch(`/usuarios/${params.idUsuario}`, data);
+    const resp = await Axios.patch(`/usuarios/${idUsuario}`, data);
     const status = resp.status;
     console.log(status);
     if(status === 200){

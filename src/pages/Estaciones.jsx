@@ -1,22 +1,23 @@
 import React, { useState, useEffect } from "react";
-import {
-  TextField,
-  Grid,
-  Typography,
-  MenuItem,
-} from "@material-ui/core";
-import { SuccessButton } from "../components/Buttons";
-import CardEstacion from "../components/CardEstacion";
+import { TextField, Grid, Typography, MenuItem } from "@material-ui/core";
+import { SuccessButton, ErrorButton } from "../components/Buttons";
 import { Link } from "react-router-dom";
+import CardEstacion from "../components/CardEstacion";
 import Axios from "axios";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import { PdfDocument } from "../components/PdfDocument";
+import Modal from "../components/Modal";
+
 function Estaciones() {
   const [Clientes, setClientes] = useState([]);
   const [Areas, setAreas] = useState([]);
   const [Estaciones, setEstaciones] = useState([]);
+  const [Estacion, setEstacion] = useState("");
   const [buscar, setBuscar] = useState(false);
-
   const [Cliente, setCliente] = useState("");
   const [Area, setArea] = useState("");
+  const [isReady, setIsReady] = useState(false);
+  const [openModal, setopenModal] = useState(false);
 
   useEffect(() => {
     async function initial() {
@@ -47,10 +48,34 @@ function Estaciones() {
     );
     setBuscar(true);
     setEstaciones(data);
+    setIsReady(true);
   };
-
+  const handleOpenModal = (id) => {
+    setopenModal(true);
+    setEstacion(id);
+  };
+  const handleDeleteEstacion = () => {
+    Axios.delete(`/estacion/${Estacion}`).then(() => {
+      const newAreas = Estaciones.filter(
+        (estacion) => estacion._id !== Estacion
+      );
+      setEstaciones(newAreas);
+      setopenModal(false);
+    });
+  };
   return (
     <>
+      <Modal abierto={openModal} titulo="¿Seguro que desea Eliminar?">
+        <>
+          <SuccessButton onClick={handleDeleteEstacion}>Aceptar</SuccessButton>
+          <ErrorButton onClick={() => setopenModal(false)}>
+            Cancelar
+          </ErrorButton>
+        </>
+      </Modal>
+      <Typography align="center" variant="h4" component="h1" gutterBottom>
+        Estaciones
+      </Typography>
       <Grid container spacing={1}>
         <Grid item xs={12} md={10}>
           <TextField
@@ -113,12 +138,25 @@ function Estaciones() {
           <Typography align="center" variant="h5" gutterBottom>
             Lista de estaciones
           </Typography>
-          <Grid container spacing={1}>
-            {Estaciones.map((estacion,index) => (
-              <Grid key={index} item md={4}>
-                <CardEstacion estacion={estacion} />
+          <Grid container spacing={1} justify="center">
+            {Estaciones.length > 0 ? (
+              <>
+                {Estaciones.map((estacion, index) => (
+                  <Grid key={index} item md={5}>
+                    <CardEstacion
+                      handle={handleOpenModal}
+                      estacion={estacion}
+                    />
+                  </Grid>
+                ))}
+              </>
+            ) : (
+              <Grid item>
+              <Typography variant="overline" component="h1" align="center">
+                No hay ninguna estacion
+              </Typography>
               </Grid>
-            ))}
+            )}
           </Grid>
         </>
       ) : null}

@@ -17,7 +17,7 @@ function EditarEstacion() {
         .then(estacion =>{
             setEstacion(estacion);
         })
-    }, [])
+    }, [params])
 
     const handleActualizarEstacion = (data) =>{
        Axios.patch(`/estacion/${params.idEstacion}`,data) 

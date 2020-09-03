@@ -4,31 +4,54 @@ import {
   CardContent,
   CardActions,
   Typography,
+  Grid,
 } from "@material-ui/core";
 import { ErrorButton, WarningButton } from "../components/Buttons";
-import {Link} from 'react-router-dom'
-function CardTrabajadores({estacion}) {
+import { Link } from "react-router-dom";
+import {QRCode} from "react-qr-svg";
+
+function CardTrabajadores({ estacion, handle }) {
+  const handleOpen = () =>{
+    handle(estacion._id)
+  }
   return (
     <Card>
       <CardContent>
-        <Typography variant="subtitle2">
-          Tipo: <Typography variant="overline">{estacion.tipo}</Typography>
-        </Typography>
-        <Typography variant="subtitle2">
-          Codigo: <Typography variant="overline">{estacion.codigo}</Typography>
-        </Typography>
-        <Typography variant="subtitle2">
-          Activa: <Typography variant="overline">{estacion.isActiva.toString()}</Typography>
-        </Typography>
-        <Typography variant="subtitle2">
-          Numero: <Typography variant="overline">{estacion.codigo}</Typography>
-        </Typography>
+        <Grid container>
+          <Grid item md={6}>
+            <Typography variant="subtitle2">
+              Tipo: <Typography variant="overline">{estacion.tipo}</Typography>
+            </Typography>
+            <Typography variant="subtitle2">
+              Codigo:{" "}
+              <Typography variant="overline">{estacion.codigo}</Typography>
+            </Typography>
+            <Typography variant="subtitle2">
+              Activa:{" "}
+              <Typography variant="overline">
+                {estacion.isActiva.toString()}
+              </Typography>
+            </Typography>
+            <Typography variant="subtitle2">
+              Numero:{" "}
+              <Typography variant="overline">{estacion.codigo}</Typography>
+            </Typography>
+          </Grid>
+          <Grid item md={6}>
+          <QRCode
+                bgColor="#FFFFFF"
+                fgColor="#000000"
+                level="Q"
+                value={estacion.codigo}
+            />
+          </Grid>
+        </Grid>
       </CardContent>
       <CardActions>
         <Link to={`/estaciones/editar/${estacion._id}`}>
           <WarningButton>Editar</WarningButton>
         </Link>
-        <ErrorButton>Eliminar</ErrorButton>
+        <ErrorButton onClick={handleOpen}>Eliminar</ErrorButton>
       </CardActions>
     </Card>
   );

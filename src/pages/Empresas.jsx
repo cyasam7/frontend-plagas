@@ -34,7 +34,7 @@ function Empresas() {
     setLoading(true);
     Axios.delete(`/empresa/${empresa}`)
       .then((data) => {
-        const newEmpresas = empresas.filter((emp)=>( emp._id !== empresa))
+        const newEmpresas = empresas.filter((emp) => emp._id !== empresa);
         setEmpresas(newEmpresas);
       })
       .catch((err) => {
@@ -45,10 +45,10 @@ function Empresas() {
         setLoading(false);
       });
   };
-  const handleOpenModalDelete = (id) =>{
+  const handleOpenModalDelete = (id) => {
     setOpenModal(true);
     setEmpresa(id);
-  }
+  };
   return (
     <Container>
       <Modal abierto={openModal} titulo="¿Seguro que desea Eliminar?">
@@ -84,15 +84,11 @@ function Empresas() {
         />
       </Box>
       <Grid container spacing={2}>
-        <Grid item xd={12} md={6}>
-          {empresas.map((empresa, index) => (
-            <CardEmpresa
-              key={index}
-              empresa={empresa}
-              eliminar={handleOpenModalDelete}
-            />
-          ))}
-        </Grid>
+        {empresas.map((empresa, index) => (
+          <Grid key={index} item xs={12} md={6}>
+            <CardEmpresa empresa={empresa} eliminar={handleOpenModalDelete} />
+          </Grid>
+        ))}
       </Grid>
     </Container>
   );

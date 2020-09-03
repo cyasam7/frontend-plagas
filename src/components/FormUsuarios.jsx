@@ -9,6 +9,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { WarningButton, SuccessButton } from "../components/Buttons";
+import {useHistory} from 'react-router-dom'
 const usuarios = [
   {
     value: "Gerente",
@@ -24,7 +25,9 @@ const usuarios = [
   },
 ];
 
-function FormUsuarios({ handle,error, setError, goBack, usuario, editar }) {
+function FormUsuarios({ handle,error, setError, goBack, usuario }) {
+  const history = useHistory();
+
   const [nombre, setnombre] = useState("");
   const [apellido, setapellido] = useState("");
   const [email, setemail] = useState("");
@@ -67,7 +70,6 @@ function FormUsuarios({ handle,error, setError, goBack, usuario, editar }) {
     };
     handle(usuario)
   };
-
   return (
     <Paper style={{ padding: 15 }} variant="outlined">
       <TextField
@@ -88,7 +90,7 @@ function FormUsuarios({ handle,error, setError, goBack, usuario, editar }) {
           shrink: true,
         }}
         error={error}
-        value={apellido}
+        value={apellido ? apellido : ""}
         onChange={(e) => setapellido(e.target.value)}
         placeholder="Apellido"
         margin="normal"
@@ -169,7 +171,7 @@ function FormUsuarios({ handle,error, setError, goBack, usuario, editar }) {
           ) : null}
         </Grid>
         <Grid>
-          <WarningButton onClick={goBack}>Volver</WarningButton>
+          <WarningButton onClick={()=> history.goBack()}>Volver</WarningButton>
           <SuccessButton onClick={handleAgregar}>Guardar</SuccessButton>
         </Grid>
       </Grid>

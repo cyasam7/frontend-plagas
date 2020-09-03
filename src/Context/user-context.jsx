@@ -2,44 +2,39 @@ import React, { useState, useEffect, useMemo } from "react";
 import { deleteToken, getToken, setToken } from "../Helpers/auth-helpers";
 import Axios from "axios";
 const UserContext = React.createContext();
-const URI_WHOIAM = "http://157.245.242.243:3000/auth/whoiam/";
-const URI_LOGIN = "http://157.245.242.243:3000/auth/sign-in";
 
 export function UserProvider({ children }) {
   const [auth, setAuth] = useState(false);
-  const [user, setUser] = useState(undefined);
 
   useEffect(() => {
-    async function initial(){
-      if(!getToken()){
+    async function initial() {
+      if (!getToken()) {
         setAuth(false);
+        deleteToken();
         return;
       }
       try {
-        const {data} = await Axios.get(URI_WHOIAM);
+        await Axios.get("/auth/whoiam");
         setAuth(true);
       } catch (error) {
-        console.log(error);
-        logOut();
+        deleteToken();
+        setAuth(false);
       }
-
     }
     initial();
-  }, [])
+  }, []);
 
-  function login(email, password) {
-    Axios({
-      url: URI_LOGIN,
+  async function login(email, password) {
+    const { data } = await Axios({
+      url: "/auth/sign-in",
       method: "POST",
       auth: {
         username: email,
         password,
       },
-    }).then(({ data }) => {
-      setAuth(true);
-      setToken(data.token);
-      console.log(getToken());
-    }); 
+    });
+    setAuth(true);
+    setToken(data.token);
   }
   function logOut() {
     deleteToken();

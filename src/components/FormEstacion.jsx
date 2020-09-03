@@ -42,17 +42,16 @@ function FormEstacion({ handle, estacion }) {
       settipo(estacion.tipo);
       setArea(estacion.area);
       setEmpresa(estacion.empresa);
-    } else {
-      setEmpresa(location.state.Empresa);
-      setArea(location.state.Area);
+      return;
     }
-  }, [estacion]);
+    setEmpresa(location.state.Empresa);
+    setArea(location.state.Area);
+  }, [estacion, location]);
   const handleAgregar = () => {
     if (codigo === "" || tipo === "") {
       seterror(true);
       return;
     }
-
     const estacion = {
       empresa,
       area,
@@ -60,7 +59,7 @@ function FormEstacion({ handle, estacion }) {
       codigo,
       isActiva,
     };
-    console.log(estacion);
+
     handle(estacion);
   };
 
@@ -70,7 +69,7 @@ function FormEstacion({ handle, estacion }) {
         fullWidth
         select
         label="Selecciona"
-        value={tipo}
+        value={tipo ? tipo : ""}
         onChange={(e) => settipo(e.target.value)}
         helperText="Seleccione tipo de estacion"
       >
@@ -87,7 +86,7 @@ function FormEstacion({ handle, estacion }) {
         placeholder="Codigo"
         margin="normal"
         fullWidth
-        value={codigo}
+        value={codigo ? codigo : ""}
         onChange={(e) => setcodigo(e.target.value)}
         label="Codigo"
         variant="outlined"
@@ -95,7 +94,7 @@ function FormEstacion({ handle, estacion }) {
       <FormControlLabel
         control={
           <Checkbox
-            checked={isActiva}
+            checked={isActiva ? isActiva : false}
             onChange={() => setisActiva(!isActiva)}
           />
         }

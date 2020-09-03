@@ -8,6 +8,7 @@ import {
   TableBody,
   Typography,
   CircularProgress,
+  Box
 } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
 import Axios from "axios";
@@ -62,6 +63,7 @@ function Usuarios() {
       <Typography align="center" variant="h4" component="h1" gutterBottom>
         Lista de Trabajadores
       </Typography>
+      <Box textAlign="end">
       <Link to="/usuarios/agregar">
         <SuccessButton
           variant="contained"
@@ -71,6 +73,7 @@ function Usuarios() {
           Agregar Trabajador
         </SuccessButton>
       </Link>
+      </Box>
 
       <TableContainer>
         <Table>
@@ -98,11 +101,12 @@ function Usuarios() {
                       setopenModal(true);
                       setUser(user._id);
                     }}
+                    fullWidth
                   >
                     Eliminar
                   </ErrorButton>
                   <Link to={`/usuarios/editar/${user._id}`}>
-                    <WarningButton>Editar</WarningButton>
+                    <WarningButton fullWidth>Editar</WarningButton>
                   </Link>
                 </TableCell>
               </TableRow>

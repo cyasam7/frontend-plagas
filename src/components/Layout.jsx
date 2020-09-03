@@ -20,6 +20,7 @@ import {
   Equalizer,
 } from "@material-ui/icons";
 import { Link } from "react-router-dom";
+import {useUser} from '../Context/user-context'
 const drawerWidth = 240;
 
 const items = [
@@ -57,6 +58,10 @@ const items = [
 
 export default function Layout({ children }) {
   const classes = useStyles();
+  const {logOut} = useUser();
+  const handleLogOut = () =>{
+    logOut();
+  }
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -79,12 +84,12 @@ export default function Layout({ children }) {
         <Divider />
         <List>
           {items.map((item, index) => (
-            <ListItem button key={index}>
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <Link to={item.ruta}>
+            <Link key={index} to={item.ruta}>
+              <ListItem button>
+                <ListItemIcon>{item.icon}</ListItemIcon>
                 <ListItemText primary={item.text} />
-              </Link>
-            </ListItem>
+              </ListItem>
+            </Link>
           ))}
         </List>
         <Divider />
@@ -93,7 +98,7 @@ export default function Layout({ children }) {
             <ListItemIcon>
               <ExitToApp />
             </ListItemIcon>
-            <ListItemText primary="Salir" />
+            <ListItemText onClick={handleLogOut} primary="Salir" />
           </ListItem>
         </List>
       </Drawer>

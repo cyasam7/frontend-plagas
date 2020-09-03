@@ -17,9 +17,7 @@ function FormTrabajador({agregar}) {
       seterror(true);
       return;
     }
-    const id = uid();
       const trabajador = {
-        id,
         nombre,
         apellido,
         email,

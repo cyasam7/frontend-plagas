@@ -1,0 +1,6 @@
+[0901/121015.624:ERROR:process_reader_win.cc(123)] NtOpenThread: {Acceso denegado} Un proceso ha solicitado acceso a un objeto, pero no se le han concedido esos derechos de acceso. (0xc0000022)
+[0901/121015.624:ERROR:process_reader_win.cc(123)] NtOpenThread: {Acceso denegado} Un proceso ha solicitado acceso a un objeto, pero no se le han concedido esos derechos de acceso. (0xc0000022)
+[0901/121016.483:ERROR:exception_snapshot_win.cc(98)] thread ID 1816 not found in process
+[0901/121016.483:ERROR:exception_snapshot_win.cc(98)] thread ID 1824 not found in process
+[0901/121016.484:ERROR:scoped_process_suspend.cc(40)] NtResumeProcess: Se intentó obtener acceso a un proceso que está cerrándose. (0xc000010a)
+[0901/121016.484:ERROR:scoped_process_suspend.cc(40)] NtResumeProcess: Se intentó obtener acceso a un proceso que está cerrándose. (0xc000010a)

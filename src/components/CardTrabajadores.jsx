@@ -10,7 +10,7 @@ import { ErrorButton, WarningButton} from "../components/Buttons";
 function CardTrabajadores({ trabajador, eliminar }) {
     const handleEliminar = (e) =>{
         e.preventDefault();
-        eliminar(trabajador.id);
+        eliminar(trabajador.email);
     }
   return (
     <Card>
@@ -37,7 +37,6 @@ function CardTrabajadores({ trabajador, eliminar }) {
       </CardContent>
       <CardActions>
         <Button>Crear Cuenta</Button>
-        <WarningButton >Editar</WarningButton>
         <ErrorButton onClick={handleEliminar}>Eliminar</ErrorButton>
       </CardActions>
     </Card>

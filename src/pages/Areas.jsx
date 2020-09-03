@@ -39,7 +39,6 @@ function Areas() {
     }
     setbuscado(true);
     Axios.get(`/area?empresa=${Empresa}`).then(({ data }) => {
-      console.log(data);
       setAreas(data);
     });
   };
@@ -103,15 +102,11 @@ function Areas() {
             </Grid>
           </Grid>
           <Grid container spacing={2}>
-            <Grid item xs={12} md={4}>
-              {Areas.map((area, index) => (
-                <CardArea
-                  key={index}
-                  area={area}
-                  eliminar={openModalEliminar}
-                />
-              ))}
-            </Grid>
+            {Areas.map((area, index) => (
+              <Grid key={index} item xs={12} md={4}>
+                <CardArea area={area} eliminar={openModalEliminar} />
+              </Grid>
+            ))}
           </Grid>
         </>
       ) : null}

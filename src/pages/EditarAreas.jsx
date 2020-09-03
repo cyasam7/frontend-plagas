@@ -17,16 +17,19 @@ function EditarAreas() {
     initial().then((area) => {
       setNombreArea(area.nombre);
     });
-  }, []);
+  }, [idArea]);
 
   const handleActualizar = () => {
-      const newArea = {
-          nombre: nombreArea
-      }
-      Axios.patch(`/area/${idArea}`,newArea)
-      .then(()=>{
-        history.push("/areas");
-      })
+    if (error === "") {
+      seterror(true);
+      return;
+    }
+    const newArea = {
+      nombre: nombreArea,
+    };
+    Axios.patch(`/area/${idArea}`, newArea).then(() => {
+      history.push("/areas");
+    });
   };
   return (
     <>

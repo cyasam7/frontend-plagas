@@ -1,50 +1,79 @@
 import React from "react";
-import { Switch, BrowserRouter, Route } from "react-router-dom";
-import Login from './pages/Login'
-import Layout from './components/Layout'
+import { Switch, BrowserRouter } from "react-router-dom";
+import Login from "./pages/Login";
+import Layout from "./components/Layout";
 
-import Usuarios from './pages/Usuarios'
-import AgregarUsuarios from './pages/AgregarUsuarios'
-import EditarUsuarios from './pages/EditarUsuarios'
+import Usuarios from "./pages/Usuarios";
+import AgregarUsuarios from "./pages/AgregarUsuarios";
+import EditarUsuarios from "./pages/EditarUsuarios";
 
+import Empresas from "./pages/Empresas";
+import AgregarEmpresas from "./pages/AgregarEmpresa";
+import EditarEmpresas from "./pages/EditarEmpresa";
 
-import Empresas from './pages/Empresas'
-import AgregarEmpresas from './pages/AgregarEmpresa'
-import EditarEmpresas from './pages/EditarEmpresa'
+import Areas from "./pages/Areas";
+import AgregarAreas from "./pages/AgregarAreas";
+import EditarAreas from "./pages/EditarAreas";
 
-import Areas from './pages/Areas'
-import AgregarAreas from './pages/AgregarAreas'
-import EditarAreas from './pages/EditarAreas'
+import Estaciones from "./pages/Estaciones";
+import AgregarEstaciones from "./pages/AgregarEstacion";
+import EditarEstaciones from "./pages/EditarEstacion";
 
-import Estaciones from './pages/Estaciones'
-import AgregarEstaciones from './pages/AgregarEstacion'
-import EditarEstaciones from './pages/EditarEstacion'
+import Graficas from "./pages/Graficas";
 
-
-import Graficas from './pages/Graficas';
-
-import Historial from './pages/Historial';
-
+import Historial from "./pages/Historial";
+import PrivateRoute from "./components/PrivateRoute";
+import LoginRoute from "./components/LoginRoute";
 function App() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/" component={Login}/>
+        <LoginRoute exact path="/">
+          <Login />
+        </LoginRoute>
         <Layout>
-        <Route exact path="/usuarios" component={Usuarios}/>
-        <Route exact path="/usuarios/agregar" component={AgregarUsuarios}/>
-        <Route exact path="/usuarios/editar/:idUsuario" component={EditarUsuarios}/>
-        <Route exact path="/empresas" component={Empresas}/>
-        <Route exact path="/empresas/agregar" component={AgregarEmpresas}/>
-        <Route exact path="/empresas/editar/:idEmpresa" component={EditarEmpresas}/>
-        <Route exact path="/areas/" component={Areas}/>
-        <Route exact path="/areas/agregar" component={AgregarAreas}/>
-        <Route exact path="/areas/editar/:idArea" component={EditarAreas}/>
-        <Route exact path="/estaciones/" component={Estaciones}/>
-        <Route exact path="/estaciones/agregar" component={AgregarEstaciones}/>
-        <Route exact path="/estaciones/editar/:idEstacion" component={EditarEstaciones}/>
-        <Route exact path="/historial" component={Historial}/>
-        <Route exact path="/Graficas" component={Graficas}/>
+          <PrivateRoute exact path="/usuarios">
+            <Usuarios />
+          </PrivateRoute>
+          <PrivateRoute exact path="/usuarios/agregar">
+            <AgregarUsuarios />
+          </PrivateRoute>
+          <PrivateRoute exact path="/usuarios/editar/:idUsuario">
+            <EditarUsuarios />
+          </PrivateRoute>
+          <PrivateRoute exact path="/empresas">
+            <Empresas />
+          </PrivateRoute>
+          <PrivateRoute exact path="/empresas/agregar">
+            <AgregarEmpresas />
+          </PrivateRoute>
+          <PrivateRoute exact path="/empresas/editar/:idEmpresa">
+            <EditarEmpresas />
+          </PrivateRoute>
+          <PrivateRoute exact path="/areas/">
+            <Areas />
+          </PrivateRoute>
+          <PrivateRoute exact path="/areas/agregar">
+            <AgregarAreas />
+          </PrivateRoute>
+          <PrivateRoute exact path="/areas/editar/:idArea">
+            <EditarAreas />
+          </PrivateRoute>
+          <PrivateRoute exact path="/estaciones/">
+            <Estaciones />
+          </PrivateRoute>
+          <PrivateRoute exact path="/estaciones/agregar">
+            <AgregarEstaciones />
+          </PrivateRoute>
+          <PrivateRoute exact path="/estaciones/editar/:idEstacion">
+            <EditarEstaciones />
+          </PrivateRoute>
+          <PrivateRoute exact path="/historial">
+            <Historial />
+          </PrivateRoute>
+          <PrivateRoute exact path="/Graficas">
+            <Graficas />
+          </PrivateRoute>
         </Layout>
       </Switch>
     </BrowserRouter>
