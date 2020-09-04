@@ -74,6 +74,9 @@ function App() {
           <PrivateRoute exact path="/Graficas">
             <Graficas />
           </PrivateRoute>
+          <PrivateRoute>
+            <Login />
+          </PrivateRoute>
         </Layout>
       </Switch>
     </BrowserRouter>
