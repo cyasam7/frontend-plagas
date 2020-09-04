@@ -39,6 +39,9 @@ function Usuarios() {
       setusers(usuarios);
       setLoading(false);
     })
+    .catch((err)=>{
+
+    })
   }, [user]);
 
   const handleDelete = (e) => {
@@ -49,9 +52,6 @@ function Usuarios() {
       .then(({ data }) => {
         setopenModal(false);
         setUser("");
-      })
-      .catch((err) => {
-        console.log(err);
       })
       .finally(() => {
         setLoading(false);

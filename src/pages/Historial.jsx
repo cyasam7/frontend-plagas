@@ -27,8 +27,10 @@ function Historial() {
       return;
     }
     let URI = "";
+    let URI_LIST_AREA = `/area?empresa=${Empresa}`;
     if (TipoTrampa === "Todos") {
       URI = "/historial";
+      
     } else if (TipoTrampa === "Cebado") {
       URI = `/cebado?empresa=${Empresa}`;
     } else if (TipoTrampa === "Terrestre") {
@@ -36,7 +38,14 @@ function Historial() {
     } else if (TipoTrampa === "Insectos") {
       URI = `/insectos?empresa=${Empresa}`;
     }
+     
     const resp = await Axios.get(URI);
+    
+    const resp2 = await Axios.get(URI_LIST_AREA).then(({data})=>{
+      data.map((area)=>{
+
+      })
+    })
     setHistorial(resp.data);
     setError(false);
   };
