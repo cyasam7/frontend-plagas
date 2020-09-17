@@ -3,18 +3,28 @@ import { Route, Redirect } from "react-router-dom";
 import { useUser } from "../Context/user-context";
 
 function LoginRoute({ children, ...rest }) {
-  const { auth } = useUser();
+  const { auth, tipo } = useUser();
+  console.log(tipo);
   return (
     <Route
       {...rest}
       render={({ location }) =>
         auth ? (
-          <Redirect
-            to={{
-              pathname: "/usuarios",
-              state: { from: location },
-            }}
-          />
+          tipo === "Cliente" ? (
+            <Redirect
+              to={{
+                pathname: "/Cliente",
+                state: { from: location },
+              }}
+            />
+          ) : (
+            <Redirect
+              to={{
+                pathname: "/usuarios",
+                state: { from: location },
+              }}
+            />
+          )
         ) : (
           children
         )

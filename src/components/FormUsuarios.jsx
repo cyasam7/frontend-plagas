@@ -16,12 +16,16 @@ const usuarios = [
     label: "Gerente",
   },
   {
-    value: "Trabajador",
-    label: "Trabajador",
+    value: "Supervisor",
+    label: "Supervisor",
   },
   {
-    value: "Administrador",
-    label: "Administrador",
+    value: "Tecnico",
+    label: "Tecnico",
+  },
+  {
+    value: "Cliente",
+    label: "Cliente",
   },
 ];
 

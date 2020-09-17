@@ -24,6 +24,8 @@ import Graficas from "./pages/Graficas";
 import Historial from "./pages/Historial";
 import PrivateRoute from "./components/PrivateRoute";
 import LoginRoute from "./components/LoginRoute";
+
+import Cliente from "./pages/Cliente";
 function App() {
   return (
     <BrowserRouter>
@@ -31,6 +33,9 @@ function App() {
         <LoginRoute exact path="/">
           <Login />
         </LoginRoute>
+        <PrivateRoute exact path="/Cliente">
+          <Cliente />
+        </PrivateRoute>
         <Layout>
           <PrivateRoute exact path="/usuarios">
             <Usuarios />
@@ -75,7 +80,7 @@ function App() {
             <Graficas />
           </PrivateRoute>
           <PrivateRoute>
-            <Login />
+            <></>
           </PrivateRoute>
         </Layout>
       </Switch>

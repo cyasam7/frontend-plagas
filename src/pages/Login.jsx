@@ -61,7 +61,12 @@ export default function SignIn() {
       return;
     }
     login(email, password)
-    .then(()=>{
+    .then(({user})=>{
+      console.log(user);
+      if(user.tipo_usuario === "Cliente"){
+        history.push("/Cliente");
+        return;
+      }
       history.push("/usuarios")
     }).catch((err)=>{
       setError(true)

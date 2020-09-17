@@ -42,6 +42,10 @@ function CardRevision({ revision }) {
           <Typography variant="overline">{revision.estacion.codigo}</Typography>
         </Typography>
         <Typography variant="subtitle2">
+          Tipo de Estacion:{" "}
+          <Typography variant="overline">{revision.estacion.tipo}</Typography>
+        </Typography>
+        <Typography variant="subtitle2">
           Fecha:{" "}
           <Typography variant="overline">{`${revision.dia} ${revision.mes} ${revision.año}`}</Typography>
         </Typography>

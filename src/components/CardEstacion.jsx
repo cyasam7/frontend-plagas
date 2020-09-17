@@ -42,7 +42,7 @@ function CardTrabajadores({ estacion, handle }) {
                 bgColor="#FFFFFF"
                 fgColor="#000000"
                 level="Q"
-                value={estacion.codigo}
+                value={estacion._id}
             />
           </Grid>
         </Grid>

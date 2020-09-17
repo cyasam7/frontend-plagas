@@ -39,17 +39,14 @@ function Usuarios() {
       setusers(usuarios);
       setLoading(false);
     })
-    .catch((err)=>{
-
-    })
-  }, [user]);
+  }, []);
 
   const handleDelete = (e) => {
     e.preventDefault();
     setLoading(true);
     const URI = `/usuarios/${user}`;
     Axios.delete(URI)
-      .then(({ data }) => {
+      .then(() => {
         setopenModal(false);
         setUser("");
       })

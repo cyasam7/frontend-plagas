@@ -5,7 +5,6 @@ const UserContext = React.createContext();
 
 export function UserProvider({ children }) {
   const [auth, setAuth] = useState(false);
-
   useEffect(() => {
     async function initial() {
       if (!getToken()) {
@@ -14,7 +13,7 @@ export function UserProvider({ children }) {
         return;
       }
       try {
-        await Axios.get("/auth/whoiam");
+        const {data} = await Axios.get("/auth/whoiam");
         setAuth(true);
       } catch (error) {
         deleteToken();
@@ -35,6 +34,7 @@ export function UserProvider({ children }) {
     });
     setAuth(true);
     setToken(data.token);
+    return data
   }
   function logOut() {
     deleteToken();
