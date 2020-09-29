@@ -1,41 +1,40 @@
 import React, { useState } from "react";
-import {
-  Container,
-  Typography,
-  CircularProgress,
-} from "@material-ui/core";
+import { Container, Typography, CircularProgress } from "@material-ui/core";
 import FormUsuarios from "../components/FormUsuarios";
 import Modal from "../components/Modal";
 import Axios from "axios";
-import {useHistory} from 'react-router-dom'
-
-
+import { useHistory } from "react-router-dom";
+import {useModal} from '../Context/modal-context';
 function AgregarUsuarios() {
   const history = useHistory();
-  
-  const [loading, setloading] = useState(false);
-  const [complete, setcomplete] = useState(false);
+  const {setLoading} = useModal();
   const [error, setError] = useState(false);
 
-
-  const handleCrearUsuario = async data =>{
-    setloading(true);
-    const resp = await Axios.post("/usuarios", data);
-    const status = resp.status;
-    if(status === 201){
-      setloading(false);
-      setcomplete(true);
-      setTimeout(()=>{
-        setcomplete(false)
-        history.goBack();
-      }, 500)
-    }else{
-      setloading(false);
+  const handleCrearUsuario = async (data) => {
+    setLoading(true);
+    if (
+      data.nombre === "" ||
+      data.apellido === "" ||
+      data.email === "" ||
+      data.password === "" ||
+      data.telefono === ""
+    ) {
+      setError(true);
+      setLoading(false);
+      return;
     }
-  }
-  const handleGoBack = () =>{
+    try {
+      await Axios.post("/usuarios", data);
+      history.goBack();
+    } catch (error) {
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const handleGoBack = () => {
     history.goBack();
-  }
+  };
 
   return (
     <>
@@ -43,14 +42,12 @@ function AgregarUsuarios() {
         <Typography variant="h4" align="center" gutterBottom>
           Coloca los datos del Usuario
         </Typography>
-        <FormUsuarios error={error} setError={setError} goBack={handleGoBack} handle={handleCrearUsuario} />
+        <FormUsuarios
+          error={error}
+          goBack={handleGoBack}
+          handle={handleCrearUsuario}
+        />
       </Container>
-      <Modal abierto={loading} titulo={"Cargando"}>
-        <CircularProgress value={75} />
-      </Modal>
-      <Modal abierto={complete} titulo="Exito">
-        <Typography variant="body1">Se agrego correctamente</Typography>
-      </Modal>
     </>
   );
 }

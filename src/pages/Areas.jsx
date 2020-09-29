@@ -11,7 +11,9 @@ import { SuccessButton, ErrorButton } from "../components/Buttons";
 import Modal from "../components/Modal";
 import { Link } from "react-router-dom";
 import Axios from "axios";
+import { useModal } from "../Context/modal-context";
 function Areas() {
+  const { setLoading } = useModal();
   const [Empresas, setEmpresas] = useState([]);
   const [Empresa, setEmpresa] = useState("");
 
@@ -38,8 +40,10 @@ function Areas() {
       return;
     }
     setbuscado(true);
+    setLoading(true);
     Axios.get(`/area?empresa=${Empresa}`).then(({ data }) => {
       setAreas(data);
+      setLoading(false);
     });
   };
   const openModalEliminar = (id) => {
@@ -102,11 +106,17 @@ function Areas() {
             </Grid>
           </Grid>
           <Grid container spacing={2}>
-            {Areas.map((area, index) => (
-              <Grid key={index} item xs={12} md={4}>
-                <CardArea area={area} eliminar={openModalEliminar} />
-              </Grid>
-            ))}
+            {Areas.length > 0 ? (
+              <>
+                {Areas.map((area, index) => (
+                  <Grid key={index} item xs={12} md={4}>
+                    <CardArea area={area} eliminar={openModalEliminar} />
+                  </Grid>
+                ))}
+              </>
+            ) : (
+              <Typography align="center">No hay areas asignadas</Typography>
+            )}
           </Grid>
         </>
       ) : null}

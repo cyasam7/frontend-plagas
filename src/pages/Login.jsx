@@ -62,7 +62,6 @@ export default function SignIn() {
     }
     login(email, password)
     .then(({user})=>{
-      console.log(user);
       if(user.tipo_usuario === "Cliente"){
         history.push("/Cliente");
         return;
@@ -106,10 +105,6 @@ export default function SignIn() {
             label="Contraseña"
             type="password"
             autoComplete="current-password"
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
           />
           <Button
             fullWidth

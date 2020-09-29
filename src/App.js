@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, BrowserRouter } from "react-router-dom";
+import { Switch, BrowserRouter, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Layout from "./components/Layout";
 
@@ -10,6 +10,9 @@ import EditarUsuarios from "./pages/EditarUsuarios";
 import Empresas from "./pages/Empresas";
 import AgregarEmpresas from "./pages/AgregarEmpresa";
 import EditarEmpresas from "./pages/EditarEmpresa";
+import AgregarContactoEmpresa from "./pages/AgregarContactoEmpresa";
+import ContactoEmpresa from "./pages/ContactoEmpresa";
+import EditarContactoEmpresa from "./pages/EditarContactoEmpresa";
 
 import Areas from "./pages/Areas";
 import AgregarAreas from "./pages/AgregarAreas";
@@ -20,19 +23,38 @@ import AgregarEstaciones from "./pages/AgregarEstacion";
 import EditarEstaciones from "./pages/EditarEstacion";
 
 import Graficas from "./pages/Graficas";
+import GraficasMes from "./pages/GraficasMes";
+import GraficasAnual from "./pages/GraficasAnual";
 
 import Historial from "./pages/Historial";
 import PrivateRoute from "./components/PrivateRoute";
 import LoginRoute from "./components/LoginRoute";
 
 import Cliente from "./pages/Cliente";
+
+import { useUser } from "./Context/user-context";
+import { CircularProgress, Grid } from "@material-ui/core";
 function App() {
+  const { loading } = useUser();
+
+  if (loading) {
+    return (
+      <Grid
+        container
+        alignItems="center"
+        justify="center"
+        style={{ height: "100%" }}
+      >
+        <CircularProgress />
+      </Grid>
+    );
+  }
   return (
     <BrowserRouter>
       <Switch>
-        <LoginRoute exact path="/">
+        <Route exact path="/">
           <Login />
-        </LoginRoute>
+        </Route>
         <PrivateRoute exact path="/Cliente">
           <Cliente />
         </PrivateRoute>
@@ -54,6 +76,15 @@ function App() {
           </PrivateRoute>
           <PrivateRoute exact path="/empresas/editar/:idEmpresa">
             <EditarEmpresas />
+          </PrivateRoute>
+          <PrivateRoute exact path="/empresas/agregar/contacto/:idEmpresa">
+            <AgregarContactoEmpresa />
+          </PrivateRoute>
+          <PrivateRoute exact path="/empresas/trabajadores/:idEmpresa">
+            <ContactoEmpresa />
+          </PrivateRoute>
+         <PrivateRoute exact path="/empresas/editar/contacto/:idUsuario">
+            <EditarContactoEmpresa />
           </PrivateRoute>
           <PrivateRoute exact path="/areas/">
             <Areas />
@@ -78,6 +109,12 @@ function App() {
           </PrivateRoute>
           <PrivateRoute exact path="/Graficas">
             <Graficas />
+          </PrivateRoute>
+          <PrivateRoute exact path="/Graficas/mes/:idEmpresa">
+            <GraficasMes />
+          </PrivateRoute>
+          <PrivateRoute exact path="/Graficas/anual/:idEmpresa">
+            <GraficasAnual />
           </PrivateRoute>
           <PrivateRoute>
             <></>

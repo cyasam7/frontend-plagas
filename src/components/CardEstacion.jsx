@@ -24,7 +24,7 @@ function CardTrabajadores({ estacion, handle }) {
             </Typography>
             <Typography variant="subtitle2">
               Codigo:{" "}
-              <Typography variant="overline">{estacion.codigo}</Typography>
+              <Typography variant="overline">{estacion._id}</Typography>
             </Typography>
             <Typography variant="subtitle2">
               Activa:{" "}
@@ -34,7 +34,7 @@ function CardTrabajadores({ estacion, handle }) {
             </Typography>
             <Typography variant="subtitle2">
               Numero:{" "}
-              <Typography variant="overline">{estacion.codigo}</Typography>
+              <Typography variant="overline">{estacion.numero}</Typography>
             </Typography>
           </Grid>
           <Grid item md={6}>

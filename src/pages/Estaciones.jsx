@@ -4,11 +4,11 @@ import { SuccessButton, ErrorButton } from "../components/Buttons";
 import { Link } from "react-router-dom";
 import CardEstacion from "../components/CardEstacion";
 import Axios from "axios";
-import { PDFDownloadLink } from "@react-pdf/renderer";
-import { PdfDocument } from "../components/PdfDocument";
 import Modal from "../components/Modal";
+import { useModal } from "../Context/modal-context";
 
 function Estaciones() {
+  const { setLoading } = useModal();
   const [Clientes, setClientes] = useState([]);
   const [Areas, setAreas] = useState([]);
   const [Estaciones, setEstaciones] = useState([]);
@@ -16,7 +16,6 @@ function Estaciones() {
   const [buscar, setBuscar] = useState(false);
   const [Cliente, setCliente] = useState("");
   const [Area, setArea] = useState("");
-  const [isReady, setIsReady] = useState(false);
   const [openModal, setopenModal] = useState(false);
 
   useEffect(() => {
@@ -43,25 +42,30 @@ function Estaciones() {
       alert("Espacios Vacios");
       return;
     }
+    setLoading(true);
     const { data } = await Axios.get(
       `/estacion?empresa=${Cliente}&area=${Area}`
     );
     setBuscar(true);
     setEstaciones(data);
-    setIsReady(true);
+    setLoading(false);
   };
   const handleOpenModal = (id) => {
     setopenModal(true);
     setEstacion(id);
   };
-  const handleDeleteEstacion = () => {
-    Axios.delete(`/estacion/${Estacion}`).then(() => {
+  const handleDeleteEstacion = async () => {
+    try {
+      await Axios.delete(`/estacion/${Estacion}`);
       const newAreas = Estaciones.filter(
         (estacion) => estacion._id !== Estacion
       );
       setEstaciones(newAreas);
+    } catch (error) {
+    } finally {
+      setLoading(false);
       setopenModal(false);
-    });
+    }
   };
   return (
     <>
@@ -99,6 +103,7 @@ function Estaciones() {
           </SuccessButton>
         </Grid>
       </Grid>
+
       {Areas.length > 0 ? (
         <Grid container spacing={1}>
           <Grid item xs={12} md={10}>
@@ -138,7 +143,7 @@ function Estaciones() {
           <Typography align="center" variant="h5" gutterBottom>
             Lista de estaciones
           </Typography>
-          <Grid container spacing={1} justify="center">
+          <Grid container spacing={5}>
             {Estaciones.length > 0 ? (
               <>
                 {Estaciones.map((estacion, index) => (
@@ -151,10 +156,12 @@ function Estaciones() {
                 ))}
               </>
             ) : (
-              <Grid item>
-              <Typography variant="overline" component="h1" align="center">
-                No hay ninguna estacion
-              </Typography>
+              <Grid container justify="center" style={{marginTop: 15}}>
+                <Grid item>
+                  <Typography variant="subtitle2">
+                    No hay ninguna estacion en esta area
+                  </Typography>
+                </Grid>
               </Grid>
             )}
           </Grid>

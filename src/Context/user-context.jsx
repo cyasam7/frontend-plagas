@@ -5,19 +5,31 @@ const UserContext = React.createContext();
 
 export function UserProvider({ children }) {
   const [auth, setAuth] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState("");
+  const [isCliente, setIsCliente] = useState(false);
+  
   useEffect(() => {
     async function initial() {
       if (!getToken()) {
         setAuth(false);
         deleteToken();
+        setLoading(false);
         return;
       }
       try {
-        const {data} = await Axios.get("/auth/whoiam");
+        const { data } = await Axios.get("/auth/whoiam");
+        console.log(data._id);
+        setUser(data._id);
+        if (data.tipo_usuario === "Cliente") {
+          setIsCliente(true);
+        }
         setAuth(true);
       } catch (error) {
         deleteToken();
         setAuth(false);
+      } finally {
+        setLoading(false);
       }
     }
     initial();
@@ -32,13 +44,23 @@ export function UserProvider({ children }) {
         password,
       },
     });
+    if(data.user.tipo_usuario === "Tecnico"){
+      throw new Error("No puede entrar")
+    }
     setAuth(true);
+    setUser(data.user.id);
     setToken(data.token);
-    return data
+    if (data.tipo_usuario === "Cliente") {
+      setIsCliente(true);
+    }
+    
+    return data;
   }
   function logOut() {
     deleteToken();
     setAuth(false);
+    setIsCliente(false);
+    setUser("");
   }
 
   const value = useMemo(() => {
@@ -46,8 +68,11 @@ export function UserProvider({ children }) {
       login,
       logOut,
       auth,
+      loading,
+      user,
+      isCliente,
     };
-  }, [auth]);
+  }, [auth, loading, user, isCliente]);
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }

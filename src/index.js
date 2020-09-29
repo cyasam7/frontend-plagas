@@ -4,10 +4,13 @@ import App from "./App";
 import "./index.css";
 import { initAxios } from "./Helpers/auth-helpers";
 import { UserProvider } from "./Context/user-context";
+import { ModalProvider } from "./Context/modal-context";
 initAxios();
 ReactDOM.render(
-  <UserProvider>
-    <App />
-  </UserProvider>,
+  <ModalProvider>
+    <UserProvider>
+      <App />
+    </UserProvider>
+  </ModalProvider>,
   document.getElementById("root")
 );

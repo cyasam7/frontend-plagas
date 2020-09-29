@@ -11,6 +11,7 @@ export const ErrorButton = withStyles((theme) => ({
     },
   },
 }))(Button);
+
 export const WarningButton = withStyles((theme) => ({
   root: {
     color: "#fff",

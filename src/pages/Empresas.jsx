@@ -13,25 +13,27 @@ import { SuccessButton, ErrorButton } from "../components/Buttons";
 import Modal from "../components/Modal";
 import { Link } from "react-router-dom";
 import Axios from "axios";
-
+import {useModal} from '../Context/modal-context';
 function Empresas() {
+  
+  const {setLoading} = useModal();
   const [empresas, setEmpresas] = useState([]);
   const [openModal, setOpenModal] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [empresa, setEmpresa] = useState("");
   useEffect(() => {
     async function initialEmpresas() {
       const { data } = await Axios.get("/empresa");
       return data;
     }
+    setLoading(true);
     initialEmpresas().then((empresas) => {
       setEmpresas(empresas);
+      setLoading(false)
     });
   }, []);
 
   const handleEliminarEmpresa = () => {
     setOpenModal(true);
-    setLoading(true);
     Axios.delete(`/empresa/${empresa}`)
       .then((data) => {
         const newEmpresas = empresas.filter((emp) => emp._id !== empresa);
@@ -42,9 +44,9 @@ function Empresas() {
       })
       .finally(() => {
         setOpenModal(false);
-        setLoading(false);
       });
   };
+
   const handleOpenModalDelete = (id) => {
     setOpenModal(true);
     setEmpresa(id);
@@ -52,18 +54,8 @@ function Empresas() {
   return (
     <Container>
       <Modal abierto={openModal} titulo="¿Seguro que desea Eliminar?">
-        {loading ? (
-          <CircularProgress value={75} />
-        ) : (
-          <>
-            <SuccessButton onClick={handleEliminarEmpresa}>
-              Aceptar
-            </SuccessButton>
-            <ErrorButton onClick={() => setOpenModal(false)}>
-              Cancelar
-            </ErrorButton>
-          </>
-        )}
+        <SuccessButton onClick={handleEliminarEmpresa}>Aceptar</SuccessButton>
+        <ErrorButton onClick={() => setOpenModal(false)}>Cancelar</ErrorButton>
       </Modal>
       <Box alignItems="center">
         <Typography align="center" variant="h4">
@@ -83,13 +75,13 @@ function Empresas() {
           fullWidth
         />
       </Box>
-      <Grid container spacing={2}>
-        {empresas.map((empresa, index) => (
-          <Grid key={index} item xs={12} md={6}>
-            <CardEmpresa empresa={empresa} eliminar={handleOpenModalDelete} />
-          </Grid>
-        ))}
-      </Grid>
+        <Grid container spacing={2}>
+          {empresas.map((empresa, index) => (
+            <Grid key={index} item xs={12} md={6}>
+              <CardEmpresa empresa={empresa} eliminar={handleOpenModalDelete} />
+            </Grid>
+          ))}
+        </Grid>
     </Container>
   );
 }

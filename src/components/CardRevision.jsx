@@ -8,17 +8,16 @@ import {
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 function CardRevision({ revision }) {
-  console.log(revision);
   return (
     <Card>
       <CardContent>
         <Typography variant="subtitle2">
-          Trabajador:{" "}
-          <Typography variant="overline">{`${revision.usuario.nombre} ${revision.usuario.apellido}`}</Typography>
+          Encargado:{" "}
+          {/* <Typography variant="overline">{`${revision.encargado.nombre} ${revision.encargado.apellido}`}</Typography> */}
         </Typography>
         <Typography variant="subtitle2">
-          Encargado:{" "}
-          <Typography variant="overline">{`${revision.encargado.nombre} ${revision.encargado.apellido}`}</Typography>
+          Trabajador:{" "}
+          <Typography variant="overline">{`${revision.usuario.nombre} ${revision.usuario.apellido}`}</Typography>
         </Typography>
         <Typography variant="subtitle2">
           Aval: <Typography variant="overline">{`${revision.aval}`}</Typography>
@@ -34,16 +33,8 @@ function CardRevision({ revision }) {
           </Typography>
         </Typography>
         <Typography variant="subtitle2">
-          Area:{" "}
-          <Typography variant="overline">{revision.area.nombre}</Typography>
-        </Typography>
-        <Typography variant="subtitle2">
-          Codigo Estacion:{" "}
-          <Typography variant="overline">{revision.estacion.codigo}</Typography>
-        </Typography>
-        <Typography variant="subtitle2">
-          Tipo de Estacion:{" "}
-          <Typography variant="overline">{revision.estacion.tipo}</Typography>
+          Numero de Areas:{" "}
+          <Typography variant="overline">{revision.areas.length}</Typography>
         </Typography>
         <Typography variant="subtitle2">
           Fecha:{" "}

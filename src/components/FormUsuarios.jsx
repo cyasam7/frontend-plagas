@@ -9,7 +9,8 @@ import {
   Typography,
 } from "@material-ui/core";
 import { WarningButton, SuccessButton } from "../components/Buttons";
-import {useHistory} from 'react-router-dom'
+import { useHistory } from "react-router-dom";
+import { useModal } from "../Context/modal-context";
 const usuarios = [
   {
     value: "Gerente",
@@ -29,7 +30,7 @@ const usuarios = [
   },
 ];
 
-function FormUsuarios({ handle,error, setError, goBack, usuario }) {
+function FormUsuarios({ handle, error, usuario }) {
   const history = useHistory();
 
   const [nombre, setnombre] = useState("");
@@ -39,30 +40,19 @@ function FormUsuarios({ handle,error, setError, goBack, usuario }) {
   const [telefono, settelefono] = useState("");
   const [tipo_usuario, setTipo] = useState("");
   const [isTrabajando, setisTrabajando] = useState(false);
-  
-  useEffect(()=>{
-    if(usuario){
+
+  useEffect(() => {
+    if (usuario) {
       setnombre(usuario.nombre);
       setapellido(usuario.apellido);
       setemail(usuario.email);
-      setpassword(usuario.password);
       settelefono(usuario.telefono);
       setTipo(usuario.tipo_usuario);
-      setisTrabajando(usuario.isTrabajando)
+      setisTrabajando(usuario.isTrabajando);
     }
-  },[usuario])
+  }, [usuario]);
 
   const handleAgregar = () => {
-    if (
-      nombre === "" ||
-      apellido === "" ||
-      email === "" ||
-      password === "" ||
-      telefono === ""
-    ) {
-      setError(true);
-      return;
-    }
     const usuario = {
       nombre,
       apellido,
@@ -72,7 +62,8 @@ function FormUsuarios({ handle,error, setError, goBack, usuario }) {
       telefono,
       isTrabajando,
     };
-    handle(usuario)
+
+    handle(usuario);
   };
   return (
     <Paper style={{ padding: 15 }} variant="outlined">
@@ -90,10 +81,10 @@ function FormUsuarios({ handle,error, setError, goBack, usuario }) {
         variant="outlined"
       />
       <TextField
+        error={error}
         InputLabelProps={{
           shrink: true,
         }}
-        error={error}
         value={apellido ? apellido : ""}
         onChange={(e) => setapellido(e.target.value)}
         placeholder="Apellido"
@@ -170,12 +161,12 @@ function FormUsuarios({ handle,error, setError, goBack, usuario }) {
         <Grid>
           {error ? (
             <Typography variant="subtitle2" color="error">
-              Revisa bien los datos
+              Revisa bien los datos o correo repetido
             </Typography>
           ) : null}
         </Grid>
         <Grid>
-          <WarningButton onClick={()=> history.goBack()}>Volver</WarningButton>
+          <WarningButton onClick={() => history.goBack()}>Volver</WarningButton>
           <SuccessButton onClick={handleAgregar}>Guardar</SuccessButton>
         </Grid>
       </Grid>

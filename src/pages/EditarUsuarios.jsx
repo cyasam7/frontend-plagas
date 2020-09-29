@@ -4,7 +4,10 @@ import FormUsuarios from "../components/FormUsuarios";
 import Modal from "../components/Modal";
 import Axios from "axios";
 import { useParams, useHistory } from "react-router-dom";
+import { useModal } from "../Context/modal-context";
+
 function EditarUsuario() {
+  const { setLoading } = useModal();
   const history = useHistory();
   const {idUsuario} = useParams();
 
@@ -17,33 +20,40 @@ function EditarUsuario() {
     tipo_usuario:"",
     isTrabajando: false
   });
-  const [loading, setloading] = useState(false);
-  const [complete, setcomplete] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const buscarUsuario = async () => {
       const { data } = await Axios.get(`/usuarios/${idUsuario}`);
       return data;
     };
+    setLoading(true)
     buscarUsuario()
     .then((usuario) => {
       setUser(usuario);
+      setLoading(false);
     });
   }, [idUsuario]);
+
   const handleEditar = async (data) => {
-    setloading(true);
-    const resp = await Axios.patch(`/usuarios/${idUsuario}`, data);
-    const status = resp.status;
-    console.log(status);
-    if(status === 200){
-      setloading(false);
-      setcomplete(true);
-      setTimeout(()=>{
-        setcomplete(false)
-        history.goBack();
-      }, 500)
-    }else{
-      setloading(false);
+    if (
+      data.nombre === "" ||
+      data.apellido === "" ||
+      data.email === "" ||
+      data.password === "" ||
+      data.telefono === ""
+    ) {
+      setError(true);
+      setLoading(false);
+      return;
+    }
+    try {
+      await Axios.patch(`/usuarios/${idUsuario}`, data);
+      history.goBack();
+    } catch (error) {
+      setError(true)
+    }finally{
+      setLoading(false)
     }
   };
   return (
@@ -51,13 +61,7 @@ function EditarUsuario() {
       <Typography variant="h4" align="center" gutterBottom>
         Editar Usuario
       </Typography>
-      <FormUsuarios handle={handleEditar} usuario={user} />
-      <Modal abierto={loading} titulo={"Cargando"}>
-        <CircularProgress value={75} />
-      </Modal>
-      <Modal abierto={complete} titulo="Exito">
-        <Typography variant="body1">Se actualizo correctamente</Typography>
-      </Modal>
+      <FormUsuarios error={error} handle={handleEditar} usuario={user} />
     </Container>
   );
 }

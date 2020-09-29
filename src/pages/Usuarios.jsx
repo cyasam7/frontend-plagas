@@ -7,8 +7,8 @@ import {
   TableCell,
   TableBody,
   Typography,
-  CircularProgress,
-  Box
+  Box,
+  DialogActions,
 } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
 import Axios from "axios";
@@ -19,59 +19,52 @@ import {
   WarningButton,
   ErrorButton,
 } from "../components/Buttons";
-
+import { useModal } from "../Context/modal-context";
 function Usuarios() {
+  const { setLoading } = useModal();
   const [openModal, setopenModal] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState("");
-
   const [users, setusers] = useState([]);
 
   useEffect(() => {
     async function initUsuarios() {
-      const data = await Axios.get("/usuarios");
+      const data = await Axios.get("/usuarios?tipo_usuario=Gerente&tipo_usuario=Supervisor&tipo_usuario=Tecnico");
       const usuarios = data.data;
-      return usuarios
+      return usuarios;
     }
     setLoading(true);
-    initUsuarios()
-    .then((usuarios) =>{
+    initUsuarios().then((usuarios) => {
       setusers(usuarios);
       setLoading(false);
-    })
+    });
   }, []);
+  
 
   const handleDelete = (e) => {
     e.preventDefault();
-    setLoading(true);
     const URI = `/usuarios/${user}`;
-    Axios.delete(URI)
-      .then(() => {
-        setopenModal(false);
-        setUser("");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    Axios.delete(URI).then(() => {
+      setopenModal(false);
+      setUser("");
+    });
   };
-  
+
   return (
     <>
       <Typography align="center" variant="h4" component="h1" gutterBottom>
         Lista de Trabajadores
       </Typography>
       <Box textAlign="end">
-      <Link to="/usuarios/agregar">
-        <SuccessButton
-          variant="contained"
-          color="secondary"
-          startIcon={<Add />}
-        >
-          Agregar Trabajador
-        </SuccessButton>
-      </Link>
+        <Link to="/usuarios/agregar">
+          <SuccessButton
+            variant="contained"
+            color="secondary"
+            startIcon={<Add />}
+          >
+            Agregar Trabajador
+          </SuccessButton>
+        </Link>
       </Box>
-
       <TableContainer>
         <Table>
           <TableHead>
@@ -112,18 +105,13 @@ function Usuarios() {
         </Table>
       </TableContainer>
       <Modal abierto={openModal} titulo="¿Seguro que desea Eliminar?">
-        {loading ? (
-          <CircularProgress value={75} />
-        ) : (
-          <>
-            <SuccessButton onClick={handleDelete}>Aceptar</SuccessButton>
-            <ErrorButton onClick={() => setopenModal(false)}>
-              Cancelar
-            </ErrorButton>
-          </>
-        )}
+        <DialogActions>
+          <ErrorButton onClick={() => setopenModal(false)}>
+            Cancelar
+          </ErrorButton>
+          <SuccessButton onClick={handleDelete}>Aceptar</SuccessButton>
+        </DialogActions>
       </Modal>
-      
     </>
   );
 }

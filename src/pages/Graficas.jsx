@@ -1,25 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { Bar } from "react-chartjs-2";
-import { Typography, TextField, Grid, MenuItem, } from "@material-ui/core";
+import {
+  Typography,
+  TextField,
+  Grid,
+  MenuItem,
+  Button,
+} from "@material-ui/core";
 import Axios from "axios";
-import { SuccessButton } from "../components/Buttons";
+import { useHistory } from "react-router-dom";
+
 function Graficas() {
+  const history = useHistory();
   const [Empresa, setEmpresa] = useState("");
   const [Empresas, setEmpresas] = useState([]);
-  const [Tipo, setTipo] = useState("");
-
-  const tipos=[
-    {
-      nombre:"Cebado"
-    },
-    {
-      nombre:"Terrestre"
-    },
-    {
-      nombre:"Insectos"
-    },
-  ]
-
+  
   useEffect(() => {
     async function init() {
       const { data } = await Axios.get("/empresa");
@@ -28,56 +22,66 @@ function Graficas() {
     init().then((empresas) => {
       setEmpresas(empresas);
     });
-  },[]);
+  }, []);
+  const handleMes = () => {
+    if (Empresa === "") {
+      alert("Campos Vacios");
+      return;
+    }
+    history.push(`/graficas/mes/${Empresa}`);
+  };
+  const handleAnual = () => {
+    if (Empresa === "") {
+      alert("Campos Vacios");
+      return;
+    }
+    history.push(`/graficas/anual/${Empresa}`);
+  };
   return (
     <>
       <Typography align="center" variant="h4">
         Graficas
       </Typography>
-      <Grid container justify="center">
-        <Grid item xd={12} md={10}>
+      <br />
+      <Grid container>
+        <Grid item xs={12}>
           <TextField
-            label="Empresa o Cliente"
-            select
             fullWidth
+            select
+            label="Empresa"
+            helperText="Selecciona el nombre de la empresa o cliente"
             value={Empresa}
             onChange={(e) => setEmpresa(e.target.value)}
           >
-            {Empresas.map((empresa, index) => (
-              <MenuItem key={index} value={empresa._id}>
-                {empresa.nombre}
+            {Empresas.map((option, index) => (
+              <MenuItem key={index} value={option._id}>
+                {option.nombre}
               </MenuItem>
             ))}
           </TextField>
-        </Grid>
-        <Grid item xs={12} md={2}>
-          <SuccessButton fullWidth>Selecciona</SuccessButton>
         </Grid>
       </Grid>
-      <Grid container style={{marginTop: 15}}>
-        <Grid item md={10}>
-          <Bar
-            data={data}
-            width={null}
-            height={null}
-            
-          />
-        </Grid>
-        <Grid item md={2}>
-          <Typography variant="subtitle1" gutterBottom>Tipo de trampa</Typography>
-          <TextField
-            label="Tipo"
-            select
+      <br />
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={6}>
+          <Button
+            onClick={handleMes}
+            variant="contained"
+            color="primary"
             fullWidth
-            value={Tipo}
-            onChange={(e)=> setTipo(e.target.value)}
           >
-            {tipos.map((tipo, index) =>(
-              <MenuItem key={index} value={tipo.nombre}>
-                {tipo.nombre}
-              </MenuItem>
-            ))}
-          </TextField>
+            Grafica Mensual
+          </Button>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Button
+            onClick={handleAnual}
+            variant="contained"
+            color="primary"
+            fullWidth
+          >
+            Grafica Anual
+          </Button>
         </Grid>
       </Grid>
     </>

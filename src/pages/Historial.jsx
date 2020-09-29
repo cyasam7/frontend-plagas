@@ -3,12 +3,16 @@ import { Grid, TextField, MenuItem, Typography } from "@material-ui/core";
 import { SuccessButton } from "../components/Buttons";
 import Axios from "axios";
 import CardRevision from "../components/CardRevision";
+import { useModal } from "../Context/modal-context";
+
 function Historial() {
+  const { setLoading } = useModal();
   const [Empresa, setEmpresa] = useState("");
   const [Empresas, setEmpresas] = useState([]);
-  const [TipoTrampa, setTipoTrampa] = useState("");
   const [Historial, setHistorial] = useState([]);
   const [Error, setError] = useState(false);
+  
+
   useEffect(() => {
     async function init() {
       const { data } = await Axios.get("/empresa");
@@ -18,38 +22,21 @@ function Historial() {
       setEmpresas(empresas);
     });
   }, []);
-
+  
   const handleHistorial = async () => {
     setHistorial([]);
-    if (TipoTrampa === "" || Empresa === "") {
+    if ( Empresa === "") {
       alert("Llenar los espacios correspondientes");
       setError(true);
       return;
     }
-    let URI = "";
-    let URI_LIST_AREA = `/area?empresa=${Empresa}`;
-    if (TipoTrampa === "Todos") {
-      URI = "/historial";
-      
-    } else if (TipoTrampa === "Cebado") {
-      URI = `/cebado?empresa=${Empresa}`;
-    } else if (TipoTrampa === "Terrestre") {
-      URI = `/terrestre?empresa=${Empresa}`;
-    } else if (TipoTrampa === "Insectos") {
-      URI = `/insectos?empresa=${Empresa}`;
-    }
-     
-    const resp = await Axios.get(URI);
-    
-    const resp2 = await Axios.get(URI_LIST_AREA).then(({data})=>{
-      data.map((area)=>{
-
-      })
-    })
-    setHistorial(resp.data);
+    setLoading(true);
+    const {data} = await Axios.get(`/revision?empresa=${Empresa}`);
+    setHistorial(data)
     setError(false);
+    setLoading(false);
   };
-  const tipo = ["Todos", "Cebado", "Terrestre", "Insectos"];
+
   return (
     <>
       <Typography variant="subtitle2">Historial de Empresa</Typography>
@@ -71,28 +58,12 @@ function Historial() {
           </TextField>
         </Grid>
         <Grid item md={2} xs={12}>
-          <TextField
-            select
-            label="Tipo de Trampa"
-            fullWidth
-            error={Error}
-            value={TipoTrampa}
-            onChange={(e) => setTipoTrampa(e.target.value)}
-          >
-            {tipo.map((titulo, index) => {
-              return (
-                <MenuItem key={index} value={titulo}>
-                  {titulo}
-                </MenuItem>
-              );
-            })}
-          </TextField>
           <SuccessButton onClick={handleHistorial} fullWidth>
             Seleccionar
           </SuccessButton>
         </Grid>
       </Grid>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} style={{marginTop: 15}}>
         {Historial.length > 0 ? (
           <>
             {Historial.map((review, index) => (
@@ -102,7 +73,7 @@ function Historial() {
             ))}
           </>
         ) : (
-          <Typography>-Selecciona alguna empresa o cliente-</Typography>
+          null
         )}
       </Grid>
     </>

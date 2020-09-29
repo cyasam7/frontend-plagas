@@ -2,34 +2,46 @@ import React, { useState, useEffect } from "react";
 import { TextField, Grid, Typography } from "@material-ui/core";
 import { SuccessButton } from "../components/Buttons";
 import { useParams, useHistory } from "react-router-dom";
+import { useModal } from "../Context/modal-context";
+
 import Axios from "axios";
 function EditarAreas() {
+  const { setLoading } = useModal();
   const { idArea } = useParams();
   const history = useHistory();
   const [nombreArea, setNombreArea] = useState("");
-  const [error, seterror] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     async function initial() {
       const { data } = await Axios.get(`/area/${idArea}`);
       return data;
     }
+    setLoading(true);
     initial().then((area) => {
       setNombreArea(area.nombre);
+      setLoading(false);
     });
   }, [idArea]);
 
-  const handleActualizar = () => {
-    if (error === "") {
-      seterror(true);
+  const handleActualizar = async () => {
+    setLoading(true);
+    if (nombreArea === "") {
+      setError(true);
+      setLoading(false);
       return;
     }
     const newArea = {
       nombre: nombreArea,
     };
-    Axios.patch(`/area/${idArea}`, newArea).then(() => {
+    try {
+      await Axios.patch(`/area/${idArea}`, newArea);
       history.push("/areas");
-    });
+    } catch (error) {
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <>

@@ -20,7 +20,7 @@ import {
   Equalizer,
 } from "@material-ui/icons";
 import { Link } from "react-router-dom";
-import {useUser} from '../Context/user-context'
+import { useUser } from "../Context/user-context";
 const drawerWidth = 240;
 
 const items = [
@@ -55,13 +55,20 @@ const items = [
     ruta: "/historial",
   },
 ];
+const cliente = [
+  {
+    text: "Historial",
+    icon: <People />,
+    ruta: "/Cliente",
+  },
+];
 
 export default function Layout({ children }) {
   const classes = useStyles();
-  const {logOut} = useUser();
-  const handleLogOut = () =>{
+  const { logOut, isCliente } = useUser();
+  const handleLogOut = () => {
     logOut();
-  }
+  };
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -83,14 +90,29 @@ export default function Layout({ children }) {
         <div className={classes.toolbar} />
         <Divider />
         <List>
-          {items.map((item, index) => (
-            <Link key={index} to={item.ruta}>
-              <ListItem button>
-                <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.text} />
-              </ListItem>
-            </Link>
-          ))}
+          {isCliente ? (
+            <>
+              {cliente.map((item, index) => (
+                <Link key={index} to={item.ruta}>
+                  <ListItem button>
+                    <ListItemIcon>{item.icon}</ListItemIcon>
+                    <ListItemText primary={item.text} />
+                  </ListItem>
+                </Link>
+              ))}
+            </>
+          ) : (
+            <>
+              {items.map((item, index) => (
+                <Link key={index} to={item.ruta}>
+                  <ListItem button>
+                    <ListItemIcon>{item.icon}</ListItemIcon>
+                    <ListItemText primary={item.text} />
+                  </ListItem>
+                </Link>
+              ))}
+            </>
+          )}
         </List>
         <Divider />
         <List>

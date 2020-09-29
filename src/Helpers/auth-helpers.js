@@ -11,7 +11,8 @@ export function deleteToken(){
     localStorage.clear();
 }
 export function initAxios(){
-    Axios.defaults.baseURL = "https://157.245.242.243:4000/";
+    Axios.defaults.baseURL = "http://157.245.242.243:4000/";
+    /* Axios.defaults.baseURL = "http://localhost:4000/"; */
     Axios.interceptors.request.use((config)=>{
         if(getToken()){
             config.headers.Authorization = `Bearer ${getToken()}`;

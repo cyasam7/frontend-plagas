@@ -13,32 +13,32 @@ import { SuccessButton, ErrorButton } from "../components/Buttons";
 import { useHistory, useLocation } from "react-router-dom";
 const estations = [
   {
-    value: "Cebado",
-    label: "Cebado",
+    value: "Roedores",
+    label: "Roedores",
   },
   {
-    value: "Terrestre",
-    label: "Terrestre",
+    value: "Rastreros",
+    label: "Rastreros",
   },
   {
-    value: "Insectos",
-    label: "Insectos",
+    value: "Voladores",
+    label: "Voladores",
   },
 ];
-function FormEstacion({ handle, estacion }) {
+function FormEstacion({ handle, estacion, error }) {
   const history = useHistory();
   const location = useLocation();
 
-  const [error, seterror] = useState(false);
   const [isActiva, setisActiva] = useState(false);
-  const [codigo, setcodigo] = useState("");
+  const [numero, setnumero] = useState("");
   const [tipo, settipo] = useState("");
   const [empresa, setEmpresa] = useState("");
   const [area, setArea] = useState("");
+
   useEffect(() => {
     if (estacion) {
       setisActiva(estacion.isActiva);
-      setcodigo(estacion.codigo);
+      setnumero(estacion.numero);
       settipo(estacion.tipo);
       setArea(estacion.area);
       setEmpresa(estacion.empresa);
@@ -47,19 +47,15 @@ function FormEstacion({ handle, estacion }) {
     setEmpresa(location.state.Empresa);
     setArea(location.state.Area);
   }, [estacion, location]);
+
   const handleAgregar = () => {
-    if (codigo === "" || tipo === "") {
-      seterror(true);
-      return;
-    }
     const estacion = {
       empresa,
       area,
       tipo,
-      codigo,
+      numero,
       isActiva,
     };
-
     handle(estacion);
   };
 
@@ -72,6 +68,7 @@ function FormEstacion({ handle, estacion }) {
         value={tipo ? tipo : ""}
         onChange={(e) => settipo(e.target.value)}
         helperText="Seleccione tipo de estacion"
+        error={error}
       >
         {estations.map((option, index) => (
           <MenuItem key={index} value={option.value}>
@@ -83,13 +80,14 @@ function FormEstacion({ handle, estacion }) {
         InputLabelProps={{
           shrink: true,
         }}
-        placeholder="Codigo"
+        placeholder="Numero"
         margin="normal"
         fullWidth
-        value={codigo ? codigo : ""}
-        onChange={(e) => setcodigo(e.target.value)}
-        label="Codigo"
+        value={numero ? numero : ""}
+        onChange={(e) => setnumero(e.target.value)}
+        label="Numero"
         variant="outlined"
+        error={error}
       />
       <FormControlLabel
         control={
@@ -103,7 +101,9 @@ function FormEstacion({ handle, estacion }) {
       <Grid container justify="space-between">
         <Grid>
           {error ? (
-            <Typography>Error llenar los datos correctamente</Typography>
+            <Typography variant="subtitle2" color="error">
+              Error llenar los datos correctamente
+            </Typography>
           ) : null}
         </Grid>
         <Box textAlign="end" marginTop={2}>

@@ -5,8 +5,9 @@ import {
   CardActions,
   Typography,
   makeStyles,
+  Button,
 } from "@material-ui/core";
-import {ErrorButton,WarningButton} from '../components/Buttons'
+import { ErrorButton, WarningButton } from "../components/Buttons";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
@@ -15,34 +16,35 @@ const useStyles = makeStyles({
   },
 });
 
-function CardEmpresa({empresa, eliminar}) {
+function CardEmpresa({ empresa, eliminar }) {
   const styles = useStyles();
 
-  const handleEliminar = () =>{
-    eliminar(empresa._id)
-  }
+  const handleEliminar = () => {
+    eliminar(empresa._id);
+  };
   return (
     <Card className={styles.subtitle}>
       <CardContent>
-        <Typography variant="h6">
-          Nombre: {" "}{empresa.nombre} 
-        </Typography>
+        <Typography variant="h6">Nombre: {empresa.nombre}</Typography>
         <Typography className={styles.subtitle} color="textSecondary">
-          Codigo: {" "}{empresa.noCliente} 
-        </Typography>
-        <Typography variant="body2" component="p">
-          Trabajadores: {" "}{empresa.trabajadores.length}
+          Codigo: {empresa.noCliente}
         </Typography>
       </CardContent>
       <CardActions>
         <Link to={`/empresas/editar/${empresa._id}`}>
-        <WarningButton>
-          Editar
-        </WarningButton>
+          <WarningButton>Editar</WarningButton>
         </Link>
-        <ErrorButton onClick={handleEliminar}>
-          Eliminar
-        </ErrorButton>
+        <ErrorButton onClick={handleEliminar}>Eliminar</ErrorButton>
+        <Link to={`/empresas/trabajadores/${empresa._id}`}>
+          <Button variant="outlined" color="primary">
+            Contactos
+          </Button>
+        </Link>
+        <Link to={`/empresas/agregar/contacto/${empresa._id}`}>
+          <Button variant="contained" color="primary">
+            Agregar Contacto
+          </Button>
+        </Link>
       </CardActions>
     </Card>
   );

@@ -2,27 +2,34 @@ import React, { useState } from "react";
 import { TextField, Grid, Typography } from "@material-ui/core";
 import { SuccessButton } from "../components/Buttons";
 import { useLocation, useHistory } from "react-router-dom";
-
+import { useModal } from "../Context/modal-context";
 import Axios from "axios";
 function AgregarAreas() {
   const history = useHistory();
+  const { setLoading } = useModal();
   const [nombreArea, setNombreArea] = useState("");
   const [error, setError] = useState(false);
   const location = useLocation();
 
-  const handleAgregar = () => {
+  const handleAgregar = async () => {
+    setLoading(true);
     if (nombreArea === "") {
       setError(true);
+      setLoading(false);
       return;
     }
     const area = {
       empresa: location.state.Empresa,
       nombre: nombreArea,
     };
-    console.log(area);
-    Axios.post("/area", area).then(({ data }) => {
-      history.push("/areas");
-    });
+    try {
+      await Axios.post("/area", area);
+    history.push("/areas");
+    } catch (error) {
+      setError(true)
+    } finally{
+      setLoading(false)
+    }
   };
   return (
     <>
