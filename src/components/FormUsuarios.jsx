@@ -10,7 +10,6 @@ import {
 } from "@material-ui/core";
 import { WarningButton, SuccessButton } from "../components/Buttons";
 import { useHistory } from "react-router-dom";
-import { useModal } from "../Context/modal-context";
 const usuarios = [
   {
     value: "Gerente",

@@ -48,7 +48,7 @@ function FormEstacion({ handle, estacion, error }) {
     setArea(location.state.Area);
   }, [estacion, location]);
 
-  const handleAgregar = () => {
+  const handleAgregar = async () => {
     const estacion = {
       empresa,
       area,
@@ -56,7 +56,10 @@ function FormEstacion({ handle, estacion, error }) {
       numero,
       isActiva,
     };
-    handle(estacion);
+    await handle(estacion);
+    setisActiva(false);
+    setnumero("");
+    settipo("");
   };
 
   return (

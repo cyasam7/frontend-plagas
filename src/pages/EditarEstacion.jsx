@@ -22,7 +22,7 @@ function EditarEstacion() {
       setEstacion(estacion);
       setLoading(false);
     });
-  }, [params]);
+  }, [params,setLoading]);
 
   const handleActualizarEstacion = async (data) => {
     setLoading(true);

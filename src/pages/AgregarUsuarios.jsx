@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Container, Typography, CircularProgress } from "@material-ui/core";
+import { Container, Typography } from "@material-ui/core";
 import FormUsuarios from "../components/FormUsuarios";
-import Modal from "../components/Modal";
 import Axios from "axios";
 import { useHistory } from "react-router-dom";
 import {useModal} from '../Context/modal-context';

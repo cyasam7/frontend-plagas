@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Paper, TextField, Grid, Box, Typography } from "@material-ui/core";
+import { Paper, TextField, Box, Typography } from "@material-ui/core";
 import { ErrorButton, SuccessButton } from "../components/Buttons";
 import { useHistory } from "react-router-dom";
 function FormEmpresas({ error, empresa, handle }) {

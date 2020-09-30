@@ -28,7 +28,7 @@ function EditarContactoEmpresa() {
       setUser(data.usuario);
       setLoading(false);
     });
-  }, []);
+  }, [setLoading,idUsuario]);
   const handleActualizar = async (usuario) => {
     setLoading(true);
     if (

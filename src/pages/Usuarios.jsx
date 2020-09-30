@@ -37,13 +37,15 @@ function Usuarios() {
       setusers(usuarios);
       setLoading(false);
     });
-  }, []);
+  }, [setLoading]);
   
 
-  const handleDelete = (e) => {
+  const handleDelete = async (e) => {
     e.preventDefault();
     const URI = `/usuarios/${user}`;
-    Axios.delete(URI).then(() => {
+    await Axios.delete(URI).then(() => {
+      const newUsers = users.filter((usr) => usr._id !== user);
+      setusers(newUsers)
       setopenModal(false);
       setUser("");
     });

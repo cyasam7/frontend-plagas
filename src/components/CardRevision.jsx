@@ -6,14 +6,13 @@ import {
   Typography,
   Button,
 } from "@material-ui/core";
-import { Link } from "react-router-dom";
 function CardRevision({ revision }) {
   return (
     <Card>
       <CardContent>
         <Typography variant="subtitle2">
           Encargado:{" "}
-          {/* <Typography variant="overline">{`${revision.encargado.nombre} ${revision.encargado.apellido}`}</Typography> */}
+          <Typography variant="overline">{`${revision.encargado.nombre} ${revision.encargado.apellido}`}</Typography>
         </Typography>
         <Typography variant="subtitle2">
           Trabajador:{" "}
@@ -50,11 +49,9 @@ function CardRevision({ revision }) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Link to={`/estaciones/editar/${revision._id}`}>
-          <Button variant="contained" color="primary">
-            Ver mas
-          </Button>
-        </Link>
+        <Button variant="contained" color="primary">
+          Descargar reporte
+        </Button>
       </CardActions>
     </Card>
   );

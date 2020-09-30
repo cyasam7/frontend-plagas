@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Container, Typography, CircularProgress } from "@material-ui/core";
+import { Container, Typography} from "@material-ui/core";
 import FormUsuarios from "../components/FormUsuarios";
-import Modal from "../components/Modal";
 import Axios from "axios";
 import { useParams, useHistory } from "react-router-dom";
 import { useModal } from "../Context/modal-context";
@@ -33,7 +32,7 @@ function EditarUsuario() {
       setUser(usuario);
       setLoading(false);
     });
-  }, [idUsuario]);
+  }, [idUsuario,setLoading]);
 
   const handleEditar = async (data) => {
     if (

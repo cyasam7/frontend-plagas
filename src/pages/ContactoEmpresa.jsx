@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import {
   Typography,
@@ -37,7 +37,7 @@ function ContactoEmpresa() {
       setUsuarios(usuarios);
       setLoading(false);
     });
-  }, []);
+  }, [idEmpresa,setLoading]);
 
   const handleDeleteContactoEmpresa = async () => {
     setLoading(true);

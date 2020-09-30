@@ -140,6 +140,9 @@ function Estaciones() {
           >
             <SuccessButton fullWidth>Agregar</SuccessButton>
           </Link>
+          <Link to={`/QRList/${Cliente}/${Area}`}>
+            <SuccessButton fullWidth>Generar PDF de QR's</SuccessButton>
+          </Link>
           <Typography align="center" variant="h5" gutterBottom>
             Lista de estaciones
           </Typography>

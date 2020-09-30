@@ -19,7 +19,6 @@ export function UserProvider({ children }) {
       }
       try {
         const { data } = await Axios.get("/auth/whoiam");
-        console.log(data._id);
         setUser(data._id);
         if (data.tipo_usuario === "Cliente") {
           setIsCliente(true);

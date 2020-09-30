@@ -5,7 +5,6 @@ import {
   Box,
   Grid,
   TextField,
-  CircularProgress,
 } from "@material-ui/core";
 import CardEmpresa from "../components/CardEmpresa";
 import { Add } from "@material-ui/icons";
@@ -30,7 +29,7 @@ function Empresas() {
       setEmpresas(empresas);
       setLoading(false)
     });
-  }, []);
+  }, [setLoading]);
 
   const handleEliminarEmpresa = () => {
     setOpenModal(true);

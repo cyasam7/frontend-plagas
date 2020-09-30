@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { Typography } from "@material-ui/core";
 import FormEstacion from "../components/FormEstacion";
-import { useHistory } from "react-router-dom";
 import { useModal } from "../Context/modal-context";
 import Axios from "axios";
 function AgregarEstacion() {
-  const history = useHistory();
+  
   const { setLoading } = useModal();
   const [error, setError] = useState(false);
   const handleCrearEstacion = async (estacion) => {
@@ -17,8 +16,9 @@ function AgregarEstacion() {
     }
     try {
       await Axios.post("/estacion", estacion);
-      history.goBack();
+      setError(false);
     } catch (error) {
+      console.log(error);
       setError(true);
     } finally {
       setLoading(false);

@@ -22,7 +22,7 @@ function EditarAreas() {
       setNombreArea(area.nombre);
       setLoading(false);
     });
-  }, [idArea]);
+  }, [idArea,setLoading]);
 
   const handleActualizar = async () => {
     setLoading(true);

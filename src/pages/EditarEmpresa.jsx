@@ -20,7 +20,7 @@ function EditarEmpresa() {
       setEmpresa(empresa);
       setLoading(false);
     });
-  }, [params]);
+  }, [params,setLoading]);
   const handlePatchEmpresa = async (data) => {
     setLoading(true);
     if (data.nombre === "" || data.codigo === "") {
@@ -39,7 +39,7 @@ function EditarEmpresa() {
   };
   return (
     <>
-      <FormEmpresas handle={handlePatchEmpresa} empresa={Empresa} />
+      <FormEmpresas error={error} handle={handlePatchEmpresa} empresa={Empresa} />
     </>
   );
 }
