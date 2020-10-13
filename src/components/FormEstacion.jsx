@@ -110,7 +110,7 @@ function FormEstacion({ handle, estacion, error }) {
           ) : null}
         </Grid>
         <Box textAlign="end" marginTop={2}>
-          <ErrorButton onClick={() => history.goBack()}>Cancelar</ErrorButton>
+          <ErrorButton onClick={() => history.goBack()}>Volver</ErrorButton>
           <SuccessButton onClick={handleAgregar}>Aceptar</SuccessButton>
         </Box>
       </Grid>

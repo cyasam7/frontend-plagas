@@ -1,24 +1,21 @@
 import React, { useEffect, useState } from "react";
-import {
-  Container,
-  Typography,
-  Box,
-  Grid,
-  TextField,
-} from "@material-ui/core";
+import { Container, Typography, Box, Grid, TextField } from "@material-ui/core";
 import CardEmpresa from "../components/CardEmpresa";
 import { Add } from "@material-ui/icons";
 import { SuccessButton, ErrorButton } from "../components/Buttons";
 import Modal from "../components/Modal";
 import { Link } from "react-router-dom";
 import Axios from "axios";
-import {useModal} from '../Context/modal-context';
+import { useModal } from "../Context/modal-context";
+import { useUser } from "../Context/user-context";
 function Empresas() {
-  
-  const {setLoading} = useModal();
+  const {logOut} = useUser();
+  const { setLoading } = useModal();
   const [empresas, setEmpresas] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [empresa, setEmpresa] = useState("");
+  const [term, setTerm] = useState("");
+
   useEffect(() => {
     async function initialEmpresas() {
       const { data } = await Axios.get("/empresa");
@@ -27,14 +24,24 @@ function Empresas() {
     setLoading(true);
     initialEmpresas().then((empresas) => {
       setEmpresas(empresas);
+    }).catch(()=>{
+      logOut();
+    })
+    .finally(()=>{
       setLoading(false)
-    });
-  }, [setLoading]);
+    })
+  }, [setLoading,logOut]);
+
+  const handleSearchFilter = (cliente) => {
+    return function (x) {
+      return x.noCliente.includes(cliente) || !cliente;
+    };
+  };
 
   const handleEliminarEmpresa = () => {
     setOpenModal(true);
     Axios.delete(`/empresa/${empresa}`)
-      .then((data) => {
+      .then(() => {
         const newEmpresas = empresas.filter((emp) => emp._id !== empresa);
         setEmpresas(newEmpresas);
       })
@@ -72,15 +79,17 @@ function Empresas() {
           placeholder="Codigo"
           label="Busca por codigo de Empresa"
           fullWidth
+          value={term}
+          onChange={(texto) => setTerm(texto.target.value)}
         />
       </Box>
-        <Grid container spacing={2}>
-          {empresas.map((empresa, index) => (
-            <Grid key={index} item xs={12} md={6}>
-              <CardEmpresa empresa={empresa} eliminar={handleOpenModalDelete} />
-            </Grid>
-          ))}
-        </Grid>
+      <Grid container spacing={2}>
+        {empresas.filter(handleSearchFilter(term)).map((empresa, index) => (
+          <Grid key={index} item xs={12} md={6}>
+            <CardEmpresa empresa={empresa} eliminar={handleOpenModalDelete} />
+          </Grid>
+        ))}
+      </Grid>
     </Container>
   );
 }

@@ -7,9 +7,16 @@ import {
   Button,
 } from "@material-ui/core";
 function CardRevision({ revision }) {
+  const handleDescargar = () =>{
+    window.open(`http://157.245.242.243:4000/revision/pdf/${revision.folio}`)
+  }
   return (
     <Card>
       <CardContent>
+      <Typography variant="subtitle2">
+          ID:{" "}
+          <Typography variant="overline">{`${revision.folio}`}</Typography>
+        </Typography>
         <Typography variant="subtitle2">
           Encargado:{" "}
           <Typography variant="overline">{`${revision.encargado.nombre} ${revision.encargado.apellido}`}</Typography>
@@ -49,7 +56,7 @@ function CardRevision({ revision }) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button variant="contained" color="primary">
+        <Button onClick={handleDescargar} variant="contained" color="primary">
           Descargar reporte
         </Button>
       </CardActions>

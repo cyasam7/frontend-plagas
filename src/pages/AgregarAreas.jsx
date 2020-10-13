@@ -5,7 +5,7 @@ import { useLocation, useHistory } from "react-router-dom";
 import { useModal } from "../Context/modal-context";
 import Axios from "axios";
 function AgregarAreas() {
-  const history = useHistory();
+
   const { setLoading } = useModal();
   const [nombreArea, setNombreArea] = useState("");
   const [error, setError] = useState(false);
@@ -24,7 +24,7 @@ function AgregarAreas() {
     };
     try {
       await Axios.post("/area", area);
-    history.push("/areas");
+      setNombreArea("");
     } catch (error) {
       setError(true)
     } finally{

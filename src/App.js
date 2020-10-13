@@ -1,7 +1,7 @@
 import React from "react";
-import { Switch, BrowserRouter, Route } from "react-router-dom";
-import Login from "./pages/Login";
-import Layout from "./components/Layout";
+import { useUser } from "./Context/user-context";
+import { CircularProgress, Grid } from "@material-ui/core";
+import { Switch, BrowserRouter, Route} from "react-router-dom";
 
 import Usuarios from "./pages/Usuarios";
 import AgregarUsuarios from "./pages/AgregarUsuarios";
@@ -30,14 +30,13 @@ import GraficasAnual from "./pages/GraficasAnual";
 import Historial from "./pages/Historial";
 import PrivateRoute from "./components/PrivateRoute";
 
+import Login from "./pages/Login";
+import Layout from "./components/Layout";
 
 import Cliente from "./pages/Cliente";
 
-import { useUser } from "./Context/user-context";
-import { CircularProgress, Grid } from "@material-ui/core";
 function App() {
-  const { loading, isCliente } = useUser();
-  console.log(isCliente);
+  const { loading } = useUser();
   if (loading) {
     return (
       <Grid
@@ -51,86 +50,84 @@ function App() {
     );
   }
   return (
-    <BrowserRouter>
-      <Switch>
-        <Route exact path="/">
-          <Login />
-        </Route>
-        {isCliente ? (
+    <>
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/">
+            <Login />
+          </Route>
           <PrivateRoute exact path="/Cliente">
             <Cliente />
           </PrivateRoute>
-        ) : (
-          <>
-            <Layout>
-              <PrivateRoute exact path="/usuarios">
-                <Usuarios />
-              </PrivateRoute>
-              <PrivateRoute exact path="/usuarios/agregar">
-                <AgregarUsuarios />
-              </PrivateRoute>
-              <PrivateRoute exact path="/usuarios/editar/:idUsuario">
-                <EditarUsuarios />
-              </PrivateRoute>
-              <PrivateRoute exact path="/empresas">
-                <Empresas />
-              </PrivateRoute>
-              <PrivateRoute exact path="/empresas/agregar">
-                <AgregarEmpresas />
-              </PrivateRoute>
-              <PrivateRoute exact path="/empresas/editar/:idEmpresa">
-                <EditarEmpresas />
-              </PrivateRoute>
-              <PrivateRoute exact path="/empresas/agregar/contacto/:idEmpresa">
-                <AgregarContactoEmpresa />
-              </PrivateRoute>
-              <PrivateRoute exact path="/empresas/trabajadores/:idEmpresa">
-                <ContactoEmpresa />
-              </PrivateRoute>
-              <PrivateRoute exact path="/empresas/editar/contacto/:idUsuario">
-                <EditarContactoEmpresa />
-              </PrivateRoute>
-              <PrivateRoute exact path="/areas/">
-                <Areas />
-              </PrivateRoute>
-              <PrivateRoute exact path="/areas/agregar">
-                <AgregarAreas />
-              </PrivateRoute>
-              <PrivateRoute exact path="/areas/editar/:idArea">
-                <EditarAreas />
-              </PrivateRoute>
-              <PrivateRoute exact path="/estaciones/">
-                <Estaciones />
-              </PrivateRoute>
-              <PrivateRoute exact path="/estaciones/agregar">
-                <AgregarEstaciones />
-              </PrivateRoute>
-              <PrivateRoute exact path="/estaciones/editar/:idEstacion">
-                <EditarEstaciones />
-              </PrivateRoute>
-              <PrivateRoute exact path="/QRList/:idEmpresa/:idArea">
-                <QRList />
-              </PrivateRoute>
-              <PrivateRoute exact path="/historial">
-                <Historial />
-              </PrivateRoute>
-              <PrivateRoute exact path="/Graficas">
-                <Graficas />
-              </PrivateRoute>
-              <PrivateRoute exact path="/Graficas/mes/:idEmpresa">
-                <GraficasMes />
-              </PrivateRoute>
-              <PrivateRoute exact path="/Graficas/anual/:idEmpresa">
-                <GraficasAnual />
-              </PrivateRoute>
-            </Layout>
-          </>
-        )}
-        <PrivateRoute>
-          <></>
-        </PrivateRoute>
-      </Switch>
-    </BrowserRouter>
+          <Layout>
+            <PrivateRoute exact path="/usuarios">
+              <Usuarios />
+            </PrivateRoute>
+            <PrivateRoute exact path="/usuarios/agregar">
+              <AgregarUsuarios />
+            </PrivateRoute>
+            <PrivateRoute exact path="/usuarios/editar/:idUsuario">
+              <EditarUsuarios />
+            </PrivateRoute>
+            <PrivateRoute exact path="/empresas">
+              <Empresas />
+            </PrivateRoute>
+            <PrivateRoute exact path="/empresas/agregar">
+              <AgregarEmpresas />
+            </PrivateRoute>
+            <PrivateRoute exact path="/empresas/editar/:idEmpresa">
+              <EditarEmpresas />
+            </PrivateRoute>
+            <PrivateRoute exact path="/empresas/agregar/contacto/:idEmpresa">
+              <AgregarContactoEmpresa />
+            </PrivateRoute>
+            <PrivateRoute exact path="/empresas/trabajadores/:idEmpresa">
+              <ContactoEmpresa />
+            </PrivateRoute>
+            <PrivateRoute exact path="/empresas/editar/contacto/:idUsuario">
+              <EditarContactoEmpresa />
+            </PrivateRoute>
+            <PrivateRoute exact path="/areas/">
+              <Areas />
+            </PrivateRoute>
+            <PrivateRoute exact path="/areas/agregar">
+              <AgregarAreas />
+            </PrivateRoute>
+            <PrivateRoute exact path="/areas/editar/:idArea">
+              <EditarAreas />
+            </PrivateRoute>
+            <PrivateRoute exact path="/estaciones/">
+              <Estaciones />
+            </PrivateRoute>
+            <PrivateRoute exact path="/estaciones/agregar">
+              <AgregarEstaciones />
+            </PrivateRoute>
+            <PrivateRoute exact path="/estaciones/editar/:idEstacion">
+              <EditarEstaciones />
+            </PrivateRoute>
+            <PrivateRoute exact path="/QRList/:idEmpresa/:idArea">
+              <QRList />
+            </PrivateRoute>
+            <PrivateRoute exact path="/historial">
+              <Historial />
+            </PrivateRoute>
+            <PrivateRoute exact path="/Graficas">
+              <Graficas />
+            </PrivateRoute>
+            <PrivateRoute exact path="/Graficas/mes/:idEmpresa">
+              <GraficasMes />
+            </PrivateRoute>
+            <PrivateRoute exact path="/Graficas/anual/:idEmpresa">
+              <GraficasAnual />
+            </PrivateRoute>
+          </Layout>
+          <PrivateRoute>
+              <>
+              </>
+          </PrivateRoute>
+        </Switch>
+      </BrowserRouter>
+    </>
   );
 }
 

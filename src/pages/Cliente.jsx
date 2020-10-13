@@ -17,13 +17,16 @@ function Cliente() {
   const [Revisiones, setRevisiones] = useState([]);
 
   useEffect(() => {
+    console.log(user);
     async function initial() {
       const { data } = await Axios.get(`/empresaContacto/usuario/${user}`);
+      console.log(data);
       const final = await Axios.get(`/revision?empresa=${data.empresa._id}`);
       return final.data;
     }
     setLoading(true);
     initial().then((revisiones) => {
+      console.log(revisiones);
       setRevisiones(revisiones);
       setLoading(false);
     });

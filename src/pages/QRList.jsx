@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom";
 import CardQR from "../components/CardQR";
 import { Grid } from "@material-ui/core";
 import { Button } from "@material-ui/core";
+
 class App extends React.Component {
   state = {
     estaciones: [],
@@ -34,7 +35,7 @@ class App extends React.Component {
           color="primary"
           variant="outlined"
           onClick={() => {
-            this.pdfExportComponent.save();
+            this.pdfExportComponent.save()
           }}
         >
           Export PDF
@@ -42,7 +43,7 @@ class App extends React.Component {
 
         <PDFExport
           paperSize="A4"
-          margin="2cm"
+          margin="1cm"
           ref={(component) => (this.pdfExportComponent = component)}
         >
           <Grid container>

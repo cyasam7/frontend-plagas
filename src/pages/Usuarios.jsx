@@ -20,7 +20,9 @@ import {
   ErrorButton,
 } from "../components/Buttons";
 import { useModal } from "../Context/modal-context";
+import { useUser } from '../Context/user-context'
 function Usuarios() {
+  const {logOut} = useUser()
   const { setLoading } = useModal();
   const [openModal, setopenModal] = useState(false);
   const [user, setUser] = useState("");
@@ -35,9 +37,14 @@ function Usuarios() {
     setLoading(true);
     initUsuarios().then((usuarios) => {
       setusers(usuarios);
-      setLoading(false);
-    });
-  }, [setLoading]);
+    })
+    .catch(()=>{
+      logOut();
+    })
+    .finally(()=>{
+      setLoading(false)
+    })
+  }, [setLoading,logOut]);
   
 
   const handleDelete = async (e) => {

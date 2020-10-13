@@ -3,7 +3,7 @@ import { Route, Redirect } from "react-router-dom";
 import { useUser } from "../Context/user-context";
 
 function PrivateRoute({ children, ...rest }) {
-  const { auth, isCliente } = useUser();
+  const { auth } = useUser();
   return (
     <Route
       {...rest}
@@ -13,7 +13,7 @@ function PrivateRoute({ children, ...rest }) {
         ) : (
           <Redirect
             to={{
-              pathname: isCliente ? "/Cliente" : "/",
+              pathname: "/",
               state: { from: location },
             }}
           />

@@ -12,7 +12,10 @@ import Modal from "../components/Modal";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 import { useModal } from "../Context/modal-context";
+import { useUser } from "../Context/user-context";
+
 function Areas() {
+  const { logOut } = useUser();
   const { setLoading } = useModal();
   const [Empresas, setEmpresas] = useState([]);
   const [Empresa, setEmpresa] = useState("");
@@ -29,10 +32,18 @@ function Areas() {
       const { data } = await Axios.get("/empresa");
       return data;
     }
-    initialAreas().then((empresas) => {
-      setEmpresas(empresas);
-    });
-  }, []);
+    setLoading(true);
+    initialAreas()
+      .then((empresas) => {
+        setEmpresas(empresas);
+      })
+      .catch(() => {
+        logOut();
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [setLoading,logOut]);
 
   const handleBuscar = () => {
     if (Empresa === "") {

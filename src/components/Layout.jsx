@@ -19,7 +19,7 @@ import {
   AllInbox,
   Equalizer,
 } from "@material-ui/icons";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { useUser } from "../Context/user-context";
 const drawerWidth = 240;
 
@@ -69,6 +69,9 @@ export default function Layout({ children }) {
   const handleLogOut = () => {
     logOut();
   };
+  if (isCliente) {
+    return <Redirect to="Cliente" />;
+  }
   return (
     <div className={classes.root}>
       <CssBaseline />

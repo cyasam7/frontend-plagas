@@ -6,8 +6,10 @@ import CardEstacion from "../components/CardEstacion";
 import Axios from "axios";
 import Modal from "../components/Modal";
 import { useModal } from "../Context/modal-context";
+import { useUser } from "../Context/user-context";
 
 function Estaciones() {
+  const { logOut } = useUser();
   const { setLoading } = useModal();
   const [Clientes, setClientes] = useState([]);
   const [Areas, setAreas] = useState([]);
@@ -17,16 +19,31 @@ function Estaciones() {
   const [Cliente, setCliente] = useState("");
   const [Area, setArea] = useState("");
   const [openModal, setopenModal] = useState(false);
+  const [term, setTerm] = useState("");
 
   useEffect(() => {
     async function initial() {
       const { data } = await Axios.get("/empresa");
       return data;
     }
-    initial().then((resp) => {
-      setClientes(resp);
-    });
-  }, []);
+    setLoading(true);
+    initial()
+      .then((resp) => {
+        setClientes(resp);
+      })
+      .catch(() => {
+        logOut();
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [setLoading, logOut]);
+
+  const handleSearchEstacion = (term) => {
+    return function (x) {
+      return x.numero == term || !term;
+    };
+  };
 
   const handleListAreas = () => {
     if (Cliente === "") {
@@ -88,7 +105,11 @@ function Estaciones() {
             label="Empresa"
             helperText="Selecciona el nombre de la empresa o cliente"
             value={Cliente}
-            onChange={(e) => setCliente(e.target.value)}
+            onChange={(e) => {
+              setAreas([]);
+              setBuscar(false);
+              setCliente(e.target.value);
+            }}
           >
             {Clientes.map((option, index) => (
               <MenuItem key={index} value={option._id}>
@@ -97,6 +118,7 @@ function Estaciones() {
             ))}
           </TextField>
         </Grid>
+
         <Grid item xs={12} md={2}>
           <SuccessButton fullWidth onClick={handleListAreas}>
             Aceptar
@@ -113,7 +135,10 @@ function Estaciones() {
               label="Area"
               helperText="Selecciona el nombre del area para ver lista de estaciones"
               value={Area}
-              onChange={(e) => setArea(e.target.value)}
+              onChange={(e) => {
+                setBuscar(false);
+                setArea(e.target.value);
+              }}
             >
               {Areas.map((option, index) => (
                 <MenuItem key={index} value={option._id}>
@@ -140,26 +165,43 @@ function Estaciones() {
           >
             <SuccessButton fullWidth>Agregar</SuccessButton>
           </Link>
-          <Link to={`/QRList/${Cliente}/${Area}`}>
-            <SuccessButton fullWidth>Generar PDF de QR's</SuccessButton>
-          </Link>
+          {Estaciones.length > 0 ? (
+            <>
+              <Link to={`/QRList/${Cliente}/${Area}`}>
+                <SuccessButton fullWidth>Generar PDF de QR's</SuccessButton>
+              </Link>
+            </>
+          ) : null}
           <Typography align="center" variant="h5" gutterBottom>
             Lista de estaciones
           </Typography>
+
           <Grid container spacing={5}>
             {Estaciones.length > 0 ? (
               <>
-                {Estaciones.map((estacion, index) => (
-                  <Grid key={index} item md={5}>
-                    <CardEstacion
-                      handle={handleOpenModal}
-                      estacion={estacion}
-                    />
-                  </Grid>
-                ))}
+                <TextField
+                  margin="normal"
+                  variant="outlined"
+                  helperText="Busca por numero de estacion"
+                  placeholder="Numero de dispositivo"
+                  label="Busca por numero de estacion"
+                  fullWidth
+                  value={term}
+                  onChange={(texto) => setTerm(texto.target.value)}
+                />
+                {Estaciones.filter(handleSearchEstacion(term)).map(
+                  (estacion, index) => (
+                    <Grid key={index} item xs={12} md={5}>
+                      <CardEstacion
+                        handle={handleOpenModal}
+                        estacion={estacion}
+                      />
+                    </Grid>
+                  )
+                )}
               </>
             ) : (
-              <Grid container justify="center" style={{marginTop: 15}}>
+              <Grid container justify="center" style={{ marginTop: 15 }}>
                 <Grid item>
                   <Typography variant="subtitle2">
                     No hay ninguna estacion en esta area

@@ -4,35 +4,45 @@ import { SuccessButton } from "../components/Buttons";
 import Axios from "axios";
 import CardRevision from "../components/CardRevision";
 import { useModal } from "../Context/modal-context";
+import { useUser } from "../Context/user-context";
 
 function Historial() {
+  const { logOut } = useUser();
   const { setLoading } = useModal();
   const [Empresa, setEmpresa] = useState("");
   const [Empresas, setEmpresas] = useState([]);
   const [Historial, setHistorial] = useState([]);
   const [Error, setError] = useState(false);
-  
 
   useEffect(() => {
     async function init() {
       const { data } = await Axios.get("/empresa");
       return data;
     }
-    init().then((empresas) => {
-      setEmpresas(empresas);
-    });
-  }, []);
-  
+    setLoading(true);
+    init()
+      .then((empresas) => {
+        setEmpresas(empresas);
+        setLoading(false);
+      })
+      .catch(() => {
+        logOut();
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [setLoading,logOut]);
+
   const handleHistorial = async () => {
     setHistorial([]);
-    if ( Empresa === "") {
+    if (Empresa === "") {
       alert("Llenar los espacios correspondientes");
       setError(true);
       return;
     }
     setLoading(true);
-    const {data} = await Axios.get(`/revision?empresa=${Empresa}`);
-    setHistorial(data)
+    const { data } = await Axios.get(`/revision?empresa=${Empresa}`);
+    setHistorial(data);
     setError(false);
     setLoading(false);
   };
@@ -63,7 +73,7 @@ function Historial() {
           </SuccessButton>
         </Grid>
       </Grid>
-      <Grid container spacing={2} style={{marginTop: 15}}>
+      <Grid container spacing={2} style={{ marginTop: 15 }}>
         {Historial.length > 0 ? (
           <>
             {Historial.map((review, index) => (
@@ -72,9 +82,7 @@ function Historial() {
               </Grid>
             ))}
           </>
-        ) : (
-          null
-        )}
+        ) : null}
       </Grid>
     </>
   );

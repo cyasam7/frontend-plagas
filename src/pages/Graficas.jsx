@@ -8,21 +8,34 @@ import {
 } from "@material-ui/core";
 import Axios from "axios";
 import { useHistory } from "react-router-dom";
+import { useModal } from "../Context/modal-context";
+import { useUser } from "../Context/user-context";
 
 function Graficas() {
+  const { logOut } = useUser();
   const history = useHistory();
+  const { setLoading } = useModal();
   const [Empresa, setEmpresa] = useState("");
   const [Empresas, setEmpresas] = useState([]);
-  
+
   useEffect(() => {
     async function init() {
       const { data } = await Axios.get("/empresa");
       return data;
     }
-    init().then((empresas) => {
-      setEmpresas(empresas);
-    });
-  }, []);
+    setLoading(true);
+    init()
+      .then((empresas) => {
+        setEmpresas(empresas);
+        setLoading(false);
+      })
+      .catch(() => {
+        logOut();
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [setLoading,logOut]);
   const handleMes = () => {
     if (Empresa === "") {
       alert("Campos Vacios");
