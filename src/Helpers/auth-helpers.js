@@ -11,7 +11,7 @@ export function deleteToken(){
     sessionStorage.clear();
 }
 export function initAxios(){
-    Axios.defaults.baseURL = "https://157.245.242.243:4000/";
+    Axios.defaults.baseURL = "https://ellaurelrd.com/api";
     Axios.interceptors.request.use((config)=>{
         if(getToken()){
             config.headers.Authorization = `Bearer ${getToken()}`;
