@@ -33,6 +33,8 @@ function EditarEmpresa() {
       history.goBack();
     } catch (error) {
       setError(true)
+      history.goBack();
+      alert("No se actualizo, datos no validos")
     } finally{
       setLoading(false)
     }

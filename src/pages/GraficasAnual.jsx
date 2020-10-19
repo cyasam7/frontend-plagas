@@ -198,7 +198,6 @@ function GraficasAnual() {
       return;
     }
     const { data } = await Axios.post(`/graficas/ano/${idEmpresa}`, {tipo: Tipo});
-    console.log(data);
     if (Tipo === "Voladores") {
       const labels = data.map((area) => {
         return area.año;

@@ -34,7 +34,7 @@ function Empresas() {
 
   const handleSearchFilter = (cliente) => {
     return function (x) {
-      return x.noCliente.includes(cliente) || !cliente;
+      return x.noCliente == (cliente) || !cliente;
     };
   };
 

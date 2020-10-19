@@ -205,7 +205,6 @@ function GraficasMes() {
       tipo: Tipo,
     };
     const { data } = await Axios.post(`/graficas/mes/${idEmpresa}`, grafica);
-    console.log(data);
     if (Tipo === "Voladores") {
       const labels = data.map((area) => {
         return area.nombre;

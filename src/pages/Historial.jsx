@@ -5,7 +5,7 @@ import Axios from "axios";
 import CardRevision from "../components/CardRevision";
 import { useModal } from "../Context/modal-context";
 import { useUser } from "../Context/user-context";
-
+import moment from "moment"
 function Historial() {
   const { logOut } = useUser();
   const { setLoading } = useModal();
@@ -13,6 +13,8 @@ function Historial() {
   const [Empresas, setEmpresas] = useState([]);
   const [Historial, setHistorial] = useState([]);
   const [Error, setError] = useState(false);
+  const [fecha, setFecha] = useState("");
+
 
   useEffect(() => {
     async function init() {
@@ -31,22 +33,23 @@ function Historial() {
       .finally(() => {
         setLoading(false);
       });
-  }, [setLoading,logOut]);
+  }, [setLoading, logOut]);
 
   const handleHistorial = async () => {
     setHistorial([]);
-    if (Empresa === "") {
+    if (Empresa === "" || fecha === "") {
       alert("Llenar los espacios correspondientes");
       setError(true);
       return;
     }
     setLoading(true);
-    const { data } = await Axios.get(`/revision?empresa=${Empresa}`);
+    const año = moment(fecha).format("YYYY");
+    const mes = moment(fecha).format("MMMM");
+    const { data } = await Axios.get(`/revision?empresa=${Empresa}&ano=${año}&mes=${mes}`);
     setHistorial(data);
     setError(false);
     setLoading(false);
   };
-
   return (
     <>
       <Typography variant="subtitle2">Historial de Empresa</Typography>
@@ -71,6 +74,18 @@ function Historial() {
           <SuccessButton onClick={handleHistorial} fullWidth>
             Seleccionar
           </SuccessButton>
+        </Grid>
+      </Grid>
+      <Grid container>
+      <Grid item md={10} xs={12}>
+          <TextField
+            fullWidth
+            value={fecha}
+            type="month"
+            label=""
+            onChange={(e) => setFecha(e.target.value)}
+            helperText="Seleccione mes y año"
+          />
         </Grid>
       </Grid>
       <Grid container spacing={2} style={{ marginTop: 15 }}>

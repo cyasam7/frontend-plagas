@@ -14,12 +14,15 @@ function FormEmpresas({ error, empresa, handle }) {
     }
   }, [empresa]);
 
-  const handleAgregarEmpresa = () => {
+  const handleAgregarEmpresa = async () => {
     const empresa = {
       nombre,
       noCliente: codigo,
     };
-    handle(empresa);
+
+    await handle(empresa);
+    setNombre("");
+    setCodigo("");
   };
 
   return (

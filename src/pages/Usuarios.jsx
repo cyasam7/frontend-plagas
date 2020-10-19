@@ -20,42 +20,43 @@ import {
   ErrorButton,
 } from "../components/Buttons";
 import { useModal } from "../Context/modal-context";
-import { useUser } from '../Context/user-context'
+import { useUser } from "../Context/user-context";
 function Usuarios() {
-  const {logOut} = useUser()
+  const { logOut } = useUser();
   const { setLoading } = useModal();
   const [openModal, setopenModal] = useState(false);
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState({});
   const [users, setusers] = useState([]);
 
   useEffect(() => {
     async function initUsuarios() {
-      const data = await Axios.get("/usuarios?tipo_usuario=Gerente&tipo_usuario=Supervisor&tipo_usuario=Tecnico");
+      const data = await Axios.get(
+        "/usuarios?tipo_usuario=Gerente&tipo_usuario=Supervisor&tipo_usuario=Tecnico&isTrabajando=true"
+      );
       const usuarios = data.data;
       return usuarios;
     }
     setLoading(true);
-    initUsuarios().then((usuarios) => {
-      setusers(usuarios);
-    })
-    .catch(()=>{
-      logOut();
-    })
-    .finally(()=>{
-      setLoading(false)
-    })
-  }, [setLoading,logOut]);
-  
+    initUsuarios()
+      .then((usuarios) => {
+        setusers(usuarios);
+      })
+      .catch(() => {
+        logOut();
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [setLoading, logOut]);
 
   const handleDelete = async (e) => {
     e.preventDefault();
-    const URI = `/usuarios/${user}`;
-    await Axios.delete(URI).then(() => {
-      const newUsers = users.filter((usr) => usr._id !== user);
-      setusers(newUsers)
-      setopenModal(false);
-      setUser("");
-    });
+    user.isTrabajando = false;
+    await Axios.patch(`/usuarios/${user._id}`,user);
+    const newUsers = users.filter((usr) => usr._id !== user._id);
+    setusers(newUsers);
+    setopenModal(false);
+    setUser("");
   };
 
   return (
@@ -98,7 +99,7 @@ function Usuarios() {
                   <ErrorButton
                     onClick={() => {
                       setopenModal(true);
-                      setUser(user._id);
+                      setUser(user);
                     }}
                     fullWidth
                   >

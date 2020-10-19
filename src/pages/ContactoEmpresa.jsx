@@ -23,7 +23,7 @@ function ContactoEmpresa() {
   const { setLoading } = useModal();
   const { idEmpresa } = useParams();
   const [usuarios, setUsuarios] = useState([]);
-  const [usuario, setUsuario] = useState("");
+  const [empresaContacto, setEmpresaContacto] = useState("");
   const [openModal, setopenModal] = useState(false);
 
   useEffect(() => {
@@ -33,8 +33,7 @@ function ContactoEmpresa() {
     }
     setLoading(true);
     initial().then((data) => {
-      const usuarios = data.map((empresa) => empresa.usuario);
-      setUsuarios(usuarios);
+      setUsuarios(data);
       setLoading(false);
     });
   }, [idEmpresa,setLoading]);
@@ -42,10 +41,10 @@ function ContactoEmpresa() {
   const handleDeleteContactoEmpresa = async () => {
     setLoading(true);
     try {
-      await Axios.delete(`/empresaContacto/${usuario}`);
-      const newUsuarios = usuarios.filter((user) => user._id !== usuario);
-      setUsuarios(newUsuarios);
-      setUsuario("");
+      await Axios.delete(`/empresaContacto/${empresaContacto}`);
+      const newUsuarios = usuarios.filter((user) => user._id !== empresaContacto);
+      setUsuarios(newUsuarios)
+      setEmpresaContacto("")
     } catch (error) {
     } finally {
       setLoading(false);
@@ -84,16 +83,16 @@ function ContactoEmpresa() {
             <TableBody>
               {usuarios.map((user, index) => (
                 <TableRow key={index}>
-                  <TableCell>{user.nombre}</TableCell>
-                  <TableCell>{user.apellido}</TableCell>
-                  <TableCell>{user.email}</TableCell>
-                  <TableCell>{user.telefono}</TableCell>
-                  <TableCell>{user.tipo_usuario}</TableCell>
+                  <TableCell>{user.usuario.nombre}</TableCell>
+                  <TableCell>{user.usuario.apellido}</TableCell>
+                  <TableCell>{user.usuario.email}</TableCell>
+                  <TableCell>{user.usuario.telefono}</TableCell>
+                  <TableCell>{user.usuario.tipo_usuario}</TableCell>
                   <TableCell>
                     <ErrorButton
                       onClick={() => {
                         setopenModal(true);
-                        setUsuario(user._id);
+                        setEmpresaContacto(user._id);
                       }}
                       fullWidth
                     >

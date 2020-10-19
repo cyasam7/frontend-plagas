@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { TextField, Grid, Typography } from "@material-ui/core";
 import { SuccessButton } from "../components/Buttons";
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useModal } from "../Context/modal-context";
 import Axios from "axios";
 function AgregarAreas() {

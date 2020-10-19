@@ -6,39 +6,52 @@ import {
   Button,
   AppBar,
   Grid,
+  TextField
 } from "@material-ui/core";
 import { useUser } from "../Context/user-context";
 import Axios from "axios";
 import CardRevision from "../components/CardRevision";
 import { useModal } from "../Context/modal-context";
+import moment from 'moment';
 function Cliente() {
   const { setLoading } = useModal();
   const { logOut, user } = useUser();
   const [Revisiones, setRevisiones] = useState([]);
-
+  const [fecha, setFecha] = useState("");
+  const [empresa, setEmpresa] = useState("");
   useEffect(() => {
     console.log(user);
     async function initial() {
       const { data } = await Axios.get(`/empresaContacto/usuario/${user}`);
-      console.log(data);
-      const final = await Axios.get(`/revision?empresa=${data.empresa._id}`);
-      return final.data;
+      return data
     }
     setLoading(true);
-    initial().then((revisiones) => {
-      console.log(revisiones);
-      setRevisiones(revisiones);
+    initial().then((data) => {
+      setEmpresa(data.empresa._id)
       setLoading(false);
     });
-  }, [setLoading,user]);
+  }, [setLoading, user]);
 
+  const handleBuscarRevisiones = async () =>{
+    setLoading(true)
+    if(fecha === ""){
+      alert("Llenar los datos")
+      setLoading(false)
+      return;
+    }
+    const año = moment(fecha).format("YYYYY")
+    const mes = moment(fecha).format("MMMMM")
+    const revisiones = await Axios.get(`/revision?mes=${mes}&ano=${año}&empresa=${empresa}`);
+    setRevisiones(revisiones);
+    setLoading(false)
+  }
   return (
     <>
       <AppBar position="static">
         <Toolbar>
           <Grid container justify={"space-between"}>
             <Grid item>
-              <Typography variant="h6" /* className={classes.title} */>
+              <Typography variant="h6">
                 Tu historial
               </Typography>
             </Grid>
@@ -54,6 +67,23 @@ function Cliente() {
         <Typography variant="h4" align="center" gutterBottom>
           Lista
         </Typography>
+        <Grid container  spacing={2}>
+          <Grid item xs={12} md={10}>
+            <TextField
+              fullWidth
+              value={fecha}
+              type="month"
+              label=""
+              onChange={(e) => setFecha(e.target.value)}
+              helperText="Seleccione mes y año"
+            />
+          </Grid>
+          <Grid item xs={12} md={2}>
+            <Button onClick={handleBuscarRevisiones} variant="contained" fullWidth color="primary">
+              Buscar
+            </Button>
+          </Grid>
+        </Grid>
         <Grid container spacing={5}>
           {Revisiones.length > 0 ? (
             <>
