@@ -43,6 +43,13 @@ function Graficas() {
     }
     history.push(`/graficas/mes/${Empresa}`);
   };
+  const handleAnualArea = () => {
+    if (Empresa === "") {
+      alert("Campos Vacios");
+      return;
+    }
+    history.push(`/graficas/año/area/${Empresa}`);
+  };
   const handleAnual = () => {
     if (Empresa === "") {
       alert("Campos Vacios");
@@ -76,7 +83,7 @@ function Graficas() {
       </Grid>
       <br />
       <Grid container spacing={2}>
-        <Grid item xs={12} md={6}>
+      <Grid item xs={12}>
           <Button
             onClick={handleMes}
             variant="contained"
@@ -86,7 +93,17 @@ function Graficas() {
             Grafica Mensual
           </Button>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12}>
+          <Button
+            onClick={handleAnualArea}
+            variant="contained"
+            color="primary"
+            fullWidth
+          >
+            Grafica anual por areas
+          </Button>
+        </Grid>
+        <Grid item xs={12}>
           <Button
             onClick={handleAnual}
             variant="contained"

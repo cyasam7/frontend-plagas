@@ -25,6 +25,7 @@ import QRList from "./pages/QRList";
 
 import Graficas from "./pages/Graficas";
 import GraficasMes from "./pages/GraficasMes";
+import GraficasAñoArea from "./pages/GraficasAñoArea";
 import GraficasAnual from "./pages/GraficasAnual";
 
 import Historial from "./pages/Historial";
@@ -116,6 +117,9 @@ function App() {
             </PrivateRoute>
             <PrivateRoute exact path="/Graficas/mes/:idEmpresa">
               <GraficasMes />
+            </PrivateRoute>
+            <PrivateRoute exact path="/Graficas/año/area/:idEmpresa">
+              <GraficasAñoArea />
             </PrivateRoute>
             <PrivateRoute exact path="/Graficas/anual/:idEmpresa">
               <GraficasAnual />
