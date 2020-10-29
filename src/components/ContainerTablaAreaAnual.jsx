@@ -6,9 +6,6 @@ function ContainerTablaAreaAnual({ revision, tipo }) {
   return (
     <>
       <div>
-        <Typography variant="h4" align="center" gutterBottom>
-          {revision.area}
-        </Typography>
         {tipo === "Voladores" ? (
           <>
               <TableAreaAnualVolador  año={revision} titulo={"moscas"} />

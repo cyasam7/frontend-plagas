@@ -18,7 +18,7 @@ function TableAreaAnual({ año, titulo }) {
     datasets: año.año.map((año) => {
       return {
         label: año.año,
-        backgroundColor: `#a0d8d8`,
+        backgroundColor: `rgb(${Math.random() * (250 -1)+1},${Math.random() * (250 -1)+1},${Math.random() * (250 -1)+1})`.toString(),
         borderColor: "rgb(255, 255, 255)",
         borderWidth: 1,
         hoverBackgroundColor: "rgba(255,99,132,0.4)",
@@ -30,6 +30,9 @@ function TableAreaAnual({ año, titulo }) {
   return (
     <>
       <Grid container>
+        <Typography variant="h3" align="center" gutterBottom>
+          {año.area}
+        </Typography>
         <Grid item xs={12}>
           <TableContainer component={Paper} style={{ marginBottom: 15 }}>
             <Table size="small" aria-label="a dense table">

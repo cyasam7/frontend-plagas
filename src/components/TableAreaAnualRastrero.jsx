@@ -10,7 +10,7 @@ import {
   Typography,
   Paper,
 } from "@material-ui/core";
-import { HorizontalBar } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 
 function TableAreaAnual({ año, titulo }) {
   const data = {
@@ -18,7 +18,7 @@ function TableAreaAnual({ año, titulo }) {
     datasets: año.año.map((año) => {
       return {
         label: año.año,
-        backgroundColor: `#8cafc7`,
+        backgroundColor: `rgb(${Math.random() * (250 -1)+1},${Math.random() * (250 -1)+1},${Math.random() * (250 -1)+1})`.toString(),
         borderColor: "rgb(255, 255, 255)",
         borderWidth: 1,
         hoverBackgroundColor: "rgba(255,99,132,0.4)",
@@ -30,6 +30,9 @@ function TableAreaAnual({ año, titulo }) {
   return (
     <>
       <Grid container>
+      <Typography variant="h4" align="center" gutterBottom>
+          {año.area}
+        </Typography>
         <Grid item xs={12}>
           <TableContainer component={Paper} style={{ marginBottom: 15 }}>
             <Table size="small" aria-label="a dense table">
@@ -64,7 +67,7 @@ function TableAreaAnual({ año, titulo }) {
       </Grid>
       <Grid container>
         <Grid item xs={12}>
-          <HorizontalBar
+          <Bar
             plugins={{
               datalabels: {
                 display: (ctx) => {

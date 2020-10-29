@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   Grid,
-  Typography,
   TextField,
   MenuItem,
   Button,
@@ -11,7 +10,6 @@ import Axios from "axios";
 import ContainerTablaAreaAnual from "../components/ContainerTablaAreaAnual";
 import { useParams } from "react-router-dom";
 import "chartjs-plugin-datalabels";
-
 function GraficasAñoAnual() {
   const [revisiones, setRevisiones] = useState([]);
   const { idEmpresa } = useParams();
@@ -110,11 +108,7 @@ function GraficasAñoAnual() {
                         key={index}
                         revision={revision}
                       />
-                      <hr />
-                      <br />
-                      <br />
-                      <br />
-                      <br />
+
                     </>
                   ))}
                 </>
