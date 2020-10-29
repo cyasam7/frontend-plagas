@@ -10,7 +10,7 @@ import { WarningButton, ErrorButton } from "../components/Buttons";
 import { Link } from "react-router-dom";
 function CardArea({ area, eliminar }) {
   const handleEliminar = () => {
-    eliminar(area._id);
+    eliminar(area);
   };
   return (
     <Box m={1}>

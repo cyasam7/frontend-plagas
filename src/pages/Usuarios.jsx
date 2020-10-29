@@ -56,7 +56,7 @@ function Usuarios() {
     const newUsers = users.filter((usr) => usr._id !== user._id);
     setusers(newUsers);
     setopenModal(false);
-    setUser("");
+    setUser({});
   };
 
   return (

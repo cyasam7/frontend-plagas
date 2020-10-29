@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Bar,HorizontalBar } from "react-chartjs-2";
+import { Bar, HorizontalBar } from "react-chartjs-2";
 import {
   Grid,
   TextField,
@@ -12,7 +12,11 @@ import moment from "moment";
 import Axios from "axios";
 import { useParams } from "react-router-dom";
 import "chartjs-plugin-datalabels";
+import TableRastrero from "../components/TableRastrero";
+import TablaVoladores from "../components/TablaVoladores";
+
 function GraficasMes() {
+  
   const { idEmpresa } = useParams();
   const [Mes, setMes] = useState("");
   const [Tipo, setTipo] = useState("");
@@ -35,6 +39,7 @@ function GraficasMes() {
   const [ciempies, setCiempies] = useState([]);
   const [alacran, setAlacran] = useState([]);
   const [ver, setVer] = useState(false);
+  const [revisiones, setRevisiones] = useState([]);
 
   let pdfExportComponent;
   const estations = [
@@ -204,15 +209,18 @@ function GraficasMes() {
       año: moment(Mes).format("YYYY"),
       tipo: Tipo,
     };
-    const { data } = await Axios.post(`/graficas/mes/${idEmpresa}`, grafica);
+    const {
+      data: { graficas, modelados}, 
+    } = await Axios.post(`/graficas/mes/${idEmpresa}`, grafica);
+    setRevisiones(modelados)
     if (Tipo === "Voladores") {
-      const labels = data.map((area) => {
+      const labels = graficas.map((area) => {
         return area.nombre;
       });
-      const abejas = data.map((area) => {
+      const abejas = graficas.map((area) => {
         return area.abeja;
       });
-      const mosca = data.map((area) => {
+      const mosca = graficas.map((area) => {
         return area.mosca;
       });
       setVolador(true);
@@ -220,46 +228,46 @@ function GraficasMes() {
       setAbejas(abejas);
       setMoscas(mosca);
     } else {
-      const labels = data.map((area) => {
+      const labels = graficas.map((area) => {
         return area.nombre;
       });
-      const tijerilla = data.map((area) => {
+      const tijerilla = graficas.map((area) => {
         return area.tijerilla;
       });
-      const roedor = data.map((area) => {
+      const roedor = graficas.map((area) => {
         return area.roedor;
       });
-      const frailecillos = data.map((area) => {
+      const frailecillos = graficas.map((area) => {
         return area.frailecillos;
       });
-      const mosca = data.map((area) => {
+      const mosca = graficas.map((area) => {
         return area.mosca;
       });
-      const pinacate = data.map((area) => {
+      const pinacate = graficas.map((area) => {
         return area.pinacate;
       });
-      const cochinilla = data.map((area) => {
+      const cochinilla = graficas.map((area) => {
         return area.cochinilla;
       });
-      const cucarachaAmericana = data.map((area) => {
+      const cucarachaAmericana = graficas.map((area) => {
         return area.cucarachaAmericana;
       });
-      const cucarachaAlemana = data.map((area) => {
+      const cucarachaAlemana = graficas.map((area) => {
         return area.cucarachaAlemana;
       });
-      const araña = data.map((area) => {
+      const araña = graficas.map((area) => {
         return area.araña;
       });
-      const grillo = data.map((area) => {
+      const grillo = graficas.map((area) => {
         return area.grillo;
       });
-      const hormiga = data.map((area) => {
+      const hormiga = graficas.map((area) => {
         return area.hormiga;
       });
-      const ciempies = data.map((area) => {
+      const ciempies = graficas.map((area) => {
         return area.ciempies;
       });
-      const alacran = data.map((area) => {
+      const alacran = graficas.map((area) => {
         return area.alacran;
       });
 
@@ -305,7 +313,7 @@ function GraficasMes() {
             select
             label="Selecciona"
             value={Tipo}
-            onChange={(e) => setTipo(e.target.value)}
+            onChange={(e) =>{ setVer(false); setTipo(e.target.value)}}
             helperText="Seleccione tipo de estacion"
           >
             {estations.map((option, index) => (
@@ -349,19 +357,26 @@ function GraficasMes() {
             paperSize="A4"
             scale={0.7}
             margin="1cm"
-            fileName={`${moment(Mes).format("MMMM")}-${
-              volador ? "Voladores" : "Rastreros"
-            }`}
+            fileName={`${moment(Mes).format("MMMM")}-reporte`}
             landscape={true}
             ref={(component) => (pdfExportComponent = component)}
           >
             <Grid container justify="center">
               <Grid item>
                 <Typography variant="h4" gutterBottom>
-                  Graficas 
+                  Reporte
                 </Typography>
               </Grid>
             </Grid>
+            {Tipo === "Rastreros" ? 
+              <>
+              {
+                revisiones.map((revision)=><TableRastrero revision={revision}/>)
+              }
+              </>
+            : revisiones.map((revision)=> <TablaVoladores revision={revision}/>)
+
+            }
             <Grid container>
               <Grid item xs={12}>
                 <HorizontalBar
