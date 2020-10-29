@@ -11,8 +11,8 @@ export function deleteToken(){
     sessionStorage.clear();
 }
 export function initAxios(){
-    /* Axios.defaults.baseURL = "https://ellaurelrd.com/api"; */
-    Axios.defaults.baseURL = "http://localhost:4000/api";
+    Axios.defaults.baseURL = "https://ellaurelrd.com/api";
+    /* Axios.defaults.baseURL = "http://localhost:4000/api"; */
     Axios.interceptors.request.use((config)=>{
         if(getToken()){
             config.headers.Authorization = `Bearer ${getToken()}`;
