@@ -21,7 +21,7 @@ function Areas() {
   const [Empresa, setEmpresa] = useState("");
 
   const [Areas, setAreas] = useState([]);
-  const [Area, setArea] = useState({});
+  const [Area, setArea] = useState("");
 
   const [OpenModal, setOpenModal] = useState(false);
   const [buscado, setbuscado] = useState(false);
@@ -63,9 +63,8 @@ function Areas() {
   };
 
   const handleEliminar = () => {
-    Area.borrado = true
-    Axios.patch(`/area/${Area._id}`,Area).then(() => {
-      const newAreas = Areas.filter((area) => area._id !== Area._id);
+    Axios.delete(`/area/${Area}`).then(() => {
+      const newAreas = Areas.filter((area) => area._id !== Area);
       setAreas(newAreas);
       setArea({});
       setOpenModal(false);

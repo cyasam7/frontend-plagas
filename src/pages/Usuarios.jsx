@@ -25,7 +25,7 @@ function Usuarios() {
   const { logOut } = useUser();
   const { setLoading } = useModal();
   const [openModal, setopenModal] = useState(false);
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState("");
   const [users, setusers] = useState([]);
 
   useEffect(() => {
@@ -51,9 +51,8 @@ function Usuarios() {
 
   const handleDelete = async (e) => {
     e.preventDefault();
-    user.isTrabajando = false;
-    await Axios.patch(`/usuarios/${user._id}`,user);
-    const newUsers = users.filter((usr) => usr._id !== user._id);
+    await Axios.delete(`/usuarios/${user}`);
+    const newUsers = users.filter((usr) => usr._id !== user);
     setusers(newUsers);
     setopenModal(false);
     setUser({});
@@ -99,7 +98,7 @@ function Usuarios() {
                   <ErrorButton
                     onClick={() => {
                       setopenModal(true);
-                      setUser(user);
+                      setUser(user._id);
                     }}
                     fullWidth
                   >
