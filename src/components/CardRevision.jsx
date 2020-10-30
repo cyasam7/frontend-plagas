@@ -18,29 +18,7 @@ function CardRevision({ revision }) {
           <Typography variant="overline">{`${revision.folio}`}</Typography>
         </Typography>
         <Typography variant="subtitle2">
-          Encargado:{" "}
-          <Typography variant="overline">{`${revision.encargado.nombre} ${revision.encargado.apellido}`}</Typography>
-        </Typography>
-        <Typography variant="subtitle2">
-          Trabajador:{" "}
-          <Typography variant="overline">{`${revision.usuario.nombre} ${revision.usuario.apellido}`}</Typography>
-        </Typography>
-        <Typography variant="subtitle2">
           Aval: <Typography variant="overline">{`${revision.aval}`}</Typography>
-        </Typography>
-        <Typography variant="subtitle2">
-          Empresa:{" "}
-          <Typography variant="overline">{revision.empresa.nombre}</Typography>
-        </Typography>
-        <Typography variant="subtitle2">
-          noCliente:{" "}
-          <Typography variant="overline">
-            {revision.empresa.noCliente}
-          </Typography>
-        </Typography>
-        <Typography variant="subtitle2">
-          Numero de Areas:{" "}
-          <Typography variant="overline">{revision.areas.length}</Typography>
         </Typography>
         <Typography variant="subtitle2">
           Fecha:{" "}
