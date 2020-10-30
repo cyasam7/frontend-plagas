@@ -14,7 +14,7 @@ function Estaciones() {
   const [Clientes, setClientes] = useState([]);
   const [Areas, setAreas] = useState([]);
   const [Estaciones, setEstaciones] = useState([]);
-  const [Estacion, setEstacion] = useState({});
+  const [Estacion, setEstacion] = useState("");
   const [buscar, setBuscar] = useState(false);
   const [Cliente, setCliente] = useState("");
   const [Area, setArea] = useState("");
@@ -50,7 +50,7 @@ function Estaciones() {
       alert("Un espacio vacio");
       return;
     }
-    Axios.get(`/area?empresa=${Cliente}&borrado=false`).then(({ data }) => {
+    Axios.get(`/area?empresa=${Cliente}`).then(({ data }) => {
       setAreas(data);
     });
   };
@@ -61,7 +61,7 @@ function Estaciones() {
     }
     setLoading(true);
     const { data } = await Axios.get(
-      `/estacion?empresa=${Cliente}&area=${Area}&borrado=false`
+      `/estacion?empresa=${Cliente}&area=${Area}`
     );
     setBuscar(true);
     setEstaciones(data);
@@ -72,11 +72,10 @@ function Estaciones() {
     setEstacion(area);
   };
   const handleDeleteEstacion = async () => {
-    Estacion.borrado = true
     try {
-      await Axios.patch(`/estacion/${Estacion._id}`, Estacion);
+      await Axios.delete(`/estacion/${Estacion}`);
       const newAreas = Estaciones.filter(
-        (estacion) => estacion._id !== Estacion._id
+        (estacion) => estacion._id !== Estacion
       );
       setEstaciones(newAreas);
     } catch (error) {

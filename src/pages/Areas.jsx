@@ -52,7 +52,7 @@ function Areas() {
     }
     setbuscado(true);
     setLoading(true);
-    Axios.get(`/area?empresa=${Empresa}&borrado=false`).then(({ data }) => {
+    Axios.get(`/area?empresa=${Empresa}`).then(({ data }) => {
       setAreas(data);
       setLoading(false);
     });
