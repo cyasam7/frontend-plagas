@@ -12,7 +12,7 @@ import {QRCode} from "react-qr-svg";
 
 function CardTrabajadores({ estacion, handle }) {
   const handleOpen = () =>{
-    handle(estacion)
+    handle(estacion._id)
   }
   return (
     <Card>
