@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 function CardRevision({ revision }) {
   const handleDescargar = () =>{
-    window.open(`http://157.245.242.243:4000/revision/pdf/${revision.folio}`)
+    window.open(`http://157.245.242.243:4000/api/revision/pdf/${revision.folio}`)
   }
   return (
     <Card>
