@@ -8,7 +8,11 @@ import {
 } from "@material-ui/core";
 function CardRevision({ revision }) {
   const handleDescargar = () =>{
+<<<<<<< HEAD
     window.open(`https://ellaurelrd.com/api/revision/pdf/${revision.folio}`)
+=======
+    window.open(`https://157.245.242.243:4000/api/revision/pdf/${revision.folio}`)
+>>>>>>> 665e0ef9255a86eef6abc63adcf61b4071a60e71
   }
   return (
     <Card>
