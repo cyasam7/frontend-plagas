@@ -58,7 +58,7 @@ export default function SignIn() {
       setError(true);
       return;
     }
-    login(email, password)
+    login(email.trim(), password)
     .then(({user})=>{
       if(user.tipo_usuario === "Cliente"){
         history.push("/Cliente");

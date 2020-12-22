@@ -78,7 +78,7 @@ export default function Layout({ children }) {
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           <Typography variant="h6" noWrap>
-            Sistema de Revision de Trampas
+            Sistema Revision de Dispositivos
           </Typography>
         </Toolbar>
       </AppBar>

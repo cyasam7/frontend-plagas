@@ -36,15 +36,17 @@ function ContactoEmpresa() {
       setUsuarios(data);
       setLoading(false);
     });
-  }, [idEmpresa,setLoading]);
+  }, [idEmpresa, setLoading]);
 
   const handleDeleteContactoEmpresa = async () => {
     setLoading(true);
     try {
       await Axios.delete(`/empresaContacto/${empresaContacto}`);
-      const newUsuarios = usuarios.filter((user) => user._id !== empresaContacto);
-      setUsuarios(newUsuarios)
-      setEmpresaContacto("")
+      const newUsuarios = usuarios.filter(
+        (user) => user._id !== empresaContacto
+      );
+      setUsuarios(newUsuarios);
+      setEmpresaContacto("");
     } catch (error) {
     } finally {
       setLoading(false);
@@ -56,12 +58,12 @@ function ContactoEmpresa() {
     <>
       <Modal abierto={openModal} titulo="¿Seguro que desea Eliminar?">
         <>
-          <SuccessButton onClick={handleDeleteContactoEmpresa}>
-            Aceptar
-          </SuccessButton>
           <ErrorButton onClick={() => setopenModal(false)}>
             Cancelar
           </ErrorButton>
+          <SuccessButton onClick={handleDeleteContactoEmpresa}>
+            Aceptar
+          </SuccessButton>
         </>
       </Modal>
       <Typography align="center" variant="h4" gutterBottom>
@@ -98,7 +100,7 @@ function ContactoEmpresa() {
                     >
                       Eliminar
                     </ErrorButton>
-                    <Link to={`/empresas/editar/contacto/${user._id}`}>
+                    <Link to={`/empresas/editar/contacto/${user.usuario._id}`}>
                       <WarningButton fullWidth>Editar</WarningButton>
                     </Link>
                   </TableCell>

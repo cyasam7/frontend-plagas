@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Bar, HorizontalBar } from "react-chartjs-2";
+import { HorizontalBar } from "react-chartjs-2";
 import {
   Grid,
   TextField,
@@ -16,7 +16,6 @@ import TableRastrero from "../components/TableRastrero";
 import TablaVoladores from "../components/TablaVoladores";
 
 function GraficasMes() {
-  
   const { idEmpresa } = useParams();
   const [Mes, setMes] = useState("");
   const [Tipo, setTipo] = useState("");
@@ -210,9 +209,13 @@ function GraficasMes() {
       tipo: Tipo,
     };
     const {
-      data: { graficas, modelados}, 
+      data: { graficas, modelados },
     } = await Axios.post(`/graficas/mes/${idEmpresa}`, grafica);
-    setRevisiones(modelados)
+    if(!graficas){
+      alert("No existe ningun registro")
+      return;
+    }
+    setRevisiones(modelados);
     if (Tipo === "Voladores") {
       const labels = graficas.map((area) => {
         return area.nombre;
@@ -313,7 +316,10 @@ function GraficasMes() {
             select
             label="Selecciona"
             value={Tipo}
-            onChange={(e) =>{ setVer(false); setTipo(e.target.value)}}
+            onChange={(e) => {
+              setVer(false);
+              setTipo(e.target.value);
+            }}
             helperText="Seleccione tipo de estacion"
           >
             {estations.map((option, index) => (
@@ -336,7 +342,7 @@ function GraficasMes() {
       </Grid>
 
       <br />
-      {ver ? (
+      {ver && (
         <>
           <Grid container>
             <Grid item xs={12}>
@@ -368,15 +374,17 @@ function GraficasMes() {
                 </Typography>
               </Grid>
             </Grid>
-            {Tipo === "Rastreros" ? 
+            {Tipo === "Rastreros" ? (
               <>
-              {
-                revisiones.map((revision)=><TableRastrero revision={revision}/>)
-              }
+                {revisiones.map((revision, index) => (
+                  <TableRastrero key={index} revision={revision} />
+                ))}
               </>
-            : revisiones.map((revision)=> <TablaVoladores revision={revision}/>)
-
-            }
+            ) : (
+              revisiones.map((revision, index) => (
+                <TablaVoladores key={index} revision={revision} />
+              ))
+            )}
             <Grid container>
               <Grid item xs={12}>
                 <HorizontalBar
@@ -396,7 +404,7 @@ function GraficasMes() {
             </Grid>
           </PDFExport>
         </>
-      ) : null}
+      )}
     </>
   );
 }

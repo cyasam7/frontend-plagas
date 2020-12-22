@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   Paper,
   TextField,
@@ -29,41 +29,9 @@ const usuarios = [
   },
 ];
 
-function FormUsuarios({ handle, error, usuario }) {
+function FormUsuarios({ error, formik }) {
   const history = useHistory();
 
-  const [nombre, setnombre] = useState("");
-  const [apellido, setapellido] = useState("");
-  const [email, setemail] = useState("");
-  const [password, setpassword] = useState("");
-  const [telefono, settelefono] = useState("");
-  const [tipo_usuario, setTipo] = useState("");
-  const [isTrabajando, setisTrabajando] = useState(false);
-
-  useEffect(() => {
-    if (usuario) {
-      setnombre(usuario.nombre);
-      setapellido(usuario.apellido);
-      setemail(usuario.email);
-      settelefono(usuario.telefono);
-      setTipo(usuario.tipo_usuario);
-      setisTrabajando(usuario.isTrabajando);
-    }
-  }, [usuario]);
-
-  const handleAgregar = () => {
-    const usuario = {
-      nombre,
-      apellido,
-      email,
-      password,
-      tipo_usuario,
-      telefono,
-      isTrabajando,
-    };
-
-    handle(usuario);
-  };
   return (
     <Paper style={{ padding: 15 }} variant="outlined">
       <TextField
@@ -71,8 +39,9 @@ function FormUsuarios({ handle, error, usuario }) {
           shrink: true,
         }}
         error={error}
-        value={nombre}
-        onChange={(e) => setnombre(e.target.value)}
+        name="nombre"
+        value={formik.values.nombre}
+        onChange={formik.handleChange}
         placeholder="Nombre"
         margin="normal"
         fullWidth
@@ -84,8 +53,9 @@ function FormUsuarios({ handle, error, usuario }) {
         InputLabelProps={{
           shrink: true,
         }}
-        value={apellido ? apellido : ""}
-        onChange={(e) => setapellido(e.target.value)}
+        name="apellido"
+        value={formik.values.apellido}
+        onChange={formik.handleChange}
         placeholder="Apellido"
         margin="normal"
         fullWidth
@@ -96,9 +66,15 @@ function FormUsuarios({ handle, error, usuario }) {
         InputLabelProps={{
           shrink: true,
         }}
-        error={error}
-        value={email}
-        onChange={(e) => setemail(e.target.value)}
+        name="email"
+        error={formik.errors.email && formik.touched.email}
+        helperText={
+          formik.errors.email && formik.touched.email
+            ? formik.errors.email
+            : null
+        }
+        value={formik.values.email}
+        onChange={formik.handleChange}
         margin="normal"
         label="Email"
         placeholder="Email"
@@ -110,8 +86,9 @@ function FormUsuarios({ handle, error, usuario }) {
           shrink: true,
         }}
         error={error}
-        value={password}
-        onChange={(e) => setpassword(e.target.value)}
+        name="password"
+        value={formik.values.password}
+        onChange={formik.handleChange}
         margin="normal"
         fullWidth
         placeholder="Contraseña"
@@ -124,8 +101,9 @@ function FormUsuarios({ handle, error, usuario }) {
           shrink: true,
         }}
         error={error}
-        value={telefono}
-        onChange={(e) => settelefono(e.target.value)}
+        name="telefono"
+        value={formik.values.telefono}
+        onChange={formik.handleChange}
         margin="normal"
         fullWidth
         placeholder="Telefono"
@@ -136,8 +114,9 @@ function FormUsuarios({ handle, error, usuario }) {
         error={error}
         fullWidth
         select
-        value={tipo_usuario}
-        onChange={(e) => setTipo(e.target.value)}
+        name="tipo_usuario"
+        value={formik.values.tipo_usuario}
+        onChange={formik.handleChange}
         label="Selecciona"
         helperText="Selecciona tipo de Usuario"
       >
@@ -148,10 +127,11 @@ function FormUsuarios({ handle, error, usuario }) {
         ))}
       </TextField>
       <FormControlLabel
+        name="isTrabajando"
         control={
           <Checkbox
-            checked={isTrabajando}
-            onChange={() => setisTrabajando(!isTrabajando)}
+            checked={formik.values.isTrabajando}
+            onChange={formik.handleChange}
           />
         }
         label="¿Trabaja actualmente?"
@@ -166,7 +146,7 @@ function FormUsuarios({ handle, error, usuario }) {
         </Grid>
         <Grid>
           <WarningButton onClick={() => history.goBack()}>Volver</WarningButton>
-          <SuccessButton onClick={handleAgregar}>Guardar</SuccessButton>
+          <SuccessButton onClick={formik.handleSubmit}>Guardar</SuccessButton>
         </Grid>
       </Grid>
     </Paper>
