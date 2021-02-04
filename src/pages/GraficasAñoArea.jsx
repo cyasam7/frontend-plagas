@@ -29,6 +29,7 @@ function GraficasAñoAnual() {
     const { data } = await Axios.post(`/graficas/ano/area/${idEmpresa}`, {
       tipo: Tipo,
     });
+    console.log(data);
     setRevisiones(data);
   };
   return (

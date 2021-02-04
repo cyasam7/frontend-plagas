@@ -8,8 +8,10 @@ import {
 } from "@material-ui/core";
 function CardRevision({ revision }) {
   const handleDescargar = () =>{
+    console.log(revision)
     window.open(`https://ellaurelrd.com/api/revision/pdf/${revision.folio}`)
   }
+  
   return (
     <Card>
       <CardContent>
@@ -35,7 +37,7 @@ function CardRevision({ revision }) {
       </CardContent>
       <CardActions>
         <Button onClick={handleDescargar} variant="contained" color="primary">
-          Descargar reporte
+          Descargar el reporte
         </Button>
       </CardActions>
     </Card>

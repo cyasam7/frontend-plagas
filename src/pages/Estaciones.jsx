@@ -7,6 +7,7 @@ import Axios from "axios";
 import Modal from "../components/Modal";
 import { useModal } from "../Context/modal-context";
 import { useUser } from "../Context/user-context";
+import DescripcionEstaciones from "../components/DescripcionEstaciones";
 
 function Estaciones() {
   const { logOut } = useUser();
@@ -175,10 +176,13 @@ function Estaciones() {
           <Typography align="center" variant="h5" gutterBottom>
             Lista de estaciones
           </Typography>
-
+          <br />
+          <br />
           <Grid container spacing={5}>
             {Estaciones.length > 0 ? (
               <>
+                <DescripcionEstaciones estaciones={Estaciones} />
+
                 <TextField
                   margin="normal"
                   variant="outlined"
