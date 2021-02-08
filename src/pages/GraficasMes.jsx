@@ -21,6 +21,7 @@ function GraficasMes() {
   const [labels, setLabels] = useState([]);
   const [abejas, setAbejas] = useState([]);
   const [moscas, setMoscas] = useState([]);
+  const [otros, setOtros] = useState([])
   //--
   const [tijerilla, setTijerilla] = useState([]);
   const [roedor, setRoedor] = useState([]);
@@ -53,21 +54,27 @@ function GraficasMes() {
     datasets: [
       {
         label: "Moscas",
-        backgroundColor: "rgba(255,99,132,0.2)",
+        backgroundColor: "rgba(255,99,132,.5)",
         borderColor: "rgba(255,99,132,1)",
         borderWidth: 1,
-        hoverBackgroundColor: "rgba(255,99,132,0.4)",
         hoverBorderColor: "rgba(255,99,132,1)",
         data: moscas,
       },
       {
         label: "Abejas",
-        backgroundColor: "rgba(155,231,91,0.2)",
+        backgroundColor: "rgba(235, 64, 52,.5)",
         borderColor: "rgba(155,231,91,0.2)",
         borderWidth: 1,
-        hoverBackgroundColor: "rgba(255,99,132,0.4)",
         hoverBorderColor: "rgba(255,99,132,1)",
         data: abejas,
+      },
+      {
+        label: "Otros",
+        backgroundColor: "rgba(155,0,91,.5)",
+        borderColor: "rgba(155,231,91,0.2)",
+        borderWidth: 1,
+        hoverBorderColor: "rgba(255,99,132,1)",
+        data: otros,
       },
     ],
   };
@@ -76,118 +83,92 @@ function GraficasMes() {
     datasets: [
       {
         label: "tijerilla",
-        backgroundColor: "rgba(255,99,132,0.2)",
-        borderColor: " rgb(255, 255, 255)",
+        backgroundColor: "rgba(255,99,132,.8)",
         borderWidth: 1,
         hoverBackgroundColor: "rgba(255,99,132,0.4)",
-        hoverBorderColor: "rgba(255,99,132,1)",
         data: tijerilla,
       },
       {
         label: "roedor",
-        backgroundColor: "rgba(155,231,91,0.2)",
-        borderColor: " rgb(255, 255, 255)",
+        backgroundColor: "rgba(155,231,91,.8)",
         borderWidth: 1,
         hoverBackgroundColor: "rgba(255,99,132,0.4)",
-        hoverBorderColor: "rgba(255,99,132,1)",
         data: roedor,
       },
       {
         label: "frailecillos",
-        backgroundColor: " rgb(147, 61, 228)",
-        borderColor: " rgb(255, 255, 255)",
+        backgroundColor: " rgb(147, 61, 228,.8)",
         borderWidth: 1,
         hoverBackgroundColor: "rgba(255,99,132,0.4)",
-        hoverBorderColor: "rgba(255,99,132,1)",
         data: frailecillos,
       },
       {
         label: "mosca",
-        backgroundColor: " rgb(61, 217, 228)",
-        borderColor: " rgb(255, 255, 255))",
+        backgroundColor: " rgb(61, 217, 228,.8)",
         borderWidth: 1,
-        hoverBackgroundColor: "rgba(255,99,132,0.4)",
         hoverBorderColor: "rgba(255,99,132,1)",
         data: mosca,
       },
       {
         label: "pinacate",
-        backgroundColor: " rgb(61, 86, 228)",
-        borderColor: " rgb(255, 255, 255)",
+        backgroundColor: " rgb(61, 86, 228,.8)",
         borderWidth: 1,
-        hoverBackgroundColor: "rgba(255,99,132,0.4)",
         hoverBorderColor: "rgba(255,99,132,1)",
         data: pinacate,
       },
       {
         label: "cochinilla",
-        backgroundColor: " rgb(211, 228, 61)",
-        borderColor: " rgb(255, 255, 255)",
+        backgroundColor: " rgb(211, 228, 61,.8)",
         borderWidth: 1,
-        hoverBackgroundColor: "rgba(255,99,132,0.4)",
         hoverBorderColor: "rgba(255,99,132,1)",
         data: cochinilla,
       },
       {
         label: "cucarachaAmericana",
-        backgroundColor: " rgb(67, 228, 61)",
-        borderColor: " rgb(255, 255, 255)",
+        backgroundColor: " rgb(67, 228, 61,.8)",
         borderWidth: 1,
-        hoverBackgroundColor: "rgba(255,99,132,0.4)",
         hoverBorderColor: "rgba(255,99,132,1)",
         data: cucurachaAmericana,
       },
       {
         label: "cucarachaAlemana",
-        backgroundColor: " rgb(228, 61, 61)",
-        borderColor: " rgb(255, 255, 255)",
+        backgroundColor: " rgb(228, 61, 61,.8)",
         borderWidth: 1,
-        hoverBackgroundColor: "rgba(255,99,132,0.4)",
         hoverBorderColor: "rgba(255,99,132,1)",
         data: cucurachaAlemana,
       },
       {
         label: "araña",
-        backgroundColor: " rgb(228, 61, 186)",
-        borderColor: " rgb(255, 255, 255)",
+        backgroundColor: " rgb(228, 61, 186,.8)",
         borderWidth: 1,
-        hoverBackgroundColor: "rgba(255,99,132,0.4)",
         hoverBorderColor: "rgba(255,99,132,1)",
         data: araña,
       },
       {
         label: "hormiga",
-        backgroundColor: " rgb(195, 61, 228)",
-        borderColor: " rgb(255, 255, 255)",
+        backgroundColor: " rgb(53, 6, 6,.8)",
         borderWidth: 1,
-        hoverBackgroundColor: "rgba(255,99,132,0.4)",
         hoverBorderColor: "rgba(255,99,132,1)",
         data: hormiga,
       },
       {
         label: "ciempies",
-        backgroundColor: " rgb(61, 228, 172)",
-        borderColor: " rgb(255, 255, 255)",
+        backgroundColor: " rgb(61, 228, 172,.8)",
         borderWidth: 1,
-        hoverBackgroundColor: "rgba(255,99,132,0.4)",
         hoverBorderColor: "rgba(255,99,132,1)",
         data: ciempies,
       },
       {
         label: "alacran",
-        backgroundColor: " rgb(61, 228, 172)",
-        borderColor: " rgb(255, 255, 255)",
+        backgroundColor: " rgb(83, 71, 71,.8)",
         borderWidth: 1,
-        hoverBackgroundColor: "rgba(255,99,132,0.4)",
         hoverBorderColor: "rgba(255,99,132,1)",
         data: alacran,
       },
       {
         label: "grillo",
         backgroundColor: " rgb(228, 183, 61)",
-        borderColor: " rgb(255, 255, 255)",
         borderWidth: 1,
-        hoverBackgroundColor: "rgba(255,99,132,0.4)",
         hoverBorderColor: "rgba(255,99,132,1)",
         data: grillo,
       },
@@ -224,10 +205,14 @@ function GraficasMes() {
       const mosca = graficas.map((area) => {
         return area.mosca;
       });
+      const otros = graficas.map((area) => {
+        return area.otros;
+      });
       setVolador(true);
       setLabels(labels);
       setAbejas(abejas);
       setMoscas(mosca);
+      setOtros(otros)
     } else {
       const labels = graficas.map((area) => {
         return area.nombre;

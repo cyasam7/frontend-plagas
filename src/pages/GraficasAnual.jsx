@@ -19,6 +19,7 @@ function GraficasAnual() {
   const [labels, setLabels] = useState([]);
   const [abejas, setAbejas] = useState([]);
   const [moscas, setMoscas] = useState([]);
+  const [otros, setOtros] = useState([]);
   //--
   const [tijerilla, setTijerilla] = useState([]);
   const [roedor, setRoedor] = useState([]);
@@ -51,21 +52,27 @@ function GraficasAnual() {
     datasets: [
       {
         label: "Moscas",
-        backgroundColor: "rgba(255,99,132,0.2)",
+        backgroundColor: "rgba(255,99,132,.5)",
         borderColor: "rgba(255,99,132,1)",
         borderWidth: 1,
-        hoverBackgroundColor: "rgba(255,99,132,0.4)",
         hoverBorderColor: "rgba(255,99,132,1)",
         data: moscas,
       },
       {
         label: "Abejas",
-        backgroundColor: "rgba(155,231,91,0.2)",
+        backgroundColor: "rgba(235, 64, 52,.5)",
         borderColor: "rgba(155,231,91,0.2)",
         borderWidth: 1,
-        hoverBackgroundColor: "rgba(255,99,132,0.4)",
         hoverBorderColor: "rgba(255,99,132,1)",
         data: abejas,
+      },
+      {
+        label: "Otros",
+        backgroundColor: "rgba(155,0,91,.5)",
+        borderColor: "rgba(155,231,91,0.2)",
+        borderWidth: 1,
+        hoverBorderColor: "rgba(255,99,132,1)",
+        data: otros,
       },
     ],
   };
@@ -74,7 +81,7 @@ function GraficasAnual() {
     datasets: [
       {
         label: "tijerilla",
-        backgroundColor: "rgba(255,99,132,0.2)",
+        backgroundColor: "rgba(255,99,132,0.5)",
         borderColor: " rgb(255, 255, 255)",
         borderWidth: 1,
         hoverBackgroundColor: "rgba(255,99,132,0.4)",
@@ -83,7 +90,7 @@ function GraficasAnual() {
       },
       {
         label: "roedor",
-        backgroundColor: "rgba(155,231,91,0.2)",
+        backgroundColor: "rgba(155,231,91,0.5)",
         borderColor: " rgb(255, 255, 255)",
         borderWidth: 1,
         hoverBackgroundColor: "rgba(255,99,132,0.4)",
@@ -92,7 +99,7 @@ function GraficasAnual() {
       },
       {
         label: "frailecillos",
-        backgroundColor: " rgb(147, 61, 228)",
+        backgroundColor: " rgb(147, 61, 228,0.5)",
         borderColor: " rgb(255, 255, 255)",
         borderWidth: 1,
         hoverBackgroundColor: "rgba(255,99,132,0.4)",
@@ -101,7 +108,7 @@ function GraficasAnual() {
       },
       {
         label: "mosca",
-        backgroundColor: " rgb(61, 217, 228)",
+        backgroundColor: " rgb(117, 239, 248,0.5)",
         borderColor: " rgb(255, 255, 255))",
         borderWidth: 1,
         hoverBackgroundColor: "rgba(255,99,132,0.4)",
@@ -110,7 +117,7 @@ function GraficasAnual() {
       },
       {
         label: "pinacate",
-        backgroundColor: " rgb(61, 86, 228)",
+        backgroundColor: " rgb(61, 86, 228,0.5)",
         borderColor: " rgb(255, 255, 255)",
         borderWidth: 1,
         hoverBackgroundColor: "rgba(255,99,132,0.4)",
@@ -119,7 +126,7 @@ function GraficasAnual() {
       },
       {
         label: "cochinilla",
-        backgroundColor: " rgb(211, 228, 61)",
+        backgroundColor: " rgb(211, 228, 61,0.5)",
         borderColor: " rgb(255, 255, 255)",
         borderWidth: 1,
         hoverBackgroundColor: "rgba(255,99,132,0.4)",
@@ -128,7 +135,7 @@ function GraficasAnual() {
       },
       {
         label: "cucarachaAmericana",
-        backgroundColor: " rgb(67, 228, 61)",
+        backgroundColor: " rgb(67, 228, 61,0.5)",
         borderColor: " rgb(255, 255, 255)",
         borderWidth: 1,
         hoverBackgroundColor: "rgba(255,99,132,0.4)",
@@ -137,7 +144,7 @@ function GraficasAnual() {
       },
       {
         label: "cucarachaAlemana",
-        backgroundColor: " rgb(228, 61, 61)",
+        backgroundColor: " rgb(228, 61, 61,0.5)",
         borderColor: " rgb(255, 255, 255)",
         borderWidth: 1,
         hoverBackgroundColor: "rgba(255,99,132,0.4)",
@@ -146,7 +153,7 @@ function GraficasAnual() {
       },
       {
         label: "araña",
-        backgroundColor: " rgb(228, 61, 186)",
+        backgroundColor: " rgb(228, 61, 186,0.5)",
         borderColor: " rgb(255, 255, 255)",
         borderWidth: 1,
         hoverBackgroundColor: "rgba(255,99,132,0.4)",
@@ -155,7 +162,7 @@ function GraficasAnual() {
       },
       {
         label: "hormiga",
-        backgroundColor: " rgb(195, 61, 228)",
+        backgroundColor: " rgb(195, 61, 228,0.5)",
         borderColor: " rgb(255, 255, 255)",
         borderWidth: 1,
         hoverBackgroundColor: "rgba(255,99,132,0.4)",
@@ -164,7 +171,7 @@ function GraficasAnual() {
       },
       {
         label: "ciempies",
-        backgroundColor: " rgb(61, 228, 172)",
+        backgroundColor: " rgb(61, 228, 172,0.5)",
         borderColor: " rgb(255, 255, 255)",
         borderWidth: 1,
         hoverBackgroundColor: "rgba(255,99,132,0.4)",
@@ -173,7 +180,7 @@ function GraficasAnual() {
       },
       {
         label: "alacran",
-        backgroundColor: " rgb(61, 228, 172)",
+        backgroundColor: " rgb(61, 228, 172,0.5)",
         borderColor: " rgb(255, 255, 255)",
         borderWidth: 1,
         hoverBackgroundColor: "rgba(255,99,132,0.4)",
@@ -182,7 +189,7 @@ function GraficasAnual() {
       },
       {
         label: "grillo",
-        backgroundColor: " rgb(228, 183, 61)",
+        backgroundColor: " rgb(228, 183, 61,0.5)",
         borderColor: " rgb(255, 255, 255)",
         borderWidth: 1,
         hoverBackgroundColor: "rgba(255,99,132,0.4)",
@@ -193,11 +200,13 @@ function GraficasAnual() {
   };
 
   const handleBuscar = async () => {
-    if ( Tipo === "") {
+    if (Tipo === "") {
       alert("Llenar los datos correctamente");
       return;
     }
-    const { data } = await Axios.post(`/graficas/ano/${idEmpresa}`, {tipo: Tipo});
+    const { data } = await Axios.post(`/graficas/ano/${idEmpresa}`, {
+      tipo: Tipo,
+    });
     if (Tipo === "Voladores") {
       const labels = data.map((area) => {
         return area.año;
@@ -208,10 +217,14 @@ function GraficasAnual() {
       const mosca = data.map((area) => {
         return area.mosca;
       });
+      const otros = data.map((area) => {
+        return area.otros;
+      });
       setVolador(true);
       setLabels(labels);
       setAbejas(abejas);
       setMoscas(mosca);
+      setOtros(otros);
     } else {
       const labels = data.map((area) => {
         return area.año;
@@ -339,7 +352,7 @@ function GraficasAnual() {
             <Grid container justify="center">
               <Grid item>
                 <Typography variant="h4" gutterBottom>
-                  Graficas 
+                  Graficas
                 </Typography>
               </Grid>
             </Grid>
