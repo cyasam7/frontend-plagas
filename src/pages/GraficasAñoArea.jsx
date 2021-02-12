@@ -1,16 +1,13 @@
 import React, { useState } from "react";
-import {
-  Grid,
-  TextField,
-  MenuItem,
-  Button,
-} from "@material-ui/core";
+import { Grid, TextField, MenuItem, Button } from "@material-ui/core";
+import { useModal } from "../Context/modal-context";
 import { PDFExport } from "@progress/kendo-react-pdf";
+import { useParams } from "react-router-dom";
 import Axios from "axios";
 import ContainerTablaAreaAnual from "../components/ContainerTablaAreaAnual";
-import { useParams } from "react-router-dom";
 import "chartjs-plugin-datalabels";
 function GraficasAñoAnual() {
+  const { setLoading } = useModal();
   const [revisiones, setRevisiones] = useState([]);
   const { idEmpresa } = useParams();
   const [Tipo, setTipo] = useState("");
@@ -26,10 +23,11 @@ function GraficasAñoAnual() {
     },
   ];
   const handleBuscar = async () => {
+    setLoading(true);
     const { data } = await Axios.post(`/graficas/ano/area/${idEmpresa}`, {
       tipo: Tipo,
     });
-    console.log(data);
+    setLoading(false);
     setRevisiones(data);
   };
   return (
@@ -69,30 +67,13 @@ function GraficasAñoAnual() {
             Aceptar
           </Button>
         </Grid>
-        <Grid item xs={12}>
-          <Button
-            variant="outlined"
-            fullWidth
-            color="primary"
-            onClick={() => {
-              if (Tipo === "") {
-                alert("Campo vacio");
-                return;
-              }
-              pdfExportComponent.save();
-            }}
-          >
-            Generar archivo
-          </Button>
-        </Grid>
       </Grid>
       <Grid container>
         <PDFExport
-          paperSize="A4"
-          scale={0.7}
-          margin=".5cm"
+          paperSize="letter"
+          margin="0.2cm"
+          scale={0.4}
           fileName={`reporte-anual`}
-          landscape={true}
           ref={(component) => (pdfExportComponent = component)}
         >
           <Grid container>
@@ -100,20 +81,31 @@ function GraficasAñoAnual() {
               <Button></Button>
             </Grid>
             <Grid item xs={12}>
-              {revisiones.length > 0 ? (
+              {revisiones.length > 0 && (
                 <>
+                  <Button
+                    variant="outlined"
+                    fullWidth
+                    color="primary"
+                    onClick={() => {
+                      if (Tipo === "") {
+                        alert("Campo vacio");
+                        return;
+                      }
+                      pdfExportComponent.save();
+                    }}
+                  >
+                    Generar archivo
+                  </Button>
                   {revisiones.map((revision, index) => (
-                    <>
-                      <ContainerTablaAreaAnual
-                        tipo={Tipo}
-                        key={index}
-                        revision={revision}
-                      />
-
-                    </>
+                    <ContainerTablaAreaAnual
+                      tipo={Tipo}
+                      key={index}
+                      revision={revision}
+                    />
                   ))}
                 </>
-              ) : null}
+              )}
             </Grid>
           </Grid>
         </PDFExport>

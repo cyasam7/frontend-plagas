@@ -7,6 +7,7 @@ import {
   MenuItem,
   Typography,
 } from "@material-ui/core";
+import { useModal } from "../Context/modal-context";
 import { PDFExport } from "@progress/kendo-react-pdf";
 import Axios from "axios";
 import { useParams } from "react-router-dom";
@@ -14,7 +15,7 @@ import "chartjs-plugin-datalabels";
 function GraficasAnual() {
   const { idEmpresa } = useParams();
   const [Tipo, setTipo] = useState("");
-
+  const {setLoading} = useModal()
   const [volador, setVolador] = useState(undefined);
   const [labels, setLabels] = useState([]);
   const [abejas, setAbejas] = useState([]);
@@ -204,6 +205,7 @@ function GraficasAnual() {
       alert("Llenar los datos correctamente");
       return;
     }
+    setLoading(true)
     const { data } = await Axios.post(`/graficas/ano/${idEmpresa}`, {
       tipo: Tipo,
     });
@@ -286,6 +288,7 @@ function GraficasAnual() {
       setAlacran(alacran);
     }
     setVer(true);
+    setLoading(false)
   };
   return (
     <>

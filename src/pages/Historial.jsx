@@ -5,7 +5,7 @@ import Axios from "axios";
 import CardRevision from "../components/CardRevision";
 import { useModal } from "../Context/modal-context";
 import { useUser } from "../Context/user-context";
-import moment from "moment"
+import moment from "moment";
 function Historial() {
   const { logOut } = useUser();
   const { setLoading } = useModal();
@@ -14,7 +14,6 @@ function Historial() {
   const [Historial, setHistorial] = useState([]);
   const [Error, setError] = useState(false);
   const [fecha, setFecha] = useState("");
-
 
   useEffect(() => {
     async function init() {
@@ -45,7 +44,9 @@ function Historial() {
     setLoading(true);
     const año = moment(fecha).format("YYYY");
     const mes = moment(fecha).format("MMMM");
-    const { data } = await Axios.get(`/revision?empresa=${Empresa}&ano=${año}&mes=${mes}`);
+    const { data } = await Axios.get(
+      `/revision?empresa=${Empresa}&ano=${año}&mes=${mes}`
+    );
     setHistorial(data);
     setError(false);
     setLoading(false);
@@ -77,11 +78,12 @@ function Historial() {
         </Grid>
       </Grid>
       <Grid container>
-      <Grid item md={10} xs={12}>
+        <Grid item md={10} xs={12}>
           <TextField
             fullWidth
             value={fecha}
             type="month"
+            error={Error}
             label=""
             onChange={(e) => setFecha(e.target.value)}
             helperText="Seleccione mes y año"

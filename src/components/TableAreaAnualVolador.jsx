@@ -10,29 +10,34 @@ import {
   Typography,
   Paper,
 } from "@material-ui/core";
-import { Bar } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 
-function TableAreaAnual({ año, titulo }) {
+function TableAreaAnual({ año, titulo, isTitulo }) {
+
   const data = {
-    labels: año.año[0].mes.map((mes) => mes.mes),
+    labels: año.año[0].mes.map((mes) => mes.mes).reverse(),
     datasets: año.año.map((año) => {
       return {
         label: año.año,
-        backgroundColor: `rgb(${Math.random() * (250 -1)+1},${Math.random() * (250 -1)+1},${Math.random() * (250 -1)+1})`.toString(),
-        borderColor: "rgb(255, 255, 255)",
-        borderWidth: 1,
-        hoverBackgroundColor: "rgba(255,99,132,0.4)",
-        hoverBorderColor: "rgba(255,99,132,1)",
-        data: año.mes.map((mes) => mes.total[titulo]),
+        borderColor: `rgb(${Math.random() * (250 - 1) + 1},${
+          Math.random() * (250 - 1) + 1
+        },${Math.random() * (250 - 1) + 1}, 0.5)`.toString(),
+        data: año.mes.map((mes) => mes.total[titulo]).reverse(),
+        fill: false,
       };
     }),
   };
   return (
     <>
+      {isTitulo && (
+        <>
+          <hr />
+          <Typography variant="h6" align="center" gutterBottom>
+            {año.area}
+          </Typography>
+        </>
+      )}
       <Grid container>
-        <Typography variant="h3" align="center" gutterBottom>
-          {año.area}
-        </Typography>
         <Grid item xs={12}>
           <TableContainer component={Paper} style={{ marginBottom: 15 }}>
             <Table size="small" aria-label="a dense table">
@@ -44,9 +49,11 @@ function TableAreaAnual({ año, titulo }) {
                 </TableRow>
                 <TableRow>
                   <TableCell>X</TableCell>
-                  {año.año[0].mes.map((mes, index) => (
-                    <TableCell key={index}>{mes.mes}</TableCell>
-                  ))}
+                  {año.año[0].mes
+                    .map((mes, index) => (
+                      <TableCell key={index}>{mes.mes}</TableCell>
+                    ))
+                    .reverse()}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -54,9 +61,14 @@ function TableAreaAnual({ año, titulo }) {
                   return (
                     <TableRow key={index}>
                       <TableCell>{año.año}</TableCell>
-                      {año.mes.map((mes, index) => (
-                        <TableCell key={index}> {mes.total[titulo]}</TableCell>
-                      ))}
+                      {año.mes
+                        .map((mes, index) => (
+                          <TableCell key={index}>
+                            {" "}
+                            {mes.total[titulo]}
+                          </TableCell>
+                        ))
+                        .reverse()}
                     </TableRow>
                   );
                 })}
@@ -67,7 +79,7 @@ function TableAreaAnual({ año, titulo }) {
       </Grid>
       <Grid container>
         <Grid item xs={12}>
-          <Bar
+          <Line
             plugins={{
               datalabels: {
                 display: (ctx) => {
@@ -79,6 +91,9 @@ function TableAreaAnual({ año, titulo }) {
               },
             }}
             data={data}
+            options={{ responsive: true, maintainAspectRatio: true }}
+            height={176}
+            width={500}
           />
         </Grid>
       </Grid>

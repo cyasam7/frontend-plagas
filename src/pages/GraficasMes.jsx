@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { HorizontalBar, Bar } from "react-chartjs-2";
+import {  Bar } from "react-chartjs-2";
 import {
   Grid,
   TextField,
@@ -11,9 +11,11 @@ import { PDFExport } from "@progress/kendo-react-pdf";
 import moment from "moment";
 import Axios from "axios";
 import { useParams } from "react-router-dom";
+import {useModal} from '../Context/modal-context'
 import "chartjs-plugin-datalabels";
 
 function GraficasMes() {
+  const {setLoading} = useModal()
   const { idEmpresa } = useParams();
   const [Mes, setMes] = useState("");
   const [Tipo, setTipo] = useState("");
@@ -180,7 +182,7 @@ function GraficasMes() {
       alert("Llenar los datos correctamente");
       return;
     }
-
+    setLoading(true)
     const grafica = {
       mes: moment(Mes).format("MMMM"),
       ano: moment(Mes).format("YYYY"),
@@ -274,6 +276,7 @@ function GraficasMes() {
       setAlacran(alacran);
     }
     setVer(true);
+    setLoading(false)
   };
   return (
     <>
