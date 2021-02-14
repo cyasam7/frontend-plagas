@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import Axios from "axios";
 import { useModal } from "../Context/modal-context";
 import { useUser } from "../Context/user-context";
+import Swal from "sweetalert2";
 
 function Areas() {
   const { logOut } = useUser();
@@ -21,9 +22,7 @@ function Areas() {
   const [Empresa, setEmpresa] = useState("");
 
   const [Areas, setAreas] = useState([]);
-  const [Area, setArea] = useState("");
 
-  const [OpenModal, setOpenModal] = useState(false);
   const [buscado, setbuscado] = useState(false);
   const [error, seterror] = useState(false);
 
@@ -43,7 +42,7 @@ function Areas() {
       .finally(() => {
         setLoading(false);
       });
-  }, [setLoading,logOut]);
+  }, [setLoading, logOut]);
 
   const handleBuscar = () => {
     if (Empresa === "") {
@@ -57,29 +56,31 @@ function Areas() {
       setLoading(false);
     });
   };
-  const openModalEliminar = (id) => {
-    setArea(id);
-    setOpenModal(true);
-  };
 
-  const handleEliminar = () => {
-    Axios.delete(`/area/${Area}`).then(() => {
-      const newAreas = Areas.filter((area) => area._id !== Area);
-      setAreas(newAreas);
-      setArea({});
-      setOpenModal(false);
+  const handleEliminar = (areaId) => {
+    Swal.fire({
+      icon: "question",
+      title: "¿Desea eliminar el area?",
+      showCancelButton: true,
+    }).then(async ({ isConfirmed }) => {
+      if (isConfirmed) {
+        await Axios.delete(`/area/${areaId}`);
+        await Swal.fire({
+          title: "Se ha borrado el area correctamente",
+          icon: "success",
+        });
+        const newAreas = Areas.filter((area) => area._id !== areaId);
+        setAreas(newAreas);
+      } else {
+        await Swal.fire({
+          title: "No se borro el area",
+          icon: "error",
+        });
+      }
     });
   };
   return (
     <Container>
-      <Modal abierto={OpenModal} titulo="¿Seguro que desea Eliminar?">
-        <>
-          <SuccessButton onClick={handleEliminar}>Aceptar</SuccessButton>
-          <ErrorButton onClick={() => setOpenModal(false)}>
-            Cancelar
-          </ErrorButton>
-        </>
-      </Modal>
       <Typography align="center" variant="h4" component="h1" gutterBottom>
         Areas
       </Typography>
@@ -121,7 +122,7 @@ function Areas() {
               <>
                 {Areas.map((area, index) => (
                   <Grid key={index} item xs={12} md={4}>
-                    <CardArea area={area} eliminar={openModalEliminar} />
+                    <CardArea area={area} eliminar={handleEliminar} />
                   </Grid>
                 ))}
               </>

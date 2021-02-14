@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {  Bar } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import {
   Grid,
   TextField,
@@ -11,11 +11,11 @@ import { PDFExport } from "@progress/kendo-react-pdf";
 import moment from "moment";
 import Axios from "axios";
 import { useParams } from "react-router-dom";
-import {useModal} from '../Context/modal-context'
+import { useModal } from "../Context/modal-context";
 import "chartjs-plugin-datalabels";
-
+import "moment/locale/es-mx"
 function GraficasMes() {
-  const {setLoading} = useModal()
+  const { setLoading } = useModal();
   const { idEmpresa } = useParams();
   const [Mes, setMes] = useState("");
   const [Tipo, setTipo] = useState("");
@@ -23,7 +23,7 @@ function GraficasMes() {
   const [labels, setLabels] = useState([]);
   const [abejas, setAbejas] = useState([]);
   const [moscas, setMoscas] = useState([]);
-  const [otros, setOtros] = useState([])
+  const [otros, setOtros] = useState([]);
   //--
   const [tijerilla, setTijerilla] = useState([]);
   const [roedor, setRoedor] = useState([]);
@@ -109,6 +109,7 @@ function GraficasMes() {
         backgroundColor: " rgb(61, 217, 228,.8)",
         borderWidth: 1,
         hoverBorderColor: "rgba(255,99,132,1)",
+        hoverBackgroundColor: "rgba(255,99,132,0.4)",
         data: mosca,
       },
       {
@@ -116,6 +117,7 @@ function GraficasMes() {
         backgroundColor: " rgb(61, 86, 228,.8)",
         borderWidth: 1,
         hoverBorderColor: "rgba(255,99,132,1)",
+        hoverBackgroundColor: "rgba(255,99,132,0.4)",
         data: pinacate,
       },
       {
@@ -123,6 +125,7 @@ function GraficasMes() {
         backgroundColor: " rgb(211, 228, 61,.8)",
         borderWidth: 1,
         hoverBorderColor: "rgba(255,99,132,1)",
+        hoverBackgroundColor: "rgba(255,99,132,0.4)",
         data: cochinilla,
       },
       {
@@ -130,6 +133,7 @@ function GraficasMes() {
         backgroundColor: " rgb(67, 228, 61,.8)",
         borderWidth: 1,
         hoverBorderColor: "rgba(255,99,132,1)",
+        hoverBackgroundColor: "rgba(255,99,132,0.4)",
         data: cucurachaAmericana,
       },
       {
@@ -137,6 +141,7 @@ function GraficasMes() {
         backgroundColor: " rgb(228, 61, 61,.8)",
         borderWidth: 1,
         hoverBorderColor: "rgba(255,99,132,1)",
+        hoverBackgroundColor: "rgba(255,99,132,0.4)",
         data: cucurachaAlemana,
       },
       {
@@ -144,6 +149,7 @@ function GraficasMes() {
         backgroundColor: " rgb(228, 61, 186,.8)",
         borderWidth: 1,
         hoverBorderColor: "rgba(255,99,132,1)",
+        hoverBackgroundColor: "rgba(255,99,132,0.4)",
         data: araña,
       },
       {
@@ -151,6 +157,7 @@ function GraficasMes() {
         backgroundColor: " rgb(53, 6, 6,.8)",
         borderWidth: 1,
         hoverBorderColor: "rgba(255,99,132,1)",
+        hoverBackgroundColor: "rgba(255,99,132,0.4)",
         data: hormiga,
       },
       {
@@ -158,6 +165,7 @@ function GraficasMes() {
         backgroundColor: " rgb(61, 228, 172,.8)",
         borderWidth: 1,
         hoverBorderColor: "rgba(255,99,132,1)",
+        hoverBackgroundColor: "rgba(255,99,132,0.4)",
         data: ciempies,
       },
       {
@@ -165,6 +173,7 @@ function GraficasMes() {
         backgroundColor: " rgb(83, 71, 71,.8)",
         borderWidth: 1,
         hoverBorderColor: "rgba(255,99,132,1)",
+        hoverBackgroundColor: "rgba(255,99,132,0.4)",
         data: alacran,
       },
       {
@@ -172,6 +181,7 @@ function GraficasMes() {
         backgroundColor: " rgb(228, 183, 61)",
         borderWidth: 1,
         hoverBorderColor: "rgba(255,99,132,1)",
+        hoverBackgroundColor: "rgba(255,99,132,0.4)",
         data: grillo,
       },
     ],
@@ -182,7 +192,7 @@ function GraficasMes() {
       alert("Llenar los datos correctamente");
       return;
     }
-    setLoading(true)
+    setLoading(true);
     const grafica = {
       mes: moment(Mes).format("MMMM"),
       ano: moment(Mes).format("YYYY"),
@@ -214,7 +224,7 @@ function GraficasMes() {
       setLabels(labels);
       setAbejas(abejas);
       setMoscas(mosca);
-      setOtros(otros)
+      setOtros(otros);
     } else {
       const labels = graficas.map((area) => {
         return area.nombre;
@@ -276,7 +286,7 @@ function GraficasMes() {
       setAlacran(alacran);
     }
     setVer(true);
-    setLoading(false)
+    setLoading(false);
   };
   return (
     <>
@@ -351,17 +361,18 @@ function GraficasMes() {
             margin="1cm"
             fileName={`${moment(Mes).format("MMMM")}-reporte`}
             landscape={true}
+
             ref={(component) => (pdfExportComponent = component)}
           >
             <Grid container justify="center">
               <Grid item>
-                <Typography variant="h4" gutterBottom>
-                  Reporte
+                <Typography variant="subtitle1" gutterBottom>
+                  {`${Mes} de ${Tipo}`}
                 </Typography>
               </Grid>
             </Grid>
             <Grid container>
-              <Grid item xs={12}>
+              <Grid item xs={12} lg={10}>
                 <Bar
                   plugins={{
                     datalabels: {

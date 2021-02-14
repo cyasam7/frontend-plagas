@@ -8,8 +8,9 @@ import { Link } from "react-router-dom";
 import Axios from "axios";
 import { useModal } from "../Context/modal-context";
 import { useUser } from "../Context/user-context";
+import Swal from "sweetalert2";
 function Empresas() {
-  const {logOut} = useUser();
+  const { logOut } = useUser();
   const { setLoading } = useModal();
   const [empresas, setEmpresas] = useState([]);
   const [openModal, setOpenModal] = useState(false);
@@ -22,47 +23,63 @@ function Empresas() {
       return data;
     }
     setLoading(true);
-    initialEmpresas().then((empresas) => {
-      setEmpresas(empresas);
-    }).catch(()=>{
-      logOut();
-    })
-    .finally(()=>{
-      setLoading(false)
-    })
-  }, [setLoading,logOut]);
+    initialEmpresas()
+      .then((empresas) => {
+        setEmpresas(empresas);
+      })
+      .catch(() => {
+        logOut();
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [setLoading, logOut]);
 
   const handleSearchFilter = (cliente) => {
     return function (x) {
-      return x.noCliente == (cliente) || !cliente;
+      return x.noCliente == cliente || !cliente;
     };
   };
 
-  const handleEliminarEmpresa = () => {
-    setOpenModal(true);
-    Axios.delete(`/empresa/${empresa}`)
-      .then(() => {
-        const newEmpresas = empresas.filter((emp) => emp._id !== empresa);
-        setEmpresas(newEmpresas);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        setOpenModal(false);
-      });
+  const handleEliminarEmpresa = async (empresaId) => {
+    Swal.fire({
+      icon: "question",
+      title: "¿Deseas eliminar la empresa?",
+      text: "Si tienes datos con esta empresa se perdera.",
+      showCancelButton: true,
+    }).then(({ isConfirmed }) => {
+      if (isConfirmed) {
+        Swal.fire({
+          title: "¿Estas seguro que deseas eliminar la empresa?",
+          icon: "question",
+          showCancelButton: true,
+        }).then(async ({ isConfirmed }) => {
+          if (isConfirmed) {
+            await Axios.delete(`/empresa/${empresaId}`);
+            await Swal.fire({
+              title: "Se ha eliminado",
+              icon: "success",
+            });
+            const newEmpresas = empresas.filter((emp) => emp._id !== empresaId);
+            setEmpresas(newEmpresas);
+          } else {
+            await Swal.fire({
+              title: "No se ha eliminado",
+              icon: "error",
+            });
+          }
+        });
+      } else {
+        Swal.fire({
+          title: "No se ha eliminado",
+          icon: "error",
+        });
+      }
+    });
   };
 
-  const handleOpenModalDelete = (id) => {
-    setOpenModal(true);
-    setEmpresa(id);
-  };
   return (
     <Container>
-      <Modal abierto={openModal} titulo="¿Seguro que desea Eliminar?">
-        <SuccessButton onClick={handleEliminarEmpresa}>Aceptar</SuccessButton>
-        <ErrorButton onClick={() => setOpenModal(false)}>Cancelar</ErrorButton>
-      </Modal>
       <Box alignItems="center">
         <Typography align="center" variant="h4">
           Lista de Empresas
@@ -86,7 +103,7 @@ function Empresas() {
       <Grid container spacing={2}>
         {empresas.filter(handleSearchFilter(term)).map((empresa, index) => (
           <Grid key={index} item xs={12} md={6}>
-            <CardEmpresa empresa={empresa} eliminar={handleOpenModalDelete} />
+            <CardEmpresa empresa={empresa} eliminar={handleEliminarEmpresa} />
           </Grid>
         ))}
       </Grid>

@@ -1,25 +1,30 @@
 import React, { useState, useEffect } from "react";
-import { TextField, Grid, Typography, MenuItem } from "@material-ui/core";
-import { SuccessButton, ErrorButton } from "../components/Buttons";
+import {
+  TextField,
+  Grid,
+  Typography,
+  MenuItem,
+  Button,
+} from "@material-ui/core";
+import { SuccessButton } from "../components/Buttons";
 import { Link } from "react-router-dom";
 import CardEstacion from "../components/CardEstacion";
 import Axios from "axios";
-import Modal from "../components/Modal";
 import { useModal } from "../Context/modal-context";
 import { useUser } from "../Context/user-context";
 import DescripcionEstaciones from "../components/DescripcionEstaciones";
-
+import Swal from "sweetalert2";
+import axios from "axios";
 function Estaciones() {
   const { logOut } = useUser();
   const { setLoading } = useModal();
   const [Clientes, setClientes] = useState([]);
   const [Areas, setAreas] = useState([]);
   const [Estaciones, setEstaciones] = useState([]);
-  const [Estacion, setEstacion] = useState("");
   const [buscar, setBuscar] = useState(false);
   const [Cliente, setCliente] = useState("");
   const [Area, setArea] = useState("");
-  const [openModal, setopenModal] = useState(false);
+
   const [term, setTerm] = useState("");
 
   useEffect(() => {
@@ -45,7 +50,6 @@ function Estaciones() {
       return x.numero == term || !term;
     };
   };
-
   const handleListAreas = () => {
     if (Cliente === "") {
       alert("Un espacio vacio");
@@ -68,33 +72,80 @@ function Estaciones() {
     setEstaciones(data);
     setLoading(false);
   };
-  const handleOpenModal = (area) => {
-    setopenModal(true);
-    setEstacion(area);
+  const handleDeleteEstacion = (estacionEliminar) => {
+    Swal.fire({
+      title: "¿Desea Eliminar la estacion?",
+      icon: "question",
+      showCancelButton: true,
+    }).then(async ({ isConfirmed }) => {
+      if (isConfirmed) {
+        await Axios.delete(`/estacion/${estacionEliminar}`);
+        await Swal.fire({
+          title: "Se elimino correctamente",
+          icon: "success",
+        });
+        const newAreas = Estaciones.filter(
+          (estacion) => estacion._id !== estacionEliminar
+        );
+        setEstaciones(newAreas);
+      } else {
+        Swal.fire({
+          title: "No se cancelo la estacion",
+          icon: "error",
+        });
+      }
+    });
   };
-  const handleDeleteEstacion = async () => {
-    try {
-      await Axios.delete(`/estacion/${Estacion}`);
-      const newAreas = Estaciones.filter(
-        (estacion) => estacion._id !== Estacion
-      );
-      setEstaciones(newAreas);
-    } catch (error) {
-    } finally {
-      setLoading(false);
-      setopenModal(false);
-    }
+  const handleCambiarEstacion = (estacion) => {
+    let options = {};
+    Areas.map((area) => {
+      return (options[area._id] = area.nombre);
+    });
+    Swal.fire({
+      title: "Cambiar de area",
+      input: "select",
+      inputOptions: options,
+      inputPlaceholder: "Selecciona el area",
+      showCancelButton: true,
+      inputValidator: (value) => {
+        return new Promise((resolve) => {
+          if (value === "") {
+            resolve("Selecciona alguna area");
+          } else {
+            resolve();
+          }
+        });
+      },
+    }).then(async ({ value, isConfirmed }) => {
+      if (isConfirmed) {
+        if (Area === value) {
+          await Swal.fire({
+            title: "La estacion ya pertenece a la estacion que elegiste.",
+            icon: "question",
+          });
+          return;
+        }
+        estacion.area = value;
+        estacion.empresa = estacion.empresa._id;
+        await axios.patch(`/estacion/${estacion._id}`, estacion);
+        await Swal.fire({
+          title: "Se hizo el movimiento de estacion",
+          icon: "success",
+        });
+        const newEstaciones = Estaciones.filter(
+          (est) => est._id !== estacion._id
+        );
+        setEstaciones(newEstaciones);
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Se cancelo el movimiento",
+        });
+      }
+    });
   };
   return (
     <>
-      <Modal abierto={openModal} titulo="¿Seguro que desea Eliminar?">
-        <>
-          <SuccessButton onClick={handleDeleteEstacion}>Aceptar</SuccessButton>
-          <ErrorButton onClick={() => setopenModal(false)}>
-            Cancelar
-          </ErrorButton>
-        </>
-      </Modal>
       <Typography align="center" variant="h4" component="h1" gutterBottom>
         Estaciones
       </Typography>
@@ -119,15 +170,14 @@ function Estaciones() {
             ))}
           </TextField>
         </Grid>
-
         <Grid item xs={12} md={2}>
           <SuccessButton fullWidth onClick={handleListAreas}>
-            Aceptar
+            Buscar
           </SuccessButton>
         </Grid>
       </Grid>
 
-      {Areas.length > 0 ? (
+      {Areas.length > 0 && (
         <Grid container spacing={1}>
           <Grid item xs={12} md={10}>
             <TextField
@@ -150,13 +200,12 @@ function Estaciones() {
           </Grid>
           <Grid item xs={12} md={2}>
             <SuccessButton onClick={handleListEstaciones} fullWidth>
-              Aceptar
+              Buscar
             </SuccessButton>
           </Grid>
         </Grid>
-      ) : null}
-
-      {buscar ? (
+      )}
+      {buscar && (
         <>
           <Link
             to={{
@@ -166,23 +215,24 @@ function Estaciones() {
           >
             <SuccessButton fullWidth>Agregar</SuccessButton>
           </Link>
-          {Estaciones.length > 0 ? (
-            <>
-              <Link to={`/QRList/${Cliente}/${Area}`}>
-                <SuccessButton fullWidth>Generar PDF de QR's</SuccessButton>
-              </Link>
-            </>
-          ) : null}
-          <Typography align="center" variant="h5" gutterBottom>
-            Lista de estaciones
-          </Typography>
           <br />
           <br />
           <Grid container spacing={5}>
             {Estaciones.length > 0 ? (
               <>
+                <Grid item xs={12}>
+                  <Link to={`/QRList/${Cliente}/${Area}`}>
+                    <Button variant="outlined" color="primary" fullWidth>
+                      Generar PDF de QR's
+                    </Button>
+                  </Link>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography align="center" variant="h5" gutterBottom>
+                    Lista de estaciones
+                  </Typography>
+                </Grid>
                 <DescripcionEstaciones estaciones={Estaciones} />
-
                 <TextField
                   margin="normal"
                   variant="outlined"
@@ -195,10 +245,11 @@ function Estaciones() {
                 />
                 {Estaciones.filter(handleSearchEstacion(term)).map(
                   (estacion, index) => (
-                    <Grid key={index} item xs={12} md={5}>
+                    <Grid key={index} item xs={12} md={6}>
                       <CardEstacion
-                        handle={handleOpenModal}
+                        eliminar={handleDeleteEstacion}
                         estacion={estacion}
+                        cambiar={handleCambiarEstacion}
                       />
                     </Grid>
                   )
@@ -215,7 +266,7 @@ function Estaciones() {
             )}
           </Grid>
         </>
-      ) : null}
+      )}
     </>
   );
 }

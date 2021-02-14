@@ -11,10 +11,14 @@ import { ErrorButton, WarningButton } from "../components/Buttons";
 import { Link } from "react-router-dom";
 import QRCode from "qrcode.react";
 import { PDFExport } from "@progress/kendo-react-pdf";
-function CardTrabajadores({ estacion, handle }) {
+
+function CardTrabajadores({ estacion, eliminar, cambiar }) {
   let pdfExportComponent;
-  const handleOpen = () => {
-    handle(estacion._id);
+  const handleEliminar = () => {
+    eliminar(estacion._id);
+  };
+  const handleCambiar = () => {
+    cambiar(estacion);
   };
   return (
     <Card>
@@ -65,13 +69,16 @@ function CardTrabajadores({ estacion, handle }) {
         <Link to={`/estaciones/editar/${estacion._id}`}>
           <WarningButton>Editar</WarningButton>
         </Link>
-        <ErrorButton onClick={handleOpen}>Eliminar</ErrorButton>
+        <ErrorButton onClick={handleEliminar}>Eliminar</ErrorButton>
         <Button
           variant="contained"
           color="primary"
           onClick={() => pdfExportComponent.save()}
         >
           Generar QR
+        </Button>
+        <Button variant="contained" color="secondary" onClick={handleCambiar}>
+          Cambiar de Area
         </Button>
       </CardActions>
     </Card>

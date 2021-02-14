@@ -15,7 +15,7 @@ import "chartjs-plugin-datalabels";
 function GraficasAnual() {
   const { idEmpresa } = useParams();
   const [Tipo, setTipo] = useState("");
-  const {setLoading} = useModal()
+  const { setLoading } = useModal();
   const [volador, setVolador] = useState(undefined);
   const [labels, setLabels] = useState([]);
   const [abejas, setAbejas] = useState([]);
@@ -205,7 +205,7 @@ function GraficasAnual() {
       alert("Llenar los datos correctamente");
       return;
     }
-    setLoading(true)
+    setLoading(true);
     const { data } = await Axios.post(`/graficas/ano/${idEmpresa}`, {
       tipo: Tipo,
     });
@@ -288,7 +288,7 @@ function GraficasAnual() {
       setAlacran(alacran);
     }
     setVer(true);
-    setLoading(false)
+    setLoading(false);
   };
   return (
     <>
@@ -354,8 +354,8 @@ function GraficasAnual() {
           >
             <Grid container justify="center">
               <Grid item>
-                <Typography variant="h4" gutterBottom>
-                  Graficas
+                <Typography variant="subtitle1" gutterBottom>
+                  {`Graficas Anual de ${Tipo}`}
                 </Typography>
               </Grid>
             </Grid>
