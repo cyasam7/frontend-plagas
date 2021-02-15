@@ -360,7 +360,7 @@ function GraficasAnual() {
               </Grid>
             </Grid>
             <Grid container>
-              <Grid item xs={12}>
+              <Grid item xs={12} lg={10}>
                 <Bar
                   plugins={{
                     datalabels: {
