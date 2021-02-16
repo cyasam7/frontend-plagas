@@ -1,37 +1,16 @@
 import React from "react";
 import TableAreaAnualVolador from "./TableAreaAnualVolador";
-import TableAreaAnualRastrero from "./TableAreaAnualRastrero";
-function ContainerTablaAreaAnual({ revision, tipo }) {
+import { Typography } from "@material-ui/core";
+function ContainerTablaAreaAnual({ revision, primerAño, segundoAño }) {
+  console.log(revision);
   return (
     <>
-      <div>
-        {tipo === "Voladores" ? (
-          <>
-            <TableAreaAnualVolador isTitulo año={revision} titulo={"moscas"} />
-            <TableAreaAnualVolador año={revision} titulo={"abejas"} />
-            <TableAreaAnualVolador año={revision} titulo={"otros"} />
-          </>
-        ) : (
-          <>
-            <TableAreaAnualRastrero año={revision} titulo="tijerilla" isTitulo />
-            <TableAreaAnualRastrero año={revision} titulo="roedor" />
-            <TableAreaAnualRastrero año={revision} titulo="frailecillos" />
-            <TableAreaAnualRastrero año={revision} titulo="mosca" />
-            <TableAreaAnualRastrero año={revision} titulo="pinacate" />
-            <TableAreaAnualRastrero año={revision} titulo="cochinilla" />
-            <TableAreaAnualRastrero
-              año={revision}
-              titulo="cucarachaAmericana"
-            />
-            <TableAreaAnualRastrero año={revision} titulo="cucarachaAlemana" />
-            <TableAreaAnualRastrero año={revision} titulo="araña" />
-            <TableAreaAnualRastrero año={revision} titulo="grillo" />
-            <TableAreaAnualRastrero año={revision} titulo="hormiga" />
-            <TableAreaAnualRastrero año={revision} titulo="ciempies" />
-            <TableAreaAnualRastrero año={revision} titulo="alacran" />
-          </>
-        )}
-      </div>
+      <Typography variant="h4" align="center" gutterBottom>
+        {`Reporte anual comparativo de los años ${primerAño} y ${segundoAño}`}
+      </Typography>
+      {revision.map((area, index) => (
+        <TableAreaAnualVolador area={area} key={index} />
+      ))}
     </>
   );
 }

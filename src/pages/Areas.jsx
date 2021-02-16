@@ -7,8 +7,7 @@ import {
   MenuItem,
 } from "@material-ui/core";
 import CardArea from "../components/CardArea";
-import { SuccessButton, ErrorButton } from "../components/Buttons";
-import Modal from "../components/Modal";
+import { SuccessButton} from "../components/Buttons";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 import { useModal } from "../Context/modal-context";

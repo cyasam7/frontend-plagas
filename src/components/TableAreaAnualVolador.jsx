@@ -10,41 +10,48 @@ import {
   Typography,
   Paper,
 } from "@material-ui/core";
-import { Line } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 
-function TableAreaAnual({ año, titulo, isTitulo }) {
-
+function TableAreaAnual({ area }) {
   const data = {
-    labels: año.año[0].mes.map((mes) => mes.mes).reverse(),
-    datasets: año.año.map((año) => {
-      return {
-        label: año.año,
-        borderColor: `rgb(${Math.random() * (250 - 1) + 1},${
-          Math.random() * (250 - 1) + 1
-        },${Math.random() * (250 - 1) + 1}, 0.5)`.toString(),
-        data: año.mes.map((mes) => mes.total[titulo]).reverse(),
+    labels: area.año
+      .map((año) => año.mes.map((mes) => `${mes.mes} ${año.año}`))
+      .flat(),
+    datasets: [
+      {
+        label: "Abejas",
+        backgroundColor: "rgba(25,99,132,.5)",
+        borderColor: "rgba(255,99,132,1)",
+        hoverBorderColor: "rgba(255,99,132,1)",
+        data: area.año
+          .map((año) => año.mes.map((mes) => mes.total.abejas))
+          .flat(),
+      },
+      {
+        label: "Moscas",
+        backgroundColor: "rgba(235, 64, 52,.5)",
+        borderColor: "rgba(155,231,91,0.2)",
+        hoverBorderColor: "rgba(255,99,132,1)",
+        data: area.año
+          .map((año) => año.mes.map((mes) => mes.total.moscas))
+          .flat(),
         fill: false,
-      };
-    }),
+      },
+    ],
   };
   return (
     <>
-      {isTitulo && (
-        <>
-          <hr />
-          <Typography variant="h6" align="center" gutterBottom>
-            {año.area}
-          </Typography>
-        </>
-      )}
-      <Grid container>
+      <Typography variant="h6" gutterBottom>
+        {area.area}
+      </Typography>
+      {/* <Grid container>
         <Grid item xs={12}>
           <TableContainer component={Paper} style={{ marginBottom: 15 }}>
             <Table size="small" aria-label="a dense table">
               <TableHead>
                 <TableRow>
                   <TableCell align="center" colSpan={3}>
-                    {titulo.toUpperCase()}
+                    {area.area.toUpperCase()}
                   </TableCell>
                 </TableRow>
                 <TableRow>
@@ -76,10 +83,10 @@ function TableAreaAnual({ año, titulo, isTitulo }) {
             </Table>
           </TableContainer>
         </Grid>
-      </Grid>
+      </Grid> */}
       <Grid container>
-        <Grid item xs={12}>
-          <Line
+        <Grid item xs={12} md={12} lg={10} xl={8}>
+          <Bar
             plugins={{
               datalabels: {
                 display: (ctx) => {

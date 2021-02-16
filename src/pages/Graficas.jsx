@@ -100,7 +100,7 @@ function Graficas() {
             color="primary"
             fullWidth
           >
-            Grafica anual por areas
+            Graficas Comparaciones por Años y Areas de Voladores
           </Button>
         </Grid>
         <Grid item xs={12}>

@@ -1,31 +1,58 @@
 import React, { useState } from "react";
-import { Grid, TextField, MenuItem, Button } from "@material-ui/core";
+import {
+  Grid,
+  TextField,
+  MenuItem,
+  Button,
+} from "@material-ui/core";
 import { useModal } from "../Context/modal-context";
 import { PDFExport } from "@progress/kendo-react-pdf";
 import { useParams } from "react-router-dom";
 import Axios from "axios";
 import ContainerTablaAreaAnual from "../components/ContainerTablaAreaAnual";
 import "chartjs-plugin-datalabels";
+import Swal from "sweetalert2";
 function GraficasAñoAnual() {
   const { setLoading } = useModal();
   const [revisiones, setRevisiones] = useState([]);
   const { idEmpresa } = useParams();
-  const [Tipo, setTipo] = useState("");
+  const [primerAño, setPrimerAño] = useState("");
+  const [segundoAño, setSegundoAño] = useState("");
   let pdfExportComponent;
-  const valores = [
-    {
-      value: "Rastreros",
-      label: "Rastreros",
-    },
-    {
-      value: "Voladores",
-      label: "Voladores",
-    },
+  const años = [
+    "",
+    "2019",
+    "2020",
+    "2021",
+    "2022",
+    "2023",
+    "2024",
+    "2025",
+    "2026",
+    "2027",
+    "2028",
+    "2029",
+    "2030",
   ];
   const handleBuscar = async () => {
+    if (primerAño === "" || segundoAño === "") {
+      Swal.fire({
+        icon: "warning",
+        title: "Campos vacios",
+      });
+      return;
+    }if(primerAño == segundoAño){
+      Swal.fire({
+        icon: "warning",
+        title: "Campos iguales",
+      });
+      return;
+    }
     setLoading(true);
     const { data } = await Axios.post(`/graficas/ano/area/${idEmpresa}`, {
-      tipo: Tipo,
+      tipo: "Voladores",
+      primerAño,
+      segundoAño,
     });
     setLoading(false);
     setRevisiones(data);
@@ -34,30 +61,48 @@ function GraficasAñoAnual() {
     <>
       <Grid
         container
-        spacing={2}
+        justify="flex-start"
         alignItems="center"
-        style={{ marginBottom: 15 }}
+        spacing={2}
+        style={{ marginBottom: 7 }}
       >
-        <Grid item xs={12} md={10}>
+        <Grid item xs={12} md={4}>
           <TextField
-            fullWidth
             select
-            label="Selecciona"
-            value={Tipo}
+            label="Primer año"
+            value={primerAño}
             onChange={(e) => {
               setRevisiones([]);
-              setTipo(e.target.value);
+              setPrimerAño(e.target.value);
             }}
-            helperText="Seleccione tipo de estacion"
+            helperText="Seleccione el primer año"
           >
-            {valores.map((option, index) => (
-              <MenuItem key={index} value={option.value}>
-                {option.label}
+            {años.map((option, index) => (
+              <MenuItem key={index} value={option}>
+                {option}
               </MenuItem>
             ))}
           </TextField>
         </Grid>
-        <Grid item xs={12} md={2}>
+        <Grid item xs={12} md={4}>
+          <TextField
+            select
+            label="Segundo año"
+            value={segundoAño}
+            onChange={(e) => {
+              setRevisiones([]);
+              setSegundoAño(e.target.value);
+            }}
+            helperText="Seleccione el segundo año"
+          >
+            {años.map((option, index) => (
+              <MenuItem key={index} value={option}>
+                {option}
+              </MenuItem>
+            ))}
+          </TextField>
+        </Grid>
+        <Grid item xs={12} md={4}>
           <Button
             onClick={handleBuscar}
             variant="contained"
@@ -69,46 +114,38 @@ function GraficasAñoAnual() {
         </Grid>
       </Grid>
       <Grid container>
-        <PDFExport
-          paperSize="letter"
-          margin="0.2cm"
-          scale={0.4}
-          fileName={`reporte-anual`}
-          ref={(component) => (pdfExportComponent = component)}
-        >
-          <Grid container>
-            <Grid>
-              <Button></Button>
-            </Grid>
-            <Grid item xs={12}>
-              {revisiones.length > 0 && (
-                <>
-                  <Button
-                    variant="outlined"
-                    fullWidth
-                    color="primary"
-                    onClick={() => {
-                      if (Tipo === "") {
-                        alert("Campo vacio");
-                        return;
-                      }
-                      pdfExportComponent.save();
-                    }}
-                  >
-                    Generar archivo
-                  </Button>
-                  {revisiones.map((revision, index) => (
-                    <ContainerTablaAreaAnual
-                      tipo={Tipo}
-                      key={index}
-                      revision={revision}
-                    />
-                  ))}
-                </>
-              )}
-            </Grid>
-          </Grid>
-        </PDFExport>
+        <Grid container justify="center">
+          {revisiones.length > 0 && (
+            <>
+              <Grid item xs={12}>
+                <Button
+                  variant="outlined"
+                  fullWidth
+                  color="primary"
+                  onClick={() => pdfExportComponent.save()}
+                >
+                  Generar archivo
+                </Button>
+              </Grid>
+
+              <Grid item xs={12} md={12} lg={10} xl={8}>
+                <PDFExport
+                  paperSize="letter"
+                  margin="0.2cm"
+                  scale={0.4}
+                  fileName={`reporte-anual-por-areas-voladores`}
+                  ref={(component) => (pdfExportComponent = component)}
+                >
+                  <ContainerTablaAreaAnual
+                    revision={revisiones}
+                    primerAño={primerAño}
+                    segundoAño={segundoAño}
+                  />
+                </PDFExport>
+              </Grid>
+            </>
+          )}
+        </Grid>
       </Grid>
     </>
   );

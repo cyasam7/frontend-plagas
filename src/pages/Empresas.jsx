@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Container, Typography, Box, Grid, TextField } from "@material-ui/core";
 import CardEmpresa from "../components/CardEmpresa";
 import { Add } from "@material-ui/icons";
-import { SuccessButton, ErrorButton } from "../components/Buttons";
-import Modal from "../components/Modal";
+import { SuccessButton } from "../components/Buttons";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 import { useModal } from "../Context/modal-context";
@@ -13,8 +12,6 @@ function Empresas() {
   const { logOut } = useUser();
   const { setLoading } = useModal();
   const [empresas, setEmpresas] = useState([]);
-  const [openModal, setOpenModal] = useState(false);
-  const [empresa, setEmpresa] = useState("");
   const [term, setTerm] = useState("");
 
   useEffect(() => {
