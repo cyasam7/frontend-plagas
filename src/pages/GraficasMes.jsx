@@ -360,7 +360,7 @@ function GraficasMes() {
           </Grid>
 
           <PDFExport
-            paperSize="A4"
+            paperSize="letter"
             scale={0.7}
             margin="1cm"
             fileName={`${moment(Mes).format("MMMM")}-reporte`}
