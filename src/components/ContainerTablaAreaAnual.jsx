@@ -6,7 +6,7 @@ function ContainerTablaAreaAnual({ revision, primerAño, segundoAño }) {
   return (
     <>
       <Typography variant="h4" align="center" gutterBottom>
-        {`Reporte anual comparativo de los años ${primerAño} y ${segundoAño}`}
+        {`Reporte anual de ${primerAño} y ${segundoAño}`}
       </Typography>
       {revision.map((area, index) => (
         <TableAreaAnualVolador area={area} key={index} />
