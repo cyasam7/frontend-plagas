@@ -14,6 +14,7 @@ import { useParams } from "react-router-dom";
 import { useModal } from "../Context/modal-context";
 import "chartjs-plugin-datalabels";
 import "moment/locale/es-mx";
+
 function GraficasMes() {
   const { setLoading } = useModal();
   const { idEmpresa } = useParams();
@@ -154,7 +155,7 @@ function GraficasMes() {
       },
       {
         label: "hormiga",
-        backgroundColor: " rgb(53, 6, 6,.8)",
+        backgroundColor: " rgb(53, 146, 6,.8)",
         borderWidth: 1,
         hoverBorderColor: "rgba(255,99,132,1)",
         hoverBackgroundColor: "rgba(255,99,132,0.4)",
@@ -170,7 +171,7 @@ function GraficasMes() {
       },
       {
         label: "alacran",
-        backgroundColor: " rgb(83, 71, 71,.8)",
+        backgroundColor: " rgb(981, 711, 71,.8)",
         borderWidth: 1,
         hoverBorderColor: "rgba(255,99,132,1)",
         hoverBackgroundColor: "rgba(255,99,132,0.4)",
