@@ -36,6 +36,9 @@ import Layout from "./components/Layout";
 
 import Cliente from "./pages/Cliente";
 
+import EditarRevision from './pages/EditarRevision'
+import Revision from './pages/Revision'
+
 function App() {
   const { loading } = useUser();
   if (loading) {
@@ -123,6 +126,12 @@ function App() {
             </PrivateRoute>
             <PrivateRoute exact path="/Graficas/anual/:idEmpresa">
               <GraficasAnual />
+            </PrivateRoute>
+            <PrivateRoute exact path="/revision/:idRevision">
+              <Revision />
+            </PrivateRoute>
+            <PrivateRoute exact path="/revision/editar/:idRevisionArea">
+              <EditarRevision />
             </PrivateRoute>
           </Layout>
           <PrivateRoute>

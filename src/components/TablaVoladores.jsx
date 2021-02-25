@@ -17,93 +17,78 @@ const useStyles = makeStyles({
   },
 });
 
-function TableRastrero({ revision }) {
+function TableRastrero({ area: { voladores } }) {
   const classes = useStyles();
+
   return (
     <>
-      <Typography variant="subtitle2">
-        Fecha: {`${revision.dia} / ${revision.mes} / ${revision.año}`}
-      </Typography>
-      {revision.areas.map((area, index) =>
-        area.voladores.length > 0 ? (
-          <TableContainer
-            key={index}
-            component={Paper}
-            style={{ marginBottom: 15 }}
+      {voladores.length > 0 && (
+        <>
+        <Typography gutterBottom variant="subtitle2">Estaciones de Rastreros</Typography>
+        <TableContainer component={Paper} style={{ marginBottom: 15 }}>
+          <Table
+            className={classes.table}
+            size="small"
+            aria-label="a dense table"
           >
-            <Table
-              className={classes.table}
-              size="small"
-              aria-label="a dense table"
-            >
-              <TableHead>
-                <TableRow>
-                  <TableCell align="center" colSpan={6}>
-                    Area: {area.area.nombre}
+            <TableHead>
+              <TableRow>
+                <TableCell>Dispositivo</TableCell>
+                <TableCell align="right">L</TableCell>
+                <TableCell align="right">M</TableCell>
+                <TableCell align="right">M/V</TableCell>
+                <TableCell align="right">M/E</TableCell>
+                <TableCell align="right">M/M</TableCell>
+                <TableCell align="right">M/C</TableCell>
+                <TableCell align="right">M/PC</TableCell>
+                <TableCell align="right">M/D</TableCell>
+                <TableCell align="right">M/PD</TableCell>
+                <TableCell align="right">O/I</TableCell>
+                <TableCell align="right">ABEJAS</TableCell>
+                <TableCell align="right">RT/A</TableCell>
+                <TableCell align="right">RT/B</TableCell>
+                <TableCell align="right">RTL/A</TableCell>
+                <TableCell align="right">RTL/B</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {voladores.map((estacion, index) => (
+                <TableRow key={index}>
+                  <TableCell>{estacion.estacion.numero}</TableCell>
+                  <TableCell align="right">
+                    {estacion.limpieza && "SI"}
+                  </TableCell>
+                  <TableCell align="right">
+                    {estacion.monitoreado ? "SI" : ""}
+                  </TableCell>
+                  <TableCell align="right">{estacion.moscaVinagre}</TableCell>
+                  <TableCell align="right">{estacion.moscaEstablo}</TableCell>
+                  <TableCell align="right">{estacion.moscaMetalica}</TableCell>
+                  <TableCell align="right">{estacion.moscaCarne}</TableCell>
+                  <TableCell align="right">{estacion.moscaCasera}</TableCell>
+                  <TableCell align="right">{estacion.moscaDomestica}</TableCell>
+                  <TableCell align="right">{estacion.moscaDrenaje}</TableCell>
+                  <TableCell align="right">{estacion.otros}</TableCell>
+                  <TableCell align="right">{estacion.abejas}</TableCell>
+                  <TableCell align="right">
+                    {estacion.reposicionTrampaA && "SI"}
+                  </TableCell>
+                  <TableCell align="right">
+                    {estacion.reposicionTrampaB && "SI"}
+                  </TableCell>
+                  <TableCell align="right">
+                    {estacion.exposicionTuboLuzA && "SI"}
+                  </TableCell>
+                  <TableCell align="right">
+                    {estacion.exposicionTuboLuzB && "SI"}
                   </TableCell>
                 </TableRow>
-                <TableRow>
-                  <TableCell>Dispositivo</TableCell>
-                  <TableCell align="right">L</TableCell>
-                  <TableCell align="right">M</TableCell>
-                  <TableCell align="right">M/V</TableCell>
-                  <TableCell align="right">M/E</TableCell>
-                  <TableCell align="right">M/M</TableCell>
-                  <TableCell align="right">M/C</TableCell>
-                  <TableCell align="right">M/PC</TableCell>
-                  <TableCell align="right">M/D</TableCell>
-                  <TableCell align="right">M/PD</TableCell>
-                  <TableCell align="right">O/I</TableCell>
-                  <TableCell align="right">ABEJAS</TableCell>
-                  <TableCell align="right">RT/A</TableCell>
-                  <TableCell align="right">RT/B</TableCell>
-                  <TableCell align="right">RTL/A</TableCell>
-                  <TableCell align="right">RTL/B</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {area.voladores.map((estacion, index) => (
-                  <TableRow key={index}>
-                    <TableCell>{estacion.estacion.numero}</TableCell>
-                    <TableCell align="right">
-                      {estacion.limpieza.toString()}
-                    </TableCell>
-                    <TableCell align="right">
-                      {estacion.monitoreado.toString()}
-                    </TableCell>
-                    <TableCell align="right">{estacion.moscaVinagre}</TableCell>
-                    <TableCell align="right">{estacion.moscaEstablo}</TableCell>
-                    <TableCell align="right">
-                      {estacion.moscaMetalica}
-                    </TableCell>
-                    <TableCell align="right">{estacion.moscaCarne}</TableCell>
-                    <TableCell align="right">{estacion.moscaCasera}</TableCell>
-                    <TableCell align="right">
-                      {estacion.moscaDomestica}
-                    </TableCell>
-                    <TableCell align="right">{estacion.moscaDrenaje}</TableCell>
-                    <TableCell align="right">{estacion.otros}</TableCell>
-                    <TableCell align="right">{estacion.abejas}</TableCell>
-                    <TableCell align="right">
-                      {estacion.reposicionTrampaA.toString()}
-                    </TableCell>
-                    <TableCell align="right">
-                      {estacion.reposicionTrampaB.toString()}
-                    </TableCell>
-                    <TableCell align="right">
-                      {estacion.exposicionTuboLuzA.toString()}
-                    </TableCell>
-                    <TableCell align="right">
-                      {estacion.exposicionTuboLuzB.toString()}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        ) : null
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        </>
       )}
-      <br></br>
     </>
   );
 }

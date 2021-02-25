@@ -12,6 +12,7 @@ import { PDFExport } from "@progress/kendo-react-pdf";
 import Axios from "axios";
 import { useParams } from "react-router-dom";
 import "chartjs-plugin-datalabels";
+import Swal from "sweetalert2";
 function GraficasAnual() {
   const { idEmpresa } = useParams();
   const [Tipo, setTipo] = useState("");
@@ -37,6 +38,23 @@ function GraficasAnual() {
   const [alacran, setAlacran] = useState([]);
   const [ver, setVer] = useState(false);
 
+  const [primerAño, setPrimerAño] = useState("");
+  const [segundoAño, setSegundoAño] = useState("");
+  const años = [
+    "",
+    "2019",
+    "2020",
+    "2021",
+    "2022",
+    "2023",
+    "2024",
+    "2025",
+    "2026",
+    "2027",
+    "2028",
+    "2029",
+    "2030",
+  ];
   let pdfExportComponent;
   const estations = [
     {
@@ -66,14 +84,6 @@ function GraficasAnual() {
         borderWidth: 1,
         hoverBorderColor: "rgba(255,99,132,1)",
         data: abejas,
-      },
-      {
-        label: "Otros",
-        backgroundColor: "rgba(155,0,91,.5)",
-        borderColor: "rgba(155,231,91,0.2)",
-        borderWidth: 1,
-        hoverBorderColor: "rgba(255,99,132,1)",
-        data: otros,
       },
     ],
   };
@@ -201,13 +211,25 @@ function GraficasAnual() {
   };
 
   const handleBuscar = async () => {
-    if (Tipo === "") {
-      alert("Llenar los datos correctamente");
+    if (Tipo === "" || primerAño === "" || segundoAño === "") {
+      Swal.fire({
+        icon: "warning",
+        title: "Campos vacios",
+      });
+      return;
+    }
+    if (primerAño == segundoAño) {
+      Swal.fire({
+        icon: "warning",
+        title: "Campos iguales",
+      });
       return;
     }
     setLoading(true);
     const { data } = await Axios.post(`/graficas/ano/${idEmpresa}`, {
       tipo: Tipo,
+      primerAño,
+      segundoAño,
     });
     if (Tipo === "Voladores") {
       const labels = data.map((area) => {
@@ -314,6 +336,42 @@ function GraficasAnual() {
             ))}
           </TextField>
         </Grid>
+        <Grid item xs={12} md={4}>
+          <TextField
+            select
+            label="Primer año"
+            value={primerAño}
+            onChange={(e) => {
+              setVer(false);
+              setPrimerAño(e.target.value);
+            }}
+            helperText="Seleccione el primer año"
+          >
+            {años.map((option, index) => (
+              <MenuItem key={index} value={option}>
+                {option}
+              </MenuItem>
+            ))}
+          </TextField>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <TextField
+            select
+            label="Segundo año"
+            value={segundoAño}
+            onChange={(e) => {
+              setVer(false);
+              setSegundoAño(e.target.value);
+            }}
+            helperText="Seleccione el segundo año"
+          >
+            {años.map((option, index) => (
+              <MenuItem key={index} value={option}>
+                {option}
+              </MenuItem>
+            ))}
+          </TextField>
+        </Grid>
         <Grid item md={2}>
           <Button
             fullWidth
@@ -325,7 +383,6 @@ function GraficasAnual() {
           </Button>
         </Grid>
       </Grid>
-
       <br />
       {ver ? (
         <>

@@ -6,18 +6,18 @@ import {
   Typography,
   Button,
 } from "@material-ui/core";
-function CardRevision({ revision }) {
-  const handleDescargar = () =>{
-    console.log(revision)
-    window.open(`https://ellaurelrd.com/api/revision/pdf/${revision.folio}`)
-  }
-  
+import { Link } from "react-router-dom";
+function CardRevision({ revision, admin }) {
+  const handleDescargar = () => {
+    console.log(revision);
+    window.open(`https://ellaurelrd.com/api/revision/pdf/${revision.folio}`);
+  };
+
   return (
     <Card>
       <CardContent>
-      <Typography variant="subtitle2">
-          ID:{" "}
-          <Typography variant="overline">{`${revision.folio}`}</Typography>
+        <Typography variant="subtitle2">
+          ID: <Typography variant="overline">{`${revision.folio}`}</Typography>
         </Typography>
         <Typography variant="subtitle2">
           Aval: <Typography variant="overline">{`${revision.aval}`}</Typography>
@@ -39,6 +39,13 @@ function CardRevision({ revision }) {
         <Button onClick={handleDescargar} variant="contained" color="primary">
           Descargar el reporte
         </Button>
+        {admin && (
+          <Link to={`/revision/${revision._id}`}>
+            <Button variant="contained" color="secondary">
+              Editar
+            </Button>
+          </Link>
+        )}
       </CardActions>
     </Card>
   );
