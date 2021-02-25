@@ -131,8 +131,8 @@ function GraficasAñoAnual() {
               <Grid item xs={12} md={12} lg={10} xl={8}>
                 <PDFExport
                   paperSize="letter"
-                  margin="0.2cm"
-                  scale={0.4}
+                  margin={{left: "1cm", right: "1cm", bottom:"5mm"}}
+                  scale={0.5}
                   fileName={`reporte-anual-por-areas-voladores`}
                   ref={(component) => (pdfExportComponent = component)}
                 >
