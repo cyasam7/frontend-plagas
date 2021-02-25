@@ -13,7 +13,7 @@ import Axios from "axios";
 import { useParams } from "react-router-dom";
 import { useModal } from "../Context/modal-context";
 import "chartjs-plugin-datalabels";
-import "moment/locale/es-mx"
+import "moment/locale/es-mx";
 function GraficasMes() {
   const { setLoading } = useModal();
   const { idEmpresa } = useParams();
@@ -302,7 +302,10 @@ function GraficasMes() {
             value={Mes}
             type="month"
             label=""
-            onChange={(e) => setMes(e.target.value)}
+            onChange={(e) => {
+              setVer(false);
+              setMes(e.target.value);
+            }}
             helperText="Seleccione mes y año"
           />
         </Grid>
@@ -361,7 +364,6 @@ function GraficasMes() {
             margin="1cm"
             fileName={`${moment(Mes).format("MMMM")}-reporte`}
             landscape={true}
-
             ref={(component) => (pdfExportComponent = component)}
           >
             <Grid container justify="center">
