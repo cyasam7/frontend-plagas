@@ -1,4 +1,4 @@
-import { Container, Typography } from "@material-ui/core";
+import { Container, MenuItem, TextField, Typography } from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -6,8 +6,11 @@ import TablaVoladores from "../components/TablaVoladores";
 import TablaRastreros from "../components/TablaRastrero";
 import TablaRoedores from "../components/TablaRoedores";
 function Revision() {
-  const [Revision, setRevision] = useState();
   const { idRevision } = useParams();
+  const [Revision, setRevision] = useState();
+  const [Area, setArea] = useState("");
+  const [Tipo, setTipo] = useState("");
+
   useEffect(() => {
     (async function () {
       const { data } = await axios.get(`/revision/${idRevision}`);
@@ -17,17 +20,33 @@ function Revision() {
   }, [idRevision]);
   return (
     <Container>
+      <TextField
+        fullWidth
+        select
+        label="Area"
+        helperText="Selecciona el nombre del area para ver lista de estaciones"
+        value={Area}
+        onChange={(e) => {
+          setArea(e.target.value);
+        }}
+      >
+        {Revision &&
+          Revision.areas.map((area, index) => (
+            <MenuItem key={index} value={area.area._id}>
+              {area.area.nombre.toUpperCase()}
+            </MenuItem>
+          ))}
+      </TextField>
       {Revision &&
-        Revision.areas.map((area, index) => (
-          <div key={index}>
-            <Typography variant="subtitle1" align="center" gutterBottom>
-              {area.area.nombre}
-            </Typography>
-            <TablaVoladores area={area} />
-            <TablaRastreros area={area} />
-            <TablaRoedores area={area} />
-          </div>
-        ))}
+        Revision.areas
+          .filter((area) => area.area._id === Area)
+          .map((area) => (
+            <>
+              <TablaRastreros area={area} />
+              <TablaVoladores area={area} />
+              <TablaRoedores area={area} />
+            </>
+          ))}
     </Container>
   );
 }

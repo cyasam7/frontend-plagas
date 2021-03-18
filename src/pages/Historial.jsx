@@ -95,7 +95,7 @@ function Historial() {
           <>
             {Historial.map((review, index) => (
               <Grid key={index} item md={6}>
-                <CardRevision revision={review}  />
+                <CardRevision admin revision={review}  />
               </Grid>
             ))}
           </>
