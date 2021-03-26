@@ -21,7 +21,7 @@ function GraficasAnual() {
   const [labels, setLabels] = useState([]);
   const [abejas, setAbejas] = useState([]);
   const [moscas, setMoscas] = useState([]);
-  const [otros, setOtros] = useState([]);
+  /* const [otros, setOtros] = useState([]); */
   //--
   const [tijerilla, setTijerilla] = useState([]);
   const [roedor, setRoedor] = useState([]);
@@ -241,14 +241,14 @@ function GraficasAnual() {
       const mosca = data.map((area) => {
         return area.mosca;
       });
-      const otros = data.map((area) => {
+      /* const otros = data.map((area) => {
         return area.otros;
-      });
+      }); */
       setVolador(true);
       setLabels(labels);
       setAbejas(abejas);
       setMoscas(mosca);
-      setOtros(otros);
+      /* setOtros(otros); */
     } else {
       const labels = data.map((area) => {
         return area.año;

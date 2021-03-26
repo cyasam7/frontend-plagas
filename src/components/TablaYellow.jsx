@@ -7,6 +7,7 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Checkbox,
   Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -17,10 +18,20 @@ const useStyles = makeStyles({
   },
 });
 
-function TableYellow({ area: { area, rastreros } }) {
+function TableYellow({ jacket, change }) {
   const classes = useStyles();
+  console.log(jacket);
+  const handleChange = (e, estacion) => {
+    change(estacion._id, e.target.name, e.target.checked);
+  };
+  if (!jacket.length) {
+    return null;
+  }
   return (
     <>
+      <Typography gutterBottom variant="subtitle2">
+        Estaciones de Roedores
+      </Typography>
       <TableContainer component={Paper} style={{ marginBottom: 15 }}>
         <Table
           className={classes.table}
@@ -29,64 +40,21 @@ function TableYellow({ area: { area, rastreros } }) {
         >
           <TableHead>
             <TableRow>
-              <TableCell align="center" colSpan={6}>
-                Area: {area.nombre}
-              </TableCell>
-            </TableRow>
-            <TableRow>
               <TableCell>Dispositivo</TableCell>
-              <TableCell align="right">S</TableCell>
-              <TableCell align="right">D</TableCell>
-              <TableCell align="right">R/T</TableCell>
-              <TableCell align="right">F/L</TableCell>
-              <TableCell align="right">CON/N</TableCell>
-              <TableCell align="right">C/T</TableCell>
-              <TableCell align="right">C/R</TableCell>
-              <TableCell align="right">C/F</TableCell>
-              <TableCell align="right">C/M</TableCell>
-              <TableCell align="right">C/P</TableCell>
-              <TableCell align="right">C/C</TableCell>
-              <TableCell align="right">C/CAM</TableCell>
-              <TableCell align="right">C/CAL</TableCell>
-              <TableCell align="right">C/A</TableCell>
-              <TableCell align="right">C/G</TableCell>
-              <TableCell align="right">C/H</TableCell>
-              <TableCell align="right">C/CI</TableCell>
-              <TableCell align="right">C/ALAC</TableCell>
+              <TableCell align="center">Revisado</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rastreros.map((estacion) => (
-              <TableRow>
+            {jacket.map((estacion, key) => (
+              <TableRow key={key}>
                 <TableCell>{estacion.estacion.numero}</TableCell>
-                <TableCell align="right">{estacion.sucia.toString()}</TableCell>
-                <TableCell align="right">
-                  {estacion.dañada.toString()}
+                <TableCell align="center">
+                  <Checkbox
+                    onChange={(e) => handleChange(e, estacion)}
+                    name="revisado"
+                    checked={estacion.revisado}
+                  />
                 </TableCell>
-                <TableCell align="right">
-                  {estacion.reposicionTrampa.toString()}
-                </TableCell>
-                <TableCell align="right">
-                  {estacion.fueraLugar.toString()}
-                </TableCell>
-                <TableCell align="right">
-                  {estacion.condicionNormal.toString()}
-                </TableCell>
-                <TableCell align="right">{estacion.tijerilla}</TableCell>
-                <TableCell align="right">{estacion.roedor}</TableCell>
-                <TableCell align="right">{estacion.frailecillos}</TableCell>
-                <TableCell align="right">{estacion.mosca}</TableCell>
-                <TableCell align="right">{estacion.pinacate}</TableCell>
-                <TableCell align="right">{estacion.cochinilla}</TableCell>
-                <TableCell align="right">
-                  {estacion.cucarachaAmericana}
-                </TableCell>
-                <TableCell align="right">{estacion.cucarachaAlemana}</TableCell>
-                <TableCell align="right">{estacion.araña}</TableCell>
-                <TableCell align="right">{estacion.grillo}</TableCell>
-                <TableCell align="right">{estacion.hormiga}</TableCell>
-                <TableCell align="right">{estacion.ciempies}</TableCell>
-                <TableCell align="right">{estacion.alacran}</TableCell>
               </TableRow>
             ))}
           </TableBody>

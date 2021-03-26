@@ -6,13 +6,13 @@ import {
   Button,
   AppBar,
   Grid,
-  TextField
+  TextField,
 } from "@material-ui/core";
 import { useUser } from "../Context/user-context";
 import Axios from "axios";
 import CardRevision from "../components/CardRevision";
 import { useModal } from "../Context/modal-context";
-import moment from 'moment';
+import moment from "moment";
 function Cliente() {
   const { setLoading } = useModal();
   const { logOut, user } = useUser();
@@ -20,40 +20,41 @@ function Cliente() {
   const [fecha, setFecha] = useState("");
   const [empresa, setEmpresa] = useState("");
   useEffect(() => {
-    console.log(user);
     async function initial() {
       const { data } = await Axios.get(`/empresaContacto/usuario/${user}`);
-      return data
+      return data;
     }
     setLoading(true);
     initial().then((data) => {
-      setEmpresa(data.empresa._id)
+      setEmpresa(data.empresa._id);
       setLoading(false);
     });
   }, [setLoading, user]);
 
-  const handleBuscarRevisiones = async () =>{
-    setLoading(true)
-    if(fecha === ""){
-      alert("Llenar los datos")
-      setLoading(false)
+  const handleBuscarRevisiones = async () => {
+    setLoading(true);
+    if (fecha === "") {
+      alert("Llenar los datos");
+      setLoading(false);
       return;
     }
-    const año = moment(fecha).format("YYYYY")
-    const mes = moment(fecha).format("MMMMM")
-    const revisiones = await Axios.get(`/revision?mes=${mes}&ano=${año}&empresa=${empresa}`);
-    setRevisiones(revisiones);
-    setLoading(false)
-  }
+    const año = moment(fecha).format("YYYYY");
+    const mes = moment(fecha).format("MMMMM");
+    const newAño = año.substring(1, año.length);
+    const newMes = mes.slice(0, -1);
+    const { data } = await Axios.get(
+      `/revision?mes=${newMes}&ano=${newAño}&empresa=${empresa}`
+    );
+    setRevisiones(data);
+    setLoading(false);
+  };
   return (
     <>
       <AppBar position="static">
         <Toolbar>
           <Grid container justify={"space-between"}>
             <Grid item>
-              <Typography variant="h6">
-                Tu historial
-              </Typography>
+              <Typography variant="h6">Tu historial</Typography>
             </Grid>
             <Grid item>
               <Button onClick={() => logOut()} color="inherit">
@@ -67,7 +68,7 @@ function Cliente() {
         <Typography variant="h4" align="center" gutterBottom>
           Lista
         </Typography>
-        <Grid container  spacing={2}>
+        <Grid container spacing={2}>
           <Grid item xs={12} md={10}>
             <TextField
               fullWidth
@@ -79,7 +80,12 @@ function Cliente() {
             />
           </Grid>
           <Grid item xs={12} md={2}>
-            <Button onClick={handleBuscarRevisiones} variant="contained" fullWidth color="primary">
+            <Button
+              onClick={handleBuscarRevisiones}
+              variant="contained"
+              fullWidth
+              color="primary"
+            >
               Buscar
             </Button>
           </Grid>
@@ -87,9 +93,9 @@ function Cliente() {
         <Grid container spacing={5}>
           {Revisiones.length > 0 ? (
             <>
-              {Revisiones.map((revision) => (
+              {Revisiones.map((revision, index) => (
                 <Grid item md={4}>
-                  <CardRevision revision={revision} />
+                  <CardRevision key={index} revision={revision} />
                 </Grid>
               ))}
             </>

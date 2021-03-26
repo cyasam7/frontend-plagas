@@ -10,6 +10,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import RowTableVoladores from "./RowTableVoladores";
 
 const useStyles = makeStyles({
   table: {
@@ -17,76 +18,53 @@ const useStyles = makeStyles({
   },
 });
 
-function TableRastrero({ area: { voladores } }) {
+function TableRastrero({ voladores, change }) {
   const classes = useStyles();
 
   return (
     <>
       {voladores.length > 0 && (
         <>
-        <Typography gutterBottom variant="subtitle2">Estaciones de Rastreros</Typography>
-        <TableContainer component={Paper} style={{ marginBottom: 15 }}>
-          <Table
-            className={classes.table}
-            size="small"
-            aria-label="a dense table"
-          >
-            <TableHead>
-              <TableRow>
-                <TableCell>Dispositivo</TableCell>
-                <TableCell align="right">L</TableCell>
-                <TableCell align="right">M</TableCell>
-                <TableCell align="right">M/V</TableCell>
-                <TableCell align="right">M/E</TableCell>
-                <TableCell align="right">M/M</TableCell>
-                <TableCell align="right">M/C</TableCell>
-                <TableCell align="right">M/PC</TableCell>
-                <TableCell align="right">M/D</TableCell>
-                <TableCell align="right">M/PD</TableCell>
-                <TableCell align="right">O/I</TableCell>
-                <TableCell align="right">ABEJAS</TableCell>
-                <TableCell align="right">RT/A</TableCell>
-                <TableCell align="right">RT/B</TableCell>
-                <TableCell align="right">RTL/A</TableCell>
-                <TableCell align="right">RTL/B</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {voladores.map((estacion, index) => (
-                <TableRow key={index}>
-                  <TableCell>{estacion.estacion.numero}</TableCell>
-                  <TableCell align="right">
-                    {estacion.limpieza && "SI"}
-                  </TableCell>
-                  <TableCell align="right">
-                    {estacion.monitoreado ? "SI" : ""}
-                  </TableCell>
-                  <TableCell align="right">{estacion.moscaVinagre}</TableCell>
-                  <TableCell align="right">{estacion.moscaEstablo}</TableCell>
-                  <TableCell align="right">{estacion.moscaMetalica}</TableCell>
-                  <TableCell align="right">{estacion.moscaCarne}</TableCell>
-                  <TableCell align="right">{estacion.moscaCasera}</TableCell>
-                  <TableCell align="right">{estacion.moscaDomestica}</TableCell>
-                  <TableCell align="right">{estacion.moscaDrenaje}</TableCell>
-                  <TableCell align="right">{estacion.otros}</TableCell>
-                  <TableCell align="right">{estacion.abejas}</TableCell>
-                  <TableCell align="right">
-                    {estacion.reposicionTrampaA && "SI"}
-                  </TableCell>
-                  <TableCell align="right">
-                    {estacion.reposicionTrampaB && "SI"}
-                  </TableCell>
-                  <TableCell align="right">
-                    {estacion.exposicionTuboLuzA && "SI"}
-                  </TableCell>
-                  <TableCell align="right">
-                    {estacion.exposicionTuboLuzB && "SI"}
-                  </TableCell>
+          <Typography gutterBottom variant="subtitle2">
+            Estaciones de Voladores
+          </Typography>
+          <TableContainer component={Paper} style={{ marginBottom: 15 }}>
+            <Table
+              className={classes.table}
+              size="small"
+              aria-label="a dense table"
+            >
+              <TableHead>
+                <TableRow>
+                  <TableCell>Dispositivo</TableCell>
+                  <TableCell align="center">L</TableCell>
+                  <TableCell align="center">M</TableCell>
+                  <TableCell align="center">M/V</TableCell>
+                  <TableCell align="center">M/E</TableCell>
+                  <TableCell align="center">M/M</TableCell>
+                  <TableCell align="center">M/C</TableCell>
+                  <TableCell align="center">M/PC</TableCell>
+                  <TableCell align="center">M/D</TableCell>
+                  <TableCell align="center">M/PD</TableCell>
+                  <TableCell align="center">O/I</TableCell>
+                  <TableCell align="center">ABEJAS</TableCell>
+                  <TableCell align="center">RT/A</TableCell>
+                  <TableCell align="center">RT/B</TableCell>
+                  <TableCell align="center">RTL/A</TableCell>
+                  <TableCell align="center">RTL/B</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {voladores.map((estacion, index) => (
+                  <RowTableVoladores
+                    key={index}
+                    change={change}
+                    estacion={estacion}
+                  />
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </>
       )}
     </>

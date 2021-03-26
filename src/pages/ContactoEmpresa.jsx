@@ -9,6 +9,7 @@ import {
   TableRow,
   TableBody,
   Grid,
+  Button,
 } from "@material-ui/core";
 import {
   ErrorButton,
@@ -18,6 +19,7 @@ import {
 import Modal from "../components/Modal";
 import { useModal } from "../Context/modal-context";
 import Axios from "axios";
+import Swal from "sweetalert2";
 
 function ContactoEmpresa() {
   const { setLoading } = useModal();
@@ -53,7 +55,40 @@ function ContactoEmpresa() {
       setopenModal(false);
     }
   };
-
+  const handleCambiarPassword = async (idUsuario) => {
+    const { value: formValues, isConfirmed } = await Swal.fire({
+      title: "Cambio de contraseña",
+      html:
+        '<input id="swal-input1" type="password" placeholder="Contraseña" class="swal2-input">' +
+        '<input id="swal-input2" type="password" placeholder="Confirmar" class="swal2-input">',
+      focusConfirm: false,
+      preConfirm: () => {
+        return [
+          document.getElementById("swal-input1").value,
+          document.getElementById("swal-input2").value,
+        ];
+      },
+    });
+    if (isConfirmed) {
+      if (formValues[0] !== formValues[1]) {
+        await Swal.fire({
+          title: "Contraseñas no son iguales",
+          text: "Volver a intentar con contraseñas iguales",
+          icon: "error",
+        });
+        return;
+      }
+      await Axios.patch(`/usuarios/password/${idUsuario}`, {
+        idUsuario,
+        password: formValues[0],
+      });
+      Swal.fire({
+        title: "Correcto",
+        text: "Se actualizo correctamente la contraseña",
+        icon: "success",
+      });
+    }
+  };
   return (
     <>
       <Modal abierto={openModal} titulo="¿Seguro que desea Eliminar?">
@@ -94,15 +129,21 @@ function ContactoEmpresa() {
                     <ErrorButton
                       onClick={() => {
                         setopenModal(true);
-                        setEmpresaContacto(user._id);
+                        setEmpresaContacto(user.usuario._id);
                       }}
-                      fullWidth
                     >
                       Eliminar
                     </ErrorButton>
                     <Link to={`/empresas/editar/contacto/${user.usuario._id}`}>
-                      <WarningButton fullWidth>Editar</WarningButton>
+                      <WarningButton>Editar</WarningButton>
                     </Link>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => handleCambiarPassword(user.usuario._id)}
+                    >
+                      Cambio de Contraseña
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}

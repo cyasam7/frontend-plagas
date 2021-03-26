@@ -10,6 +10,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import RowTableRoedores from "./RowTableRoedores";
 
 const useStyles = makeStyles({
   table: {
@@ -17,7 +18,7 @@ const useStyles = makeStyles({
   },
 });
 
-function TablaRoedores({ area: { area, roedores } }) {
+function TablaRoedores({ roedores, change }) {
   const classes = useStyles();
   if (roedores.length < 0) {
     return null;
@@ -26,7 +27,9 @@ function TablaRoedores({ area: { area, roedores } }) {
     <>
       {roedores.length > 0 && (
         <>
-          <Typography gutterBottom variant="subtitle2">Estaciones de Roedores</Typography>
+          <Typography gutterBottom variant="subtitle2">
+            Estaciones de Roedores
+          </Typography>
           <TableContainer component={Paper} style={{ marginBottom: 15 }}>
             <Table
               className={classes.table}
@@ -36,52 +39,20 @@ function TablaRoedores({ area: { area, roedores } }) {
               <TableHead>
                 <TableRow>
                   <TableCell>Dispositivo</TableCell>
-                  <TableCell align="right">C/N</TableCell>
-                  <TableCell align="right">S</TableCell>
-                  <TableCell align="right">C/R</TableCell>
-                  <TableCell align="right">F/L</TableCell>
-                  <TableCell align="right">RC/R</TableCell>
-                  <TableCell align="right">RC/CI</TableCell>
-                  <TableCell align="right">RC/D</TableCell>
-                  <TableCell align="right">RP/SR</TableCell>
-                  <TableCell align="right">D</TableCell>
+                  <TableCell align="center">C/N</TableCell>
+                  <TableCell align="center">S</TableCell>
+                  <TableCell align="center">C/R</TableCell>
+                  <TableCell align="center">F/L</TableCell>
+                  <TableCell align="center">RC/R</TableCell>
+                  <TableCell align="center">RC/CI</TableCell>
+                  <TableCell align="center">RC/D</TableCell>
+                  <TableCell align="center">RP/SR</TableCell>
+                  <TableCell align="center">D</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {roedores.map((estacion, index) => (
-                  <TableRow key={index}>
-                    <TableCell>{estacion.estacion.numero}</TableCell>
-                    <TableCell align="right">
-                      {estacion.condicion && "SI"}
-                    </TableCell>
-                    <TableCell align="right">
-                      {estacion.monitoreado && "SI"}
-                    </TableCell>
-                    <TableCell align="right">
-                      {estacion.sucia && "SI"}
-                    </TableCell>
-                    <TableCell align="right">
-                      {estacion.conRoedor && "SI"}
-                    </TableCell>
-                    <TableCell align="right">
-                      {estacion.fueraLugar && "SI"}
-                    </TableCell>
-                    <TableCell align="right">
-                      {estacion.consumoRoedor && "SI"}
-                    </TableCell>
-                    <TableCell align="right">
-                      {estacion.consumoInsectos && "SI"}
-                    </TableCell>
-                    <TableCell align="right">
-                      {estacion.consumoDescomposicion && "SI"}
-                    </TableCell>
-                    <TableCell align="right">
-                      {estacion.consumoParcialSinReposicion && "SI"}
-                    </TableCell>
-                    <TableCell align="right">
-                      {estacion.dañada && "SI"}
-                    </TableCell>
-                  </TableRow>
+                  <RowTableRoedores key={index} change={change} estacion={estacion} />
                 ))}
               </TableBody>
             </Table>

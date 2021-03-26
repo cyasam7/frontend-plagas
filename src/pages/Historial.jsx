@@ -71,13 +71,6 @@ function Historial() {
             ))}
           </TextField>
         </Grid>
-        <Grid item md={2} xs={12}>
-          <SuccessButton onClick={handleHistorial} fullWidth>
-            Seleccionar
-          </SuccessButton>
-        </Grid>
-      </Grid>
-      <Grid container>
         <Grid item md={10} xs={12}>
           <TextField
             fullWidth
@@ -89,13 +82,19 @@ function Historial() {
             helperText="Seleccione mes y año"
           />
         </Grid>
+        <Grid item md={2} xs={12}>
+          <SuccessButton onClick={handleHistorial} fullWidth>
+            Seleccionar
+          </SuccessButton>
+        </Grid>
       </Grid>
+      <Grid container></Grid>
       <Grid container spacing={2} style={{ marginTop: 15 }}>
         {Historial.length > 0 ? (
           <>
             {Historial.map((review, index) => (
               <Grid key={index} item md={6}>
-                <CardRevision admin revision={review}  />
+                <CardRevision admin revision={review} />
               </Grid>
             ))}
           </>

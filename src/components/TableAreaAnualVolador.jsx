@@ -1,14 +1,7 @@
 import React from "react";
 import {
   Grid,
-  Table,
-  TableContainer,
-  TableHead,
-  TableBody,
-  TableCell,
-  TableRow,
   Typography,
-  Paper,
 } from "@material-ui/core";
 import { Bar } from "react-chartjs-2";
 

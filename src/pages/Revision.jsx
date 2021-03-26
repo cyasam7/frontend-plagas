@@ -1,23 +1,21 @@
-import { Container, MenuItem, TextField, Typography } from "@material-ui/core";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
+import TablaRevisiones from "../components/TablaRevisiones";
 import { useParams } from "react-router-dom";
-import TablaVoladores from "../components/TablaVoladores";
-import TablaRastreros from "../components/TablaRastrero";
-import TablaRoedores from "../components/TablaRoedores";
+import { Container, MenuItem, TextField } from "@material-ui/core";
+import axios from "axios";
+
 function Revision() {
   const { idRevision } = useParams();
   const [Revision, setRevision] = useState();
   const [Area, setArea] = useState("");
-  const [Tipo, setTipo] = useState("");
 
   useEffect(() => {
     (async function () {
       const { data } = await axios.get(`/revision/${idRevision}`);
-      console.log(data);
       setRevision(data);
     })();
   }, [idRevision]);
+
   return (
     <Container>
       <TextField
@@ -37,16 +35,15 @@ function Revision() {
             </MenuItem>
           ))}
       </TextField>
-      {Revision &&
-        Revision.areas
-          .filter((area) => area.area._id === Area)
-          .map((area) => (
-            <>
-              <TablaRastreros area={area} />
-              <TablaVoladores area={area} />
-              <TablaRoedores area={area} />
-            </>
-          ))}
+      {Revision && (
+        <>
+          {Revision.areas
+            .filter((area) => area.area._id === Area)
+            .map((area, index) => (
+              <TablaRevisiones key={index} area={area} revision={idRevision} />
+            ))}
+        </>
+      )}
     </Container>
   );
 }
