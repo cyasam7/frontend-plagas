@@ -30,7 +30,7 @@ function TableYellow({ jacket, change }) {
   return (
     <>
       <Typography gutterBottom variant="subtitle2">
-        Estaciones de Roedores
+        Equipos Yellow Jacket
       </Typography>
       <TableContainer component={Paper} style={{ marginBottom: 15 }}>
         <Table

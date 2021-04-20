@@ -1,6 +1,6 @@
 import React from "react";
 import { TableRow, TableCell, TextField, Checkbox } from "@material-ui/core";
-function RowTableVoladores({ estacion, change }) {
+function RowTableVoladores({ estacion, change, corta }) {
   const handleChangeCheckBox = (e) => {
     change(estacion._id, e.target.name, e.target.checked);
   };
@@ -24,55 +24,66 @@ function RowTableVoladores({ estacion, change }) {
           checked={estacion.monitoreado}
         />
       </TableCell>
-      <TableCell align="right">
+      <TableCell align="center">
         <TextField
           onChange={handleChange}
-          name="moscaVinagre"
-          value={estacion.moscaVinagre}
+          name="moscas"
+          value={estacion.moscas}
         />
       </TableCell>
-      <TableCell align="right">
-        <TextField
-          onChange={handleChange}
-          name="moscaEstablo"
-          value={estacion.moscaEstablo}
-        />
-      </TableCell>
-      <TableCell align="right">
-        <TextField
-          onChange={handleChange}
-          name="moscaMetalica"
-          value={estacion.moscaMetalica}
-        />
-      </TableCell>
-      <TableCell align="right">
-        <TextField
-          onChange={handleChange}
-          name="moscaCarne"
-          value={estacion.moscaCarne}
-        />
-      </TableCell>
-      <TableCell align="right">
-        <TextField
-          onChange={handleChange}
-          name="moscaCasera"
-          value={estacion.moscaCasera}
-        />
-      </TableCell>
-      <TableCell align="right">
-        <TextField
-          onChange={handleChange}
-          name="moscaDomestica"
-          value={estacion.moscaDomestica}
-        />
-      </TableCell>
-      <TableCell align="right">
-        <TextField
-          onChange={handleChange}
-          name="moscaDrenaje"
-          value={estacion.moscaDrenaje}
-        />
-      </TableCell>
+      {!corta && (
+        <>
+          <TableCell align="right">
+            <TextField
+              onChange={handleChange}
+              name="moscaVinagre"
+              value={estacion.moscaVinagre}
+            />
+          </TableCell>
+          <TableCell align="right">
+            <TextField
+              onChange={handleChange}
+              name="moscaEstablo"
+              value={estacion.moscaEstablo}
+            />
+          </TableCell>
+          <TableCell align="right">
+            <TextField
+              onChange={handleChange}
+              name="moscaMetalica"
+              value={estacion.moscaMetalica}
+            />
+          </TableCell>
+          <TableCell align="right">
+            <TextField
+              onChange={handleChange}
+              name="moscaCarne"
+              value={estacion.moscaCarne}
+            />
+          </TableCell>
+          <TableCell align="right">
+            <TextField
+              onChange={handleChange}
+              name="moscaCasera"
+              value={estacion.moscaCasera}
+            />
+          </TableCell>
+          <TableCell align="right">
+            <TextField
+              onChange={handleChange}
+              name="moscaDomestica"
+              value={estacion.moscaDomestica}
+            />
+          </TableCell>
+          <TableCell align="right">
+            <TextField
+              onChange={handleChange}
+              name="moscaDrenaje"
+              value={estacion.moscaDrenaje}
+            />
+          </TableCell>
+        </>
+      )}
       <TableCell align="right">
         <TextField
           onChange={handleChange}

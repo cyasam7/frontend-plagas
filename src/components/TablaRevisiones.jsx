@@ -8,7 +8,7 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
 
-function TablaRevisiones({ area, revision }) {
+function TablaRevisiones({ area, revision, corta }) {
   const history = useHistory();
   const [Area, setArea] = useState("");
   const [Rastreros, setRastreros] = useState([]);
@@ -87,17 +87,17 @@ function TablaRevisiones({ area, revision }) {
         "Se ha hecho la correccion de la revision, se volvieron a generar los reportes, puedes revisarlos en el boton de descarga.",
       icon: "success",
     });
-    history.goBack();
+    
   };
   return (
     <>
       <SuccessButton fullWidth onClick={handleUpdateData}>
         Cambiar
       </SuccessButton>
-      <TablaRoedores roedores={Roedores} change={handleChangeRoedores} />
-      <TablaRastrero rastreros={Rastreros} change={handleChangeRastreros} />
-      <TablaVoladores voladores={Voladores} change={handleChangeVoladores} />
-      <TablaYellow jacket={Jacket} change={handleChangeYellow} />
+      <TablaRoedores  roedores={Roedores} change={handleChangeRoedores} />
+      <TablaRastrero  corta={corta} rastreros={Rastreros} change={handleChangeRastreros} />
+      <TablaVoladores corta={corta} voladores={Voladores} change={handleChangeVoladores} />
+      <TablaYellow    jacket={Jacket} change={handleChangeYellow} />
     </>
   );
 }

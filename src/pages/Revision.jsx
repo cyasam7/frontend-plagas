@@ -12,6 +12,7 @@ function Revision() {
   useEffect(() => {
     (async function () {
       const { data } = await axios.get(`/revision/${idRevision}`);
+      console.log(data.tipoRevision);
       setRevision(data);
     })();
   }, [idRevision]);
@@ -40,7 +41,12 @@ function Revision() {
           {Revision.areas
             .filter((area) => area.area._id === Area)
             .map((area, index) => (
-              <TablaRevisiones key={index} area={area} revision={idRevision} />
+              <TablaRevisiones
+                key={index}
+                area={area}
+                corta={Revision.tipoRevision == "Corta" ? true : false}
+                revision={idRevision}
+              />
             ))}
         </>
       )}

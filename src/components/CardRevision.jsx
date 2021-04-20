@@ -10,8 +10,8 @@ import { Link } from "react-router-dom";
 function CardRevision({ revision, admin }) {
   const handleDescargar = () => {
     console.log(revision);
-    window.open(`https://ellaurelrd.com/api/revision/pdf/${revision.folio}`);
-    /* window.open(`http://localhost:4000/api/revision/pdf/${revision.folio}`); */
+    /* window.open(`https://ellaurelrd.com/api/revision/pdf/${revision.folio}`); */
+    window.open(`http://localhost:4000/api/revision/pdf/${revision.folio}`);
   };
 
   return (

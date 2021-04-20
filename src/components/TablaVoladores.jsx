@@ -18,7 +18,7 @@ const useStyles = makeStyles({
   },
 });
 
-function TableRastrero({ voladores, change }) {
+function TableRastrero({ voladores, change, corta }) {
   const classes = useStyles();
 
   return (
@@ -37,15 +37,20 @@ function TableRastrero({ voladores, change }) {
               <TableHead>
                 <TableRow>
                   <TableCell>Dispositivo</TableCell>
-                  <TableCell align="center">L</TableCell>
                   <TableCell align="center">M</TableCell>
-                  <TableCell align="center">M/V</TableCell>
-                  <TableCell align="center">M/E</TableCell>
-                  <TableCell align="center">M/M</TableCell>
-                  <TableCell align="center">M/C</TableCell>
-                  <TableCell align="center">M/PC</TableCell>
-                  <TableCell align="center">M/D</TableCell>
-                  <TableCell align="center">M/PD</TableCell>
+                  <TableCell align="center">L</TableCell>
+                  {corta && <TableCell align="center">C/M</TableCell>}
+                  {!corta && (
+                    <>
+                      <TableCell align="center">M/V</TableCell>
+                      <TableCell align="center">M/E</TableCell>
+                      <TableCell align="center">M/M</TableCell>
+                      <TableCell align="center">M/C</TableCell>
+                      <TableCell align="center">M/PC</TableCell>
+                      <TableCell align="center">M/D</TableCell>
+                      <TableCell align="center">M/PD</TableCell>
+                    </>
+                  )}
                   <TableCell align="center">O/I</TableCell>
                   <TableCell align="center">ABEJAS</TableCell>
                   <TableCell align="center">RT/A</TableCell>
@@ -57,6 +62,7 @@ function TableRastrero({ voladores, change }) {
               <TableBody>
                 {voladores.map((estacion, index) => (
                   <RowTableVoladores
+                    corta={corta}
                     key={index}
                     change={change}
                     estacion={estacion}

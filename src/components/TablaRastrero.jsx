@@ -18,7 +18,7 @@ const useStyles = makeStyles({
   },
 });
 
-function TableRastrero({ rastreros,change }) {
+function TableRastrero({ rastreros, change, corta }) {
   const classes = useStyles();
   return (
     <>
@@ -36,29 +36,42 @@ function TableRastrero({ rastreros,change }) {
               <TableHead>
                 <TableRow>
                   <TableCell>Dispositivo</TableCell>
+                  <TableCell align="center">C/N</TableCell>
                   <TableCell align="center">S</TableCell>
+                  <TableCell align="center">C/R</TableCell>
+                  <TableCell align="center">F/L</TableCell>
+                  {!corta && (
+                    <>
+                      <TableCell align="center">C/CAM</TableCell>
+                      <TableCell align="center">C/CAL</TableCell>
+                      <TableCell align="center">C/G</TableCell>
+                      <TableCell align="center">C/T</TableCell>
+                      <TableCell align="center">C/C</TableCell>
+                      <TableCell align="center">C/F</TableCell>
+                      <TableCell align="center">C/M</TableCell>
+                    </>
+                  )}
                   <TableCell align="center">D</TableCell>
                   <TableCell align="center">R/T</TableCell>
-                  <TableCell align="center">F/L</TableCell>
-                  <TableCell align="center">C/N</TableCell>
-                  <TableCell align="center">C/T</TableCell>
-                  <TableCell align="center">C/R</TableCell>
-                  <TableCell align="center">C/F</TableCell>
-                  <TableCell align="center">C/M</TableCell>
-                  <TableCell align="center">C/P</TableCell>
-                  <TableCell align="center">C/C</TableCell>
-                  <TableCell align="center">C/CAM</TableCell>
-                  <TableCell align="center">C/CAL</TableCell>
-                  <TableCell align="center">C/A</TableCell>
-                  <TableCell align="center">C/G</TableCell>
-                  <TableCell align="center">C/H</TableCell>
-                  <TableCell align="center">C/CI</TableCell>
-                  <TableCell align="center">C/ALAC</TableCell>
+                  {!corta && (
+                    <>
+                      <TableCell align="center">C/A</TableCell>
+                      <TableCell align="center">C/ALAC</TableCell>
+                      <TableCell align="center">C/H</TableCell>
+                      <TableCell align="center">C/P</TableCell>
+                      <TableCell align="center">C/CI</TableCell>
+                    </>
+                  )}
                 </TableRow>
               </TableHead>
               <TableBody>
                 {rastreros.map((estacion, index) => (
-                  <RowTableRastrero key={index} change={change} estacion={estacion} />
+                  <RowTableRastrero
+                    key={index}
+                    change={change}
+                    estacion={estacion}
+                    corta={corta}
+                  />
                 ))}
               </TableBody>
             </Table>

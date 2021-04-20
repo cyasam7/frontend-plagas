@@ -39,6 +39,7 @@ function GraficasMes() {
   const [hormiga, setHormiga] = useState([]);
   const [ciempies, setCiempies] = useState([]);
   const [alacran, setAlacran] = useState([]);
+  const [moscasV, setMoscasV] = useState([]);
   const [ver, setVer] = useState(false);
 
   let pdfExportComponent;
@@ -209,66 +210,49 @@ function GraficasMes() {
     }
 
     if (Tipo === "Voladores") {
-      const labels = graficas.map((area) => {
-        return area.nombre;
-      });
-      const abejas = graficas.map((area) => {
-        return area.abeja;
-      });
-      const mosca = graficas.map((area) => {
-        return area.mosca;
-      });
-      const otros = graficas.map((area) => {
-        return area.otros;
-      });
+      const labels = graficas.map((area) => 
+         area.nombre
+      );
+      const abejas = graficas.map((area) => area.abeja
+      );
+      const mosca = graficas.map((area) => area.mosca
+      );
+      const otros = graficas.map((area) => area.otros
+      );
       setVolador(true);
       setLabels(labels);
       setAbejas(abejas);
       setMoscas(mosca);
       setOtros(otros);
     } else {
-      const labels = graficas.map((area) => {
-        return area.nombre;
-      });
-      const tijerilla = graficas.map((area) => {
-        return area.tijerilla;
-      });
-      const roedor = graficas.map((area) => {
-        return area.roedor;
-      });
-      const frailecillos = graficas.map((area) => {
-        return area.frailecillos;
-      });
-      const mosca = graficas.map((area) => {
-        return area.mosca;
-      });
-      const pinacate = graficas.map((area) => {
-        return area.pinacate;
-      });
-      const cochinilla = graficas.map((area) => {
-        return area.cochinilla;
-      });
-      const cucarachaAmericana = graficas.map((area) => {
-        return area.cucarachaAmericana;
-      });
-      const cucarachaAlemana = graficas.map((area) => {
-        return area.cucarachaAlemana;
-      });
-      const araña = graficas.map((area) => {
-        return area.araña;
-      });
-      const grillo = graficas.map((area) => {
-        return area.grillo;
-      });
-      const hormiga = graficas.map((area) => {
-        return area.hormiga;
-      });
-      const ciempies = graficas.map((area) => {
-        return area.ciempies;
-      });
-      const alacran = graficas.map((area) => {
-        return area.alacran;
-      });
+      const labels = graficas.map((area) => area.nombre
+      );
+      const tijerilla = graficas.map((area) => area.tijerilla
+      );
+      const roedor = graficas.map((area) => area.roedor
+      );
+      const frailecillos = graficas.map((area) => area.frailecillos
+      );
+      const mosca = graficas.map((area) => area.mosca
+      );
+      const pinacate = graficas.map((area) => area.pinacate
+      );
+      const cochinilla = graficas.map((area) => area.cochinilla
+      );
+      const cucarachaAmericana = graficas.map((area) => area.cucarachaAmericana
+      );
+      const cucarachaAlemana = graficas.map((area) => area.cucarachaAlemana
+      );
+      const araña = graficas.map((area) => area.araña
+      );
+      const grillo = graficas.map((area) => area.grillo
+      );
+      const hormiga = graficas.map((area) => area.hormiga
+      );
+      const ciempies = graficas.map((area) => area.ciempies
+      );
+      const alacran = graficas.map((area) => area.alacran
+      );
 
       setLabels(labels);
       setVolador(false);
@@ -340,7 +324,6 @@ function GraficasMes() {
           </Button>
         </Grid>
       </Grid>
-
       <br />
       {ver && (
         <>
