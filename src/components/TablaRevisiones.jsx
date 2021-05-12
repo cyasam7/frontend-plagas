@@ -5,11 +5,9 @@ import TablaRoedores from "./TablaRoedores";
 import TablaYellow from "./TablaYellow";
 import { SuccessButton } from "./Buttons";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
 
-function TablaRevisiones({ area, revision, corta }) {
-  const history = useHistory();
+function TablaRevisiones({ area, revision, corta, actualizar }) {
   const [Area, setArea] = useState("");
   const [Rastreros, setRastreros] = useState([]);
   const [Roedores, setRoedores] = useState([]);
@@ -17,7 +15,7 @@ function TablaRevisiones({ area, revision, corta }) {
   const [Jacket, setJacket] = useState([]);
 
   useEffect(() => {
-    setArea(area.area);
+    setArea(area.area._id);
     setRastreros(area.rastreros);
     setRoedores(area.roedores);
     setVoladores(area.voladores);
@@ -74,12 +72,25 @@ function TablaRevisiones({ area, revision, corta }) {
   };
 
   const handleUpdateData = async () => {
+    const cantidadCebos = Roedores.reduce(
+      (acum, obj) =>
+        (acum =
+          acum +
+          parseInt(obj.consumoDescomposicion) +
+          parseInt(obj.consumoInsectos) +
+          parseInt(obj.consumoRoedor) +
+          parseInt(obj.reposicionCeboRotacion)),
+      0
+    );
     await axios.patch(`/revisionAreas/${area._id}/${revision}`, {
-      area: Area._id,
-      rastreros: Rastreros,
-      roedores: Roedores,
-      voladores: Voladores,
-      jacket: Jacket,
+      area: {
+        area: Area,
+        rastreros: Rastreros,
+        roedores: Roedores,
+        voladores: Voladores,
+        jacket: Jacket,
+      },
+      cantidadCebos,
     });
     await Swal.fire({
       title: "Correccion Satisfactoria",
@@ -87,17 +98,24 @@ function TablaRevisiones({ area, revision, corta }) {
         "Se ha hecho la correccion de la revision, se volvieron a generar los reportes, puedes revisarlos en el boton de descarga.",
       icon: "success",
     });
-    
   };
   return (
     <>
       <SuccessButton fullWidth onClick={handleUpdateData}>
         Cambiar
       </SuccessButton>
-      <TablaRoedores  roedores={Roedores} change={handleChangeRoedores} />
-      <TablaRastrero  corta={corta} rastreros={Rastreros} change={handleChangeRastreros} />
-      <TablaVoladores corta={corta} voladores={Voladores} change={handleChangeVoladores} />
-      <TablaYellow    jacket={Jacket} change={handleChangeYellow} />
+      <TablaRoedores roedores={Roedores} change={handleChangeRoedores} />
+      <TablaRastrero
+        corta={corta.tipoVoladores == "Corto" ? true : false}
+        rastreros={Rastreros}
+        change={handleChangeRastreros}
+      />
+      <TablaVoladores
+        corta={corta.tipoRastreros == "Corto" ? true : false}
+        voladores={Voladores}
+        change={handleChangeVoladores}
+      />
+      <TablaYellow jacket={Jacket} change={handleChangeYellow} />
     </>
   );
 }

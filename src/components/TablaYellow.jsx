@@ -20,7 +20,6 @@ const useStyles = makeStyles({
 
 function TableYellow({ jacket, change }) {
   const classes = useStyles();
-  console.log(jacket);
   const handleChange = (e, estacion) => {
     change(estacion._id, e.target.name, e.target.checked);
   };

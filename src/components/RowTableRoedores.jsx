@@ -1,9 +1,12 @@
 import React from "react";
-import { TableRow, TableCell, Checkbox } from "@material-ui/core";
+import { TableRow, TableCell, Checkbox,TextField } from "@material-ui/core";
 
 function RowTableRoedores({ estacion, change }) {
   const handleChange = (e) => {
     change(estacion._id, e.target.name, e.target.checked);
+  };
+  const handleChangeValue = (e) => {
+    change(estacion._id, e.target.name, e.target.value);
   };
   return (
     <TableRow>
@@ -37,24 +40,31 @@ function RowTableRoedores({ estacion, change }) {
         />
       </TableCell>
       <TableCell align="center">
-        <Checkbox
+        <TextField
+          name="reposicionCeboRotacion"
+          onChange={handleChangeValue}
+          value={estacion.reposicionCeboRotacion}
+        />
+      </TableCell>
+      <TableCell align="center">
+        <TextField
           name="consumoRoedor"
-          onChange={handleChange}
-          checked={estacion.consumoRoedor}
+          onChange={handleChangeValue}
+          value={estacion.consumoRoedor}
         />
       </TableCell>
       <TableCell align="center">
-        <Checkbox
+        <TextField
           name="consumoInsectos"
-          onChange={handleChange}
-          checked={estacion.consumoInsectos}
+          onChange={handleChangeValue}
+          value={estacion.consumoInsectos}
         />
       </TableCell>
       <TableCell align="center">
-        <Checkbox
+        <TextField
           name="consumoDescomposicion"
-          onChange={handleChange}
-          checked={estacion.consumoDescomposicion}
+          onChange={handleChangeValue}
+          value={estacion.consumoDescomposicion}
         />
       </TableCell>
       <TableCell align="center">

@@ -43,6 +43,7 @@ function TablaRoedores({ roedores, change }) {
                   <TableCell align="center">S</TableCell>
                   <TableCell align="center">C/R</TableCell>
                   <TableCell align="center">F/L</TableCell>
+                  <TableCell align="center">RC/ROT</TableCell>
                   <TableCell align="center">RC/R</TableCell>
                   <TableCell align="center">RC/CI</TableCell>
                   <TableCell align="center">RC/D</TableCell>
