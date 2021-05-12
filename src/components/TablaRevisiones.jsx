@@ -6,8 +6,10 @@ import TablaYellow from "./TablaYellow";
 import { SuccessButton } from "./Buttons";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useModal } from "../Context/modal-context";
 
 function TablaRevisiones({ area, revision, corta, actualizar }) {
+  const { setLoading } = useModal();
   const [Area, setArea] = useState("");
   const [Rastreros, setRastreros] = useState([]);
   const [Roedores, setRoedores] = useState([]);
@@ -82,22 +84,31 @@ function TablaRevisiones({ area, revision, corta, actualizar }) {
           parseInt(obj.reposicionCeboRotacion)),
       0
     );
-    await axios.patch(`/revisionAreas/${area._id}/${revision}`, {
-      area: {
-        area: Area,
-        rastreros: Rastreros,
-        roedores: Roedores,
-        voladores: Voladores,
-        jacket: Jacket,
-      },
-      cantidadCebos,
-    });
-    await Swal.fire({
-      title: "Correccion Satisfactoria",
-      text:
-        "Se ha hecho la correccion de la revision, se volvieron a generar los reportes, puedes revisarlos en el boton de descarga.",
-      icon: "success",
-    });
+    setLoading(true);
+    try {
+      await axios.patch(`/revisionAreas/${area._id}/${revision}`, {
+        area: {
+          area: Area,
+          rastreros: Rastreros,
+          roedores: Roedores,
+          voladores: Voladores,
+          jacket: Jacket,
+        },
+        cantidadCebos,
+      });
+      setLoading(false);
+      await Swal.fire({
+        title: "Correccion Satisfactoria",
+        text: "Se ha hecho la correccion de la revision, se volvieron a generar los reportes, puedes revisarlos en el boton de descarga.",
+        icon: "success",
+      });
+    } catch (error) {
+      await Swal.fire({
+        title: "Error",
+        text: "No se ha hecho la correccion",
+        icon: "error",
+      });
+    }
   };
   return (
     <>
