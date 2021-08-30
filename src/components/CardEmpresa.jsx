@@ -29,7 +29,7 @@ function CardEmpresa({ empresa, eliminar, contactos }) {
             title: "Selecciona a algun contacto.",
             input: "select",
             inputOptions: options,
-            inputPlaceholder: "Selecciona el area",
+            inputPlaceholder: "Selecciona el contacto.",
             showCancelButton: true,
             inputValidator: (value) => {
                 return new Promise((resolve) => {
