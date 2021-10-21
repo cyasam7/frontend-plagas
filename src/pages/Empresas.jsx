@@ -24,13 +24,11 @@ function Empresas() {
                 empresa: all[0].data,
                 contactos: all[1].data,
             };
-            console.log(data);
             return data;
         }
         setLoading(true);
         initialEmpresas()
             .then(({ empresa, contactos }) => {
-                console.log({ contactos, empresa });
                 setContactos(contactos);
                 setEmpresas(empresa);
             })

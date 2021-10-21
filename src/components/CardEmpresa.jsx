@@ -20,7 +20,7 @@ function CardEmpresa({ empresa, eliminar, contactos }) {
 
     const handleAddContactExist = () => {
         let options = {};
-        console.log(contactos);
+
         contactos.forEach((element) => {
             options[element._id] = `${element.nombre} ${element.apellido}`;
         });

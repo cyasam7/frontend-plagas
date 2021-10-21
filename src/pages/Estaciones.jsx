@@ -91,7 +91,6 @@ function Estaciones() {
         Areas.map((area) => {
             return (options[area._id] = area.nombre);
         });
-        console.log(options);
         Swal.fire({
             title: "Cambiar de area",
             input: "select",
