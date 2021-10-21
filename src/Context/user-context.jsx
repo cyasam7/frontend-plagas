@@ -43,6 +43,7 @@ export function UserProvider({ children }) {
                 password,
             },
         });
+        console.log(data);
         if (data.user.tipo_usuario === "Tecnico") {
             throw new Error("No puede entrar");
         }
